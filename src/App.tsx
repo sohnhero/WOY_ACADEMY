@@ -497,6 +497,7 @@ export default function App() {
   const [globalCoins, setGlobalCoins] = useState(175);
   const [isShieldActive, setIsShieldActive] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   const handleActivateShield = () => {
     if (!isShieldActive && globalCoins >= 50) {
@@ -2414,6 +2415,193 @@ export default function App() {
       </div>
     );
   };
+
+  // ===========================
+  //   SCREEN: PROFIL
+  //   SCREEN: PROFIL
+  // ===========================
+  const ProfilScreen = ({ onLogout }: { onLogout: () => void }) => {
+    const user = {
+      name: "Amadou Diallo",
+      level: "N1 Sécurité",
+      score: "WÔY Score",
+      coins: 175,
+      xp: 350,
+      streak: 7,
+      n1Modules: "3/6",
+      nfts: [
+        { id: '1', name: 'Sécurité', icon: ShieldCheck, status: 'unlocked' },
+        { id: '2', name: 'Wallets', icon: Wallet, status: 'unlocked' },
+        { id: '3', name: 'Fond.', icon: BookOpen, status: 'locked' },
+        { id: '4', name: 'N2', icon: Lock, status: 'locked' },
+      ],
+      mastery: [
+        { id: 'N0', name: 'N0 Gratuit', progress: 100, status: 'completed' },
+        { id: 'N1', name: 'N1 Sécurité', progress: 68, status: 'in-progress' },
+        { id: 'N2', name: 'N2 Fond.', progress: 0, status: 'locked' },
+        { id: 'N3', name: 'N3 Lire', progress: 0, status: 'locked' },
+        { id: 'N4', name: 'N4 Trader', progress: 0, status: 'locked' },
+        { id: 'N5', name: 'N5 AF', progress: 0, status: 'locked' },
+        { id: 'N6', name: 'N6 Pro', progress: 0, status: 'locked' },
+      ]
+    };
+
+    return (
+      <div className="flex flex-col min-h-[calc(100vh-80px)]">
+        {/* Profile Header */}
+        <section className="px-6 pt-[calc(env(safe-area-inset-top)+2rem)] pb-8 flex items-center gap-6 lg:pt-10">
+          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#C4A055]/30 to-[#B5472A]/10 flex items-center justify-center text-2xl font-black font-serif border-2 border-[#C4A055]/30 relative">
+             <div className="absolute inset-0 bg-[#C4A055]/10 blur-xl opacity-40 rounded-full" />
+             <span className="relative z-10 text-[#C4A055]">Am</span>
+          </div>
+          <div className="flex flex-col gap-1">
+            <h2 className="text-xl font-black text-white">{user.name}</h2>
+            <div className="text-xs font-bold text-white/40 uppercase tracking-widest">
+              {user.score} · <span className="text-[#C4A055]">{user.level}</span>
+            </div>
+            <button className="text-[10px] font-black text-[#C4A055]/80 hover:text-[#C4A055] transition-colors flex items-center gap-1 uppercase tracking-tight mt-1 cursor-pointer">
+              Modifier le profil <ChevronRight size={10} />
+            </button>
+          </div>
+        </section>
+
+        {/* Global Desktop Grid container starts here for wider views */}
+        <div className="flex-1 px-6 pb-40 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:max-w-7xl lg:mx-auto lg:w-full">
+          
+          {/* LEFT COLUMN: Stats & Mastery */}
+          <div className="lg:col-span-7 flex flex-col gap-8">
+            {/* Cauris & NFT Row */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              {/* Cauris Box */}
+              <div className="bg-[#C4A055]/5 border border-[#C4A055]/20 p-6 rounded-[2rem] flex flex-col gap-2 flex-1 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-[#C4A055]/10 blur-3xl" />
+                <div className="flex items-center gap-3">
+                  <Coins size={24} className="text-[#C4A055] opacity-60" />
+                  <span className="text-3xl font-black font-serif text-[#C4A055]">{user.coins}</span>
+                </div>
+                <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] whitespace-nowrap">Cauris WÔY</span>
+              </div>
+
+              {/* NFT Certifications Grid */}
+              <div className="flex-1 flex flex-col gap-3">
+                <h4 className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] px-1">Certifications NFT</h4>
+                <div className="grid grid-cols-4 gap-2">
+                  {user.nfts.map((n) => (
+                    <div key={n.id} className={cn(
+                      "aspect-square rounded-2xl flex flex-col items-center justify-center gap-1.5 border transition-all",
+                      n.status === 'unlocked' ? "bg-white/5 border-white/10" : "bg-black/40 border-white/[0.03] grayscale opacity-40"
+                    )}>
+                      <n.icon size={16} className={n.status === 'unlocked' ? "text-[#C4A055]" : "text-white/20"} />
+                      <span className="text-[8px] font-bold text-white/20 uppercase tracking-tighter">{n.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Mastery Section */}
+            <div className="flex flex-col gap-6">
+              <h4 className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] px-1 mt-4">Maîtrise par niveau</h4>
+              <div className="flex flex-col gap-3">
+                {user.mastery.map((m) => (
+                  <div key={m.id} className={cn(
+                    "p-4 rounded-2xl border flex items-center justify-between transition-all",
+                    m.status === 'locked' ? "bg-black/20 border-white/[0.03] opacity-40 grayscale" : "bg-white/[0.03] border-white/[0.08]"
+                  )}>
+                    <div className="flex flex-col gap-2 flex-1 mr-6">
+                      <div className="flex justify-between items-center mb-1">
+                        <span className="text-xs font-bold text-white/80">{m.name}</span>
+                        {m.progress > 0 && <span className="text-[10px] font-bold text-white/20">{m.progress}%</span>}
+                      </div>
+                      <div className="h-1.5 w-full bg-black/40 rounded-full overflow-hidden border border-white/[0.05]">
+                        <motion.div 
+                          initial={{ width: 0 }}
+                          animate={{ width: `${m.progress}%` }}
+                          transition={{ duration: 1, ease: "easeOut" }}
+                          className={cn(
+                            "h-full rounded-full",
+                            m.status === 'completed' ? "bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]" : 
+                            m.status === 'in-progress' ? "bg-gradient-to-r from-[#C4A055] to-[#B5472A]" : "bg-white/10"
+                          )}
+                        />
+                      </div>
+                    </div>
+                    <div className="shrink-0 w-8 h-8 rounded-xl bg-black/20 flex items-center justify-center border border-white/5">
+                      {m.status === 'completed' && <Check size={14} className="text-green-500" />}
+                      {m.status === 'in-progress' && <Flame size={14} className="text-[#B5472A]" />}
+                      {m.status === 'locked' && <Lock size={14} className="text-white/10" />}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT COLUMN: Metrics Grid & Menu */}
+          <div className="lg:col-span-5 flex flex-col gap-8">
+            {/* Metric Grid (2x2) */}
+            <div className="grid grid-cols-2 gap-3 mt-4 lg:mt-0">
+              <div className="p-6 rounded-[2rem] bg-white/[0.03] border border-white/[0.08] flex flex-col gap-1 group hover:bg-white/[0.05] transition-all">
+                <span className="text-2xl font-black font-serif text-white">{user.xp}</span>
+                <span className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em]">XP Total</span>
+              </div>
+              <div className="p-6 rounded-[2rem] bg-white/[0.03] border border-white/[0.08] flex flex-col gap-1 group hover:bg-white/[0.05] transition-all">
+                <div className="flex items-center gap-2">
+                  <Flame size={20} className="text-[#B5472A]" />
+                  <span className="text-2xl font-black font-serif text-white">{user.streak}</span>
+                </div>
+                <span className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em]">Jours streak</span>
+              </div>
+              <div className="p-6 rounded-[2rem] bg-white/[0.03] border border-white/[0.08] flex flex-col gap-1 group hover:bg-white/[0.05] transition-all">
+                <span className="text-2xl font-black font-serif text-white">{user.n1Modules}</span>
+                <span className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em]">Modules N1</span>
+              </div>
+              <div className="p-6 rounded-[2rem] bg-white/[0.03] border border-white/[0.08] flex flex-col gap-1 group hover:bg-white/[0.05] transition-all relative">
+                <div className="flex items-center gap-2">
+                  <Swords size={20} className="text-white/10" />
+                  <span className="text-[10px] font-black text-white/20 uppercase">LAAMB</span>
+                </div>
+                <Lock size={12} className="absolute top-4 right-4 text-white/10" />
+              </div>
+            </div>
+
+            {/* General Menu */}
+            <div className="flex flex-col gap-2">
+              {[
+                { label: "Mon Skill Tree", icon: Zap, action: null },
+                { label: "Mes certifications NFT", icon: Medal, action: null },
+                { label: "Parrainage — +300 XP", icon: Users, action: null },
+                { label: "Boutique Cauris WÔY", icon: Coins, action: null },
+                { label: "Paramètres", icon: Sun, action: null },
+              ].map((item, i) => (
+                <button 
+                  key={i}
+                  className="w-full p-5 rounded-[1.5rem] bg-white/[0.03] border border-white/[0.08] flex items-center justify-between group hover:bg-white/[0.06] hover:border-white/20 transition-all cursor-pointer"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-black/20 flex items-center justify-center border border-white/5 group-hover:bg-[#C4A055]/10 group-hover:border-[#C4A055]/30 transition-all">
+                      <item.icon size={18} className="text-white/40 group-hover:text-[#C4A055] transition-colors" />
+                    </div>
+                    <span className="text-xs font-bold text-white/80 group-hover:text-white transition-colors">{item.label}</span>
+                  </div>
+                  <ChevronRight size={14} className="text-white/10 group-hover:text-[#C4A055] transition-all group-hover:translate-x-1" />
+                </button>
+              ))}
+            </div>
+
+            {/* Disconnect Button */}
+            <button 
+              onClick={onLogout}
+              className="w-full p-5 rounded-[1.5rem] bg-red-500/5 border border-red-500/10 hover:bg-red-500/10 hover:border-red-500/20 transition-all cursor-pointer group flex items-center justify-center gap-3 mt-4 mb-20"
+            >
+              <X size={16} className="text-red-500/40 group-hover:text-red-500 transition-colors" />
+              <span className="text-[11px] font-black text-red-500/60 group-hover:text-red-500 transition-colors uppercase tracking-[0.3em]">Déconnexion</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
   const LessonScreen: React.FC<{ lessonId: string; onBack: () => void }> = ({ onBack }) => {
     const [activeLessonTab, setActiveLessonTab] = useState('cours');
     const [selectedSimOption, setSelectedSimOption] = useState<string | null>(null);
@@ -3271,8 +3459,64 @@ export default function App() {
               {activeTab === 'rapport' && <RapportScreen />}
               {activeTab === 'laamb' && <LaambScreen />}
               {activeTab === 'communaute' && <CommunauteScreen />}
+              {activeTab === 'profil' && <ProfilScreen onLogout={() => setShowLogoutConfirm(true)} />}
             </>
           )}
+
+          {/* Logout Confirmation Modal */}
+          <AnimatePresence>
+            {showLogoutConfirm && (
+              <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+                <motion.div 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setShowLogoutConfirm(false)}
+                  className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+                />
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                  className="relative w-full max-w-sm bg-[#0D0A07] border border-white/10 rounded-[2.5rem] p-8 shadow-2xl overflow-hidden"
+                >
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/10 blur-3xl rounded-full -mr-16 -mt-16" />
+                  
+                  <div className="relative z-10 flex flex-col items-center text-center gap-6">
+                    <div className="w-16 h-16 rounded-2xl bg-red-500/10 flex items-center justify-center border border-red-500/20">
+                      <X size={32} className="text-red-500" />
+                    </div>
+                    
+                    <div className="flex flex-col gap-2">
+                      <h3 className="text-xl font-bold font-serif uppercase tracking-wider text-white">Déconnexion ?</h3>
+                      <p className="text-sm text-white/40 leading-relaxed">
+                        Es-tu sûr de vouloir quitter ton centre de formation WÔY ?
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3 w-full mt-2">
+                      <button 
+                        onClick={() => setShowLogoutConfirm(false)}
+                        className="py-4 rounded-2xl bg-white/5 border border-white/10 font-bold text-xs text-white/60 hover:bg-white/10 transition-all cursor-pointer"
+                      >
+                        Annuler
+                      </button>
+                      <button 
+                        onClick={() => {
+                          setIsAuthenticated(false);
+                          setShowLogoutConfirm(false);
+                          setActiveTab('accueil');
+                        }}
+                        className="py-4 rounded-2xl bg-red-500 font-bold text-xs text-white shadow-lg shadow-red-500/20 hover:bg-red-600 transition-all cursor-pointer"
+                      >
+                        Oui, déconnexion
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+            )}
+          </AnimatePresence>
 
           {/* Mobile Bottom Navigation */}
           {!currentLesson && (
