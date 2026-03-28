@@ -54,6 +54,8 @@ import {
   Target,
   Calendar,
   Star,
+  ShieldCheck,
+  Medal,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { clsx, type ClassValue } from 'clsx';
@@ -627,7 +629,7 @@ export default function App() {
                       required
                       value={name}
                       onChange={e => setName(e.target.value)}
-                      className="w-full bg-white/[0.02] border border-white/10 rounded-xl py-3.5 sm:py-4 pl-12 pr-4 text-sm font-medium focus:outline-none focus:border-[#C4A055]/50 focus:bg-[#C4A055]/[0.02] focus:shadow-[0_0_20px_rgba(196,160,85,0.05)] transition-all text-white placeholder:text-white/20"
+                      className="w-full bg-white/[0.02] border border-white/10 rounded-xl py-3.5 sm:py-4 pl-12 pr-4 text-base font-medium focus:outline-none focus:border-[#C4A055]/50 focus:bg-[#C4A055]/[0.02] focus:shadow-[0_0_20px_rgba(196,160,85,0.05)] transition-all text-white placeholder:text-white/20"
                       placeholder="Nom d'opérateur"
                     />
                   </motion.div>
@@ -641,7 +643,7 @@ export default function App() {
                   type="email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  className="w-full bg-white/[0.02] border border-white/10 rounded-xl py-3.5 sm:py-4 pl-12 pr-4 text-sm font-medium focus:outline-none focus:border-[#C4A055]/50 focus:bg-[#C4A055]/[0.02] focus:shadow-[0_0_20px_rgba(196,160,85,0.05)] transition-all text-white placeholder:text-white/20"
+                  className="w-full bg-white/[0.02] border border-white/10 rounded-xl py-3.5 sm:py-4 pl-12 pr-4 text-base font-medium focus:outline-none focus:border-[#C4A055]/50 focus:bg-[#C4A055]/[0.02] focus:shadow-[0_0_20px_rgba(196,160,85,0.05)] transition-all text-white placeholder:text-white/20"
                   placeholder="Adresse e-mail"
                 />
               </div>
@@ -653,7 +655,7 @@ export default function App() {
                   type="password"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  className="w-full bg-white/[0.02] border border-white/10 rounded-xl py-3.5 sm:py-4 pl-12 pr-4 text-sm font-medium focus:outline-none focus:border-[#C4A055]/50 focus:bg-[#C4A055]/[0.02] focus:shadow-[0_0_20px_rgba(196,160,85,0.05)] transition-all text-white placeholder:text-white/20 tracking-widest"
+                  className="w-full bg-white/[0.02] border border-white/10 rounded-xl py-3.5 sm:py-4 pl-12 pr-4 text-base font-medium focus:outline-none focus:border-[#C4A055]/50 focus:bg-[#C4A055]/[0.02] focus:shadow-[0_0_20px_rgba(196,160,85,0.05)] transition-all text-white placeholder:text-white/20 tracking-widest"
                   placeholder="••••••••"
                 />
               </div>
@@ -2130,10 +2132,10 @@ export default function App() {
     const [activeChannel, setActiveChannel] = useState('Général');
 
     const channels = [
-      { id: '1', name: 'Général', icon: '🌎', unread: true },
-      { id: '2', name: 'N0 Débutants', icon: '📗', unread: false },
-      { id: '3', name: 'N1 Sécurité', icon: '🔐', unread: false },
-      { id: '4', name: 'N2+', icon: '📊', unread: false },
+      { id: '1', name: 'Général', icon: Globe, unread: true },
+      { id: '2', name: 'N0 Débutants', icon: BookOpen, unread: false },
+      { id: '3', name: 'N1 Sécurité', icon: ShieldCheck, unread: false },
+      { id: '4', name: 'N2+', icon: BarChart3, unread: false },
     ];
 
     const messages = [
@@ -2208,7 +2210,7 @@ export default function App() {
                         : "bg-white/5 border-white/10 text-white/40"
                     )}
                   >
-                    <span className="text-xs">{ch.icon}</span>
+                    <ch.icon size={12} className={activeChannel === ch.name ? "text-[#C4A055]" : "text-white/40"} />
                     <span>{ch.name}</span>
                     {ch.unread && <span className="w-1.5 h-1.5 rounded-full bg-red-500" />}
                   </button>
@@ -2259,7 +2261,7 @@ export default function App() {
                     <input 
                       type="text" 
                       placeholder="Écris un message..." 
-                      className="flex-1 bg-transparent border-none outline-none text-xs font-medium px-2 text-white placeholder:text-white/20 h-10"
+                      className="flex-1 bg-transparent border-none outline-none text-base font-medium px-2 text-white placeholder:text-white/20 h-10"
                     />
                     <button className="w-10 h-10 rounded-xl bg-[#B5472A] flex items-center justify-center text-white shadow-lg active:scale-95 transition-transform cursor-pointer">
                       <ArrowRight size={18} />
@@ -2278,7 +2280,7 @@ export default function App() {
                 
                 <div className="flex items-center gap-6 relative z-10">
                   <div className="w-20 h-20 bg-black/40 backdrop-blur-xl rounded-[2rem] flex items-center justify-center border border-[#C4A055]/30 shadow-2xl">
-                    <span className="text-4xl">🥇</span>
+                    <Medal size={40} className="text-[#C4A055]" />
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <h3 className="text-xl font-bold font-serif uppercase tracking-tight text-[#C4A055]">LIGUE OR</h3>
@@ -2324,8 +2326,8 @@ export default function App() {
                         {m.name.charAt(0)}
                       </div>
                       <div className="flex flex-col gap-0.5">
-                        <span className="text-sm font-bold text-white/90">
-                          {m.name} {m.up && <span className="text-blue-400 opacity-80 text-[10px] ml-1">👤</span>}
+                        <span className="text-sm font-bold text-white/90 flex items-center gap-1.5">
+                          {m.name} {m.up && <User size={10} className="text-blue-400 opacity-80" />}
                         </span>
                         <div className="flex items-center gap-2 text-[10px] font-bold">
                           <span className="text-[#B5472A] flex items-center gap-1">
@@ -2384,7 +2386,7 @@ export default function App() {
                                {m.role}
                              </span>
                           )}
-                          {m.name === 'Amadou (toi)' && <span className="text-blue-400 text-xs">👤</span>}
+                          {m.role === 'Champion LAAMB' && <User size={10} className="text-blue-400 ml-1" />}
                         </div>
                         <div className="text-[10px] text-white/30 font-medium flex items-center gap-2">
                           <span>{m.level}</span>
