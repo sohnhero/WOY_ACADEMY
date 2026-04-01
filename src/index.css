@@ -1,23 +1,54 @@
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
-
-@theme {
-  --font-serif: "Cinzel", serif;
-  --font-sans: "Outfit", sans-serif;
-  --font-mono: "Space Mono", monospace;
-}
+@import "tailwindcss";
 
 :root {
   color-scheme: dark;
   --woy-dark: #0D0A07;
   --woy-brown: #1A1409;
   --woy-card: #1C1610;
-  --woy-gold: #C4A055;
-  --woy-gold-bright: #D4AF37;
-  --woy-terracotta: #B5472A;
-  --woy-terracotta-light: #D4623E;
   --woy-green: #4A6741;
-  --woy-purple: #7B2FBE;
+  
+  /* Default Theme (Terracotta) */
+  --woy-accent: #B5472A;
+  --woy-accent-light: #D4623E;
+  --woy-accent-muted: rgba(181, 71, 42, 0.1);
+  --woy-accent-glow: rgba(181, 71, 42, 0.3);
+  --woy-highlight: #C4A055;
+  --woy-highlight-light: #EEDC82;
+  --woy-sidebar-bg: #151210;
+}
+
+.terracotta-theme {
+  --woy-accent: #B5472A;
+  --woy-accent-light: #D4623E;
+  --woy-accent-muted: rgba(181, 71, 42, 0.1);
+  --woy-accent-glow: rgba(181, 71, 42, 0.3);
+  --woy-highlight: #C4A055;
+  --woy-highlight-light: #EEDC82;
+  --woy-sidebar-bg: #151210;
+}
+
+.violet-theme {
+  --woy-accent: #7B2FBE;
+  --woy-accent-light: #9B4FDE;
+  --woy-accent-muted: rgba(123, 47, 190, 0.1);
+  --woy-accent-glow: rgba(123, 47, 190, 0.3);
+  --woy-highlight: #7B2FBE;
+  --woy-highlight-light: #9D50ED;
+  --woy-sidebar-bg: #100D15;
+}
+
+@theme {
+  --font-serif: "Cinzel", serif;
+  --font-sans: "Outfit", sans-serif;
+  --font-mono: "Space Mono", monospace;
+  
+  --color-accent: var(--woy-accent);
+  --color-accent-light: var(--woy-accent-light);
+  --color-accent-muted: var(--woy-accent-muted);
+  --color-accent-glow: var(--woy-accent-glow);
+  --color-highlight: var(--woy-highlight);
+  --color-highlight-light: var(--woy-highlight-light);
 }
 
 body {
@@ -64,10 +95,10 @@ body {
 .shimmer-gold {
   background: linear-gradient(
     110deg,
-    var(--woy-gold) 0%,
-    #f0d080 45%,
-    var(--woy-gold) 55%,
-    #f0d080 100%
+    var(--woy-highlight) 0%,
+    var(--woy-highlight-light) 45%,
+    var(--woy-highlight) 55%,
+    var(--woy-highlight-light) 100%
   );
   background-size: 200% 100%;
   -webkit-background-clip: text;
@@ -113,15 +144,22 @@ body {
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* Safe area padding for mobile PWA */
-@supports (padding-top: env(safe-area-inset-top)) {
-  .safe-top {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 1.5rem);
-  }
+/* Safe area padding for mobile PWA using standardized spacing */
+:root {
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-@supports (padding-bottom: env(safe-area-inset-bottom)) {
-  .safe-bottom {
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.5rem);
+.safe-top {
+  padding-top: calc(2rem + var(--safe-top));
+}
+
+.safe-bottom {
+  padding-bottom: calc(2rem + var(--safe-bottom));
+}
+
+@media (min-width: 1024px) {
+  .safe-top {
+    padding-top: 3rem; /* Desktop clearance from sticky header */
   }
 }

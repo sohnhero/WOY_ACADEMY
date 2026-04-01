@@ -1,0 +1,3526 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>N0.1 · C'est quoi l'argent vraiment ? · WÔY Academy</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Cinzel:wght@600;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0D0A06;
+            --bg2: #111008;
+            --bg3: #161209;
+            --or: #C9962B;
+            --or2: #A67A1F;
+            --or-pale: rgba(201, 150, 43, .1);
+            --ivo: #F5EDD6;
+            --sbl: rgba(196, 160, 85, .6);
+            --fail: #B54732;
+            --ok: #4CAF50;
+            --warn: #E0A040;
+            --border: rgba(255, 255, 255, .07);
+            --card: rgba(255, 255, 255, .03);
+            --cauris: #E8B84B;
+            --nuit: #0D0A06;
+            --tcp: #C4A055;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent
+        }
+
+        html,
+        body {
+            background: var(--bg);
+            color: var(--ivo);
+            font-family: Outfit, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden
+        }
+
+        /* ── THEME SWITCHER ── */
+        .theme-switcher {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(13, 10, 6, .8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 30px;
+            padding: 5px 9px;
+            flex-shrink: 0
+        }
+
+        .theme-btns {
+            display: flex;
+            gap: 5px
+        }
+
+        .theme-btn {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all .25s;
+            outline: none;
+            position: relative;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .theme-btn:hover {
+            transform: scale(1.1)
+        }
+
+        .theme-btn.terra {
+            background: linear-gradient(135deg, #8C3320, #B5472A, #C4A055)
+        }
+
+        .theme-btn.violt {
+            background: linear-gradient(135deg, #0E0B14, #2B153F, #D4AF37)
+        }
+
+        .theme-btn.active {
+            border-color: rgba(255, 255, 255, .8);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, .15)
+        }
+
+        .theme-btn .tt {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: rgba(8, 5, 2, .95);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 8px;
+            padding: 4px 9px;
+            font-size: 9px;
+            color: rgba(255, 255, 255, .8);
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .2s;
+            font-family: 'Outfit', sans-serif
+        }
+
+        .theme-btn:hover .tt {
+            opacity: 1
+        }
+
+        /* ── VIOLET THEME OVERRIDES ── */
+        [data-theme="violet"] {
+            --bg: #0D0815;
+            --bg2: #110B1A;
+            --bg3: #160F22;
+            --or: #D4AF37;
+            --or2: #B8911F;
+            --or-pale: rgba(212, 175, 55, .1);
+            --ivo: #F0EAFA;
+            --sbl: rgba(212, 175, 55, .6);
+            --border: rgba(123, 47, 190, .15);
+            --card: rgba(43, 21, 63, .15);
+            --cauris: #D4AF37
+        }
+
+        [data-theme="violet"] body {
+            background: #0D0815
+        }
+
+        [data-theme="violet"] .top-bar {
+            background: rgba(13, 8, 21, .97);
+            border-bottom-color: rgba(212, 175, 55, .1)
+        }
+
+        [data-theme="violet"] .sidebar {
+            background: rgba(10, 6, 18, .98);
+            border-right-color: rgba(123, 47, 190, .15)
+        }
+
+        [data-theme="violet"] .mod-hd {
+            background: rgba(20, 13, 35, .9);
+            border-color: rgba(123, 47, 190, .2)
+        }
+
+        [data-theme="violet"] .theme-switcher {
+            background: rgba(14, 11, 20, .8);
+            border-color: rgba(212, 175, 55, .12)
+        }
+
+        [data-theme="violet"] .tension-scene {
+            background: linear-gradient(135deg, rgba(123, 47, 190, .08), rgba(13, 8, 21, .2));
+            border-color: rgba(123, 47, 190, .2)
+        }
+
+        [data-theme="violet"] .bloc-sep {
+            color: #D4AF37;
+            background: rgba(212, 175, 55, .06);
+            border-left-color: #D4AF37
+        }
+
+        [data-theme="violet"] .video-ph {
+            background: linear-gradient(135deg, rgba(43, 21, 63, .7), rgba(13, 8, 21, .95))
+        }
+
+        [data-theme="violet"] .video-ph::before {
+            background: radial-gradient(ellipse at 50% 40%, rgba(123, 47, 190, .12) 0%, transparent 65%)
+        }
+
+        [data-theme="violet"] .vp-play {
+            background: linear-gradient(135deg, #2B153F, #7B2FBE);
+            box-shadow: 0 0 28px rgba(123, 47, 190, .55)
+        }
+
+        [data-theme="violet"] .recap-bilan {
+            background: linear-gradient(135deg, rgba(212, 175, 55, .07), rgba(13, 8, 21, .3));
+            border-color: rgba(212, 175, 55, .2)
+        }
+
+        [data-theme="violet"] .btn-primary {
+            background: linear-gradient(135deg, #5C1F96, #7B2FBE)
+        }
+
+        [data-theme="violet"] .punchline {
+            background: linear-gradient(135deg, rgba(123, 47, 190, .1), rgba(0, 0, 0, 0));
+            border-color: rgba(123, 47, 190, .25)
+        }
+
+        [data-theme="violet"] .progress-fill {
+            background: linear-gradient(90deg, #2B153F, #D4AF37)
+        }
+
+        [data-theme="violet"] .bb-fill {
+            background: linear-gradient(90deg, #2B153F, #D4AF37)
+        }
+
+        [data-theme="violet"] .quiz-opt.correct {
+            border-color: rgba(46, 196, 198, .5);
+            background: rgba(46, 196, 198, .08);
+            color: #2EC4C6
+        }
+
+        [data-theme="violet"] .hint-btn {
+            border-color: rgba(212, 175, 55, .3);
+            color: #D4AF37;
+            background: rgba(212, 175, 55, .05)
+        }
+
+        [data-theme="violet"] .sb-mod.active {
+            background: rgba(43, 21, 63, .3);
+            border-color: rgba(123, 47, 190, .3)
+        }
+
+        /* ── LAYOUT GLOBAL ── */
+        .app-shell {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh
+        }
+
+        /* TOP BAR */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: rgba(13, 10, 6, .97);
+            border-bottom: 1px solid var(--border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            backdrop-filter: blur(20px);
+            height: 52px
+        }
+
+        .top-logo {
+            font-family: 'Cinzel', serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--or);
+            letter-spacing: .5px
+        }
+
+        .top-level {
+            font-size: 10px;
+            font-family: 'Space Mono', monospace;
+            background: var(--or-pale);
+            border: 1px solid rgba(201, 150, 43, .25);
+            border-radius: 7px;
+            padding: 3px 9px;
+            color: var(--or);
+            font-weight: 700;
+            flex-shrink: 0
+        }
+
+        .top-progress {
+            flex: 1;
+            height: 3px;
+            background: rgba(255, 255, 255, .07);
+            border-radius: 2px;
+            overflow: hidden
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0
+        }
+
+        .top-xp {
+            font-size: 11px;
+            color: var(--sbl);
+            font-weight: 600;
+            font-family: 'Space Mono', monospace
+        }
+
+        .top-cauris {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(232, 184, 75, .1);
+            border: 1px solid rgba(232, 184, 75, .25);
+            border-radius: 8px;
+            padding: 3px 8px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--cauris);
+            font-family: 'Space Mono', monospace
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--or2), var(--or));
+            border-radius: 2px;
+            transition: width .5s ease
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            position: fixed;
+            top: 52px;
+            left: 0;
+            bottom: 44px;
+            width: 280px;
+            z-index: 150;
+            background: rgba(10, 7, 4, .98);
+            border-right: 1px solid rgba(196, 160, 85, .1);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 3px
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(196, 160, 85, .2);
+            border-radius: 2px
+        }
+
+        .sb-retour {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 14px 18px;
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(196, 160, 85, .6);
+            cursor: pointer;
+            transition: color .2s;
+            border-bottom: 1px solid rgba(196, 160, 85, .08)
+        }
+
+        .sb-retour:hover {
+            color: var(--ivo)
+        }
+
+        .sb-header {
+            padding: 16px 18px;
+            border-bottom: 1px solid rgba(196, 160, 85, .08)
+        }
+
+        .sb-level-name {
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--ivo);
+            margin-bottom: 3px
+        }
+
+        .sb-level-meta {
+            font-size: 10px;
+            color: var(--sbl);
+            font-family: 'Space Mono', monospace
+        }
+
+        .sb-cauris {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 12px 18px;
+            padding: 10px 14px;
+            background: rgba(232, 184, 75, .06);
+            border: 1px solid rgba(232, 184, 75, .15);
+            border-radius: 10px
+        }
+
+        .sb-cauris-label {
+            font-size: 10px;
+            color: var(--sbl);
+            flex: 1
+        }
+
+        .sb-cauris-val {
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--cauris);
+            font-family: 'Space Mono', monospace
+        }
+
+        .sb-modules {
+            flex: 1;
+            padding: 8px 10px
+        }
+
+        .sb-mod {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all .2s;
+            margin-bottom: 3px;
+            border: 1px solid transparent
+        }
+
+        .sb-mod:hover {
+            background: rgba(28, 20, 9, .8);
+            border-color: rgba(196, 160, 85, .1)
+        }
+
+        .sb-mod.active {
+            background: rgba(140, 51, 32, .12);
+            border-color: rgba(181, 71, 42, .25)
+        }
+
+        .sb-mod.locked {
+            opacity: .45;
+            cursor: not-allowed
+        }
+
+        .sb-mod-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            flex-shrink: 0;
+            background: rgba(196, 160, 85, .08);
+            border: 1px solid rgba(196, 160, 85, .1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px
+        }
+
+        .sb-mod.active .sb-mod-icon {
+            background: rgba(140, 51, 32, .2);
+            border-color: rgba(181, 71, 42, .3)
+        }
+
+        .sb-mod-info {
+            flex: 1;
+            min-width: 0
+        }
+
+        .sb-mod-code {
+            font-size: 8px;
+            color: var(--or);
+            font-family: 'Space Mono', monospace;
+            margin-bottom: 2px
+        }
+
+        .sb-mod-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--ivo);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .sb-mod-dur {
+            font-size: 9px;
+            color: var(--sbl);
+            margin-top: 1px
+        }
+
+        .sb-mod-check {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .sb-mod.done .sb-mod-check {
+            background: #22C55E;
+            box-shadow: 0 0 8px rgba(34, 197, 94, .4)
+        }
+
+        .sb-mod.active .sb-mod-check {
+            background: rgba(140, 51, 32, .3);
+            border: 1px solid rgba(181, 71, 42, .5)
+        }
+
+        .sb-mod.locked .sb-mod-check {
+            background: rgba(201, 150, 43, .06);
+            border: 1px solid rgba(201, 150, 43, .15)
+        }
+
+        /* ── MAIN CONTENT ── */
+        .main {
+            margin-left: 280px;
+            margin-top: 52px;
+            padding: 0 32px 60px;
+            min-height: calc(100vh - 52px - 44px)
+        }
+
+        .main-inner {
+            max-width: 840px;
+            margin: 0 auto
+        }
+
+        /* ── BOTTOM PROGRESS ── */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 280px;
+            right: 0;
+            height: 44px;
+            z-index: 150;
+            background: rgba(13, 10, 6, .97);
+            border-top: 1px solid rgba(196, 160, 85, .08);
+            display: flex;
+            align-items: center;
+            padding: 0 32px;
+            gap: 14px;
+            backdrop-filter: blur(16px)
+        }
+
+        .bb-label {
+            font-size: 10px;
+            color: var(--sbl);
+            font-family: 'Space Mono', monospace;
+            white-space: nowrap
+        }
+
+        .bb-track {
+            flex: 1;
+            height: 3px;
+            background: rgba(255, 255, 255, .07);
+            border-radius: 2px;
+            overflow: hidden
+        }
+
+        .bb-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #8C3320, #C9962B);
+            border-radius: 2px;
+            width: 10%;
+            transition: width .6s ease
+        }
+
+        .bb-pct {
+            font-size: 10px;
+            color: var(--or);
+            font-weight: 700;
+            font-family: 'Space Mono', monospace;
+            white-space: nowrap
+        }
+
+        /* step */
+        .step {
+            display: none
+        }
+
+        .step.vis {
+            display: block;
+            animation: stepIn .3s ease
+        }
+
+        @keyframes stepIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        /* ── RESPONSIVE MOBILE ── */
+        @media(max-width:768px) {
+            .sidebar {
+                display: none
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 0 16px 70px
+            }
+
+            .bottom-bar {
+                left: 0
+            }
+        }
+
+        /* ── MODULE HEADER ── */
+        .mod-hd {
+            background: rgba(21, 15, 8, .9);
+            border: 1px solid rgba(196, 160, 85, .14);
+            border-radius: 14px;
+            padding: 22px 24px;
+            margin: 20px 0;
+        }
+
+        .mod-hd-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px
+        }
+
+        .mod-code {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            color: var(--or);
+            letter-spacing: .5px
+        }
+
+        .mod-dur-b {
+            font-size: 10px;
+            color: var(--cauris);
+            background: rgba(212, 160, 23, .08);
+            border: 1px solid rgba(212, 160, 23, .18);
+            border-radius: 7px;
+            padding: 3px 9px;
+            font-family: 'Space Mono', monospace
+        }
+
+        .mod-title {
+            font-family: 'Cinzel', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--ivo);
+            margin-bottom: 5px;
+            line-height: 1.25
+        }
+
+        .mod-level {
+            font-size: 11px;
+            color: var(--sbl)
+        }
+
+        /* ── STEP LABEL ── */
+        .slabel {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 20px 0 10px
+        }
+
+        .snum {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--or-pale);
+            border: 1.5px solid rgba(201, 150, 43, .3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--or);
+            flex-shrink: 0
+        }
+
+        .stag {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--sbl);
+            letter-spacing: .3px
+        }
+
+        .stime {
+            font-size: 10px;
+            color: rgba(201, 150, 43, .4);
+            margin-left: auto;
+            font-family: 'Space Mono', monospace
+        }
+
+        /* ── BLOC SÉPARATEUR ── */
+        .bloc-sep {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--cauris);
+            font-weight: 700;
+            margin: 22px 0 10px;
+            padding: 6px 12px;
+            background: rgba(212, 160, 23, .06);
+            border-left: 3px solid var(--cauris);
+            border-radius: 0 6px 6px 0
+        }
+
+        /* ── CARDS ── */
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden
+        }
+
+        .card-pad {
+            padding: 20px
+        }
+
+        /* ── S0 MICRO TENSION ── */
+        .tension-scene {
+            background: linear-gradient(135deg, rgba(201, 150, 43, .07), rgba(13, 10, 6, .2));
+            border: 1px solid rgba(201, 150, 43, .15);
+            border-radius: 14px;
+            overflow: hidden
+        }
+
+        .ts-eyebrow {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--sbl);
+            letter-spacing: .5px;
+            padding: 16px 20px 0
+        }
+
+        .ts-headline {
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--ivo);
+            line-height: 1.25;
+            padding: 10px 20px 6px
+        }
+
+        .ts-sub {
+            font-size: 14px;
+            color: var(--sbl);
+            line-height: 1.7;
+            padding: 0 20px 16px
+        }
+
+        .ts-question {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--ivo);
+            padding: 0 20px 4px;
+            border-top: 1px solid rgba(255, 255, 255, .05);
+            padding-top: 14px
+        }
+
+        .ts-hint {
+            font-size: 12px;
+            color: rgba(201, 150, 43, .5);
+            padding: 6px 20px 16px;
+            font-style: italic
+        }
+
+        /* ── S1 SIMULATION ── */
+        .sim-header {
+            padding: 16px 20px 12px;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .sim-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--ivo)
+        }
+
+        .sim-sub {
+            font-size: 12px;
+            color: var(--sbl);
+            margin-top: 3px
+        }
+
+        .sim-choices {
+            padding: 14px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px
+        }
+
+        .sim-btn {
+            display: table;
+            width: 100%;
+            border-radius: 12px;
+            border: 1.5px solid rgba(255, 255, 255, .08);
+            background: rgba(255, 255, 255, .02);
+            cursor: pointer;
+            transition: all .2s;
+            border-collapse: separate;
+            border-spacing: 0
+        }
+
+        .sim-btn:hover {
+            border-color: rgba(201, 150, 43, .4);
+            background: rgba(201, 150, 43, .04);
+            transform: translateX(3px)
+        }
+
+        .sim-btn-inner {
+            display: table-row
+        }
+
+        .sim-letter {
+            display: table-cell;
+            vertical-align: middle;
+            width: 46px;
+            padding: 14px 0 14px 14px;
+        }
+
+        .sim-letter-box {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .sim-a .sim-letter-box {
+            background: rgba(96, 165, 250, .12);
+            color: #60A5FA;
+            border: 1px solid rgba(96, 165, 250, .25)
+        }
+
+        .sim-b .sim-letter-box {
+            background: rgba(167, 139, 250, .12);
+            color: #A78BFA;
+            border: 1px solid rgba(167, 139, 250, .25)
+        }
+
+        .sim-c .sim-letter-box {
+            background: rgba(76, 175, 80, .12);
+            color: #6BC47A;
+            border: 1px solid rgba(76, 175, 80, .25)
+        }
+
+        .sim-content {
+            display: table-cell;
+            vertical-align: middle;
+            padding: 14px 12px
+        }
+
+        .sim-choice-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #F5EDD6;
+            margin-bottom: 3px
+        }
+
+        .sim-choice-sub {
+            font-size: 11px;
+            color: rgba(196, 160, 85, .55);
+            line-height: 1.5
+        }
+
+        .sim-icon-cell {
+            display: table-cell;
+            vertical-align: middle;
+            width: 48px;
+            padding: 14px 14px 14px 0;
+            text-align: right
+        }
+
+        .sim-icon-wrap {
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto
+        }
+
+        .sim-a .sim-icon-wrap {
+            background: rgba(96, 165, 250, .08);
+            border: 1px solid rgba(96, 165, 250, .15)
+        }
+
+        .sim-b .sim-icon-wrap {
+            background: rgba(167, 139, 250, .08);
+            border: 1px solid rgba(167, 139, 250, .15)
+        }
+
+        .sim-c .sim-icon-wrap {
+            background: rgba(201, 150, 43, .08);
+            border: 1px solid rgba(201, 150, 43, .2)
+        }
+
+        /* ── TIMESKIP ── */
+        .timeskip-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(13, 10, 6, .97);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .4s
+        }
+
+        .timeskip-overlay.active {
+            opacity: 1;
+            pointer-events: auto
+        }
+
+        .tsk-plus {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--sbl);
+            letter-spacing: 3px
+        }
+
+        .tsk-n {
+            font-size: 80px;
+            font-weight: 900;
+            color: var(--or);
+            line-height: 1;
+            animation: popIn .6s cubic-bezier(.34, 1.56, .64, 1) forwards;
+            font-family: 'Cinzel', serif
+        }
+
+        .tsk-unit {
+            font-size: 16px;
+            color: var(--sbl);
+            margin-top: 2px
+        }
+
+        .tsk-ctx {
+            max-width: 300px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--sbl);
+            line-height: 1.7;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeIn .5s ease .9s forwards
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(.4)
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1)
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        /* ── S2 RÉVÉLATION ── */
+        .rev-intro {
+            padding: 16px 20px 14px;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .rev-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--ivo)
+        }
+
+        .rev-source {
+            font-size: 10px;
+            color: var(--sbl);
+            margin-top: 3px;
+            font-family: 'Space Mono', monospace
+        }
+
+        .rev-items {
+            padding: 12px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .rev-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            border-radius: 11px;
+            border: 1.5px solid;
+            animation: slideIn .2s ease both
+        }
+
+        .rev-item:nth-child(1) {
+            animation-delay: .05s
+        }
+
+        .rev-item:nth-child(2) {
+            animation-delay: .2s
+        }
+
+        .rev-item:nth-child(3) {
+            animation-delay: .35s
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0)
+            }
+        }
+
+        .rv-fail {
+            border-color: rgba(181, 71, 42, .3);
+            background: rgba(181, 71, 42, .05)
+        }
+
+        .rv-warn {
+            border-color: rgba(224, 160, 64, .25);
+            background: rgba(224, 160, 64, .04)
+        }
+
+        .rv-ok {
+            border-color: rgba(76, 175, 80, .3);
+            background: rgba(76, 175, 80, .05)
+        }
+
+        .rv-letter {
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            flex-shrink: 0
+        }
+
+        .rv-fail .rv-letter {
+            background: rgba(181, 71, 42, .15);
+            color: var(--fail)
+        }
+
+        .rv-warn .rv-letter {
+            background: rgba(224, 160, 64, .12);
+            color: var(--warn)
+        }
+
+        .rv-ok .rv-letter {
+            background: rgba(76, 175, 80, .12);
+            color: var(--ok)
+        }
+
+        .rv-main {
+            flex: 1;
+            min-width: 0
+        }
+
+        .rv-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--ivo)
+        }
+
+        .rv-desc {
+            font-size: 11px;
+            color: var(--sbl);
+            margin-top: 2px;
+            line-height: 1.5
+        }
+
+        .rv-result {
+            text-align: right;
+            flex-shrink: 0
+        }
+
+        .rv-amount {
+            font-size: 16px;
+            font-weight: 900;
+            font-family: 'Space Mono', monospace
+        }
+
+        .rv-diff {
+            font-size: 10px;
+            font-weight: 700;
+            margin-top: 2px;
+            font-family: 'Space Mono', monospace
+        }
+
+        .rv-fail .rv-amount {
+            color: var(--fail)
+        }
+
+        .rv-warn .rv-amount {
+            color: var(--warn)
+        }
+
+        .rv-ok .rv-amount {
+            color: var(--ok)
+        }
+
+        .rv-fail .rv-diff {
+            color: rgba(181, 71, 42, .7)
+        }
+
+        .rv-warn .rv-diff {
+            color: rgba(224, 160, 64, .7)
+        }
+
+        .rv-ok .rv-diff {
+            color: rgba(76, 175, 80, .7)
+        }
+
+        .user-pick::after {
+            content: 'Ton choix';
+            position: absolute;
+            top: -9px;
+            right: 10px;
+            font-size: 8px;
+            font-weight: 800;
+            background: var(--or);
+            color: #0D0A06;
+            padding: 2px 7px;
+            border-radius: 5px;
+            font-family: Outfit, sans-serif
+        }
+
+        .user-pick {
+            position: relative;
+            border-width: 2px
+        }
+
+        /* Gassama block */
+        .gassama {
+            margin-top: 12px;
+            padding: 16px 18px;
+            background: rgba(181, 71, 42, .05);
+            border: 1px solid rgba(181, 71, 42, .18);
+            border-radius: 12px;
+            animation: slideIn .25s ease both
+        }
+
+        .gas-tag {
+            font-size: 9px;
+            font-weight: 800;
+            color: rgba(181, 71, 42, .7);
+            letter-spacing: .5px;
+            margin-bottom: 8px;
+            font-family: 'Space Mono', monospace
+        }
+
+        .gas-txt {
+            font-size: 13px;
+            color: var(--ivo);
+            line-height: 1.8
+        }
+
+        .gas-txt strong {
+            color: var(--fail)
+        }
+
+        .gas-txt em {
+            color: var(--sbl);
+            font-style: normal
+        }
+
+        /* Punchline */
+        .punchline {
+            margin-top: 12px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(201, 150, 43, .08), rgba(0, 0, 0, 0));
+            border: 1px solid rgba(201, 150, 43, .18);
+            border-radius: 14px;
+            text-align: center;
+            animation: slideIn .25s ease both
+        }
+
+        .pl-main {
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--ivo);
+            line-height: 1.4;
+            margin-bottom: 10px;
+            font-family: Outfit, sans-serif
+        }
+
+        .pl-sub {
+            font-size: 13px;
+            color: var(--sbl);
+            line-height: 1.6
+        }
+
+        .pl-hook {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--or);
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(201, 150, 43, .15)
+        }
+
+        .pl-compreh {
+            font-size: 14px;
+            color: var(--sbl);
+            line-height: 1.7;
+            padding: 12px 0;
+            margin: 0;
+            border-top: 1px solid rgba(255, 255, 255, .05);
+            border-bottom: 1px solid rgba(255, 255, 255, .05)
+        }
+
+        .pl-compreh strong {
+            color: var(--ivo);
+            font-weight: 800;
+            display: block;
+            margin-top: 4px;
+            font-size: 15px
+        }
+
+        /* ── S3 VIDÉO — style site terracotta ── */
+        .video-ph {
+            height: 160px;
+            background: linear-gradient(135deg, rgba(140, 51, 32, .6), rgba(13, 10, 6, .92));
+            border: 1px solid rgba(196, 160, 85, .12);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+            transition: border-color .2s
+        }
+
+        .video-ph::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 40%, rgba(196, 160, 85, .07) 0%, transparent 65%)
+        }
+
+        .video-ph:hover {
+            border-color: rgba(196, 160, 85, .3)
+        }
+
+        .vp-inner {
+            text-align: center;
+            position: relative;
+            z-index: 1
+        }
+
+        .vp-play {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8C3320, #B5472A);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #F2E8D8;
+            box-shadow: 0 0 28px rgba(181, 71, 42, .55);
+            margin: 0 auto 12px;
+            transition: all .2s
+        }
+
+        .video-ph:hover .vp-play {
+            transform: scale(1.08);
+            box-shadow: 0 0 36px rgba(181, 71, 42, .7)
+        }
+
+        .vp-label {
+            font-size: 14px;
+            color: var(--or);
+            font-weight: 600;
+            font-style: normal;
+            font-family: 'Outfit', sans-serif;
+            margin-bottom: 6px
+        }
+
+        .vp-sub {
+            font-size: 11px;
+            color: rgba(201, 150, 43, .55);
+            font-family: 'Space Mono', monospace
+        }
+
+        .video-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            z-index: 2;
+            background: rgba(140, 51, 32, .5);
+            border: 1px solid rgba(196, 160, 85, .25);
+            border-radius: 6px;
+            padding: 3px 9px;
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--or);
+            font-family: 'Space Mono', monospace;
+            letter-spacing: .3px
+        }
+
+        /* ── S4 DONNÉES RÉELLES ── */
+        .data-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px
+        }
+
+        .data-item {
+            background: rgba(255, 255, 255, .02);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px
+        }
+
+        .di-label {
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--sbl);
+            letter-spacing: .5px;
+            margin-bottom: 6px;
+            font-family: 'Space Mono', monospace
+        }
+
+        .di-val {
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--or);
+            font-family: 'Cinzel', serif
+        }
+
+        .di-ctx {
+            font-size: 11px;
+            color: var(--sbl);
+            margin-top: 4px;
+            line-height: 1.4
+        }
+
+        .di-src {
+            font-size: 9px;
+            color: rgba(201, 150, 43, .35);
+            margin-top: 5px;
+            font-family: 'Space Mono', monospace
+        }
+
+        /* ── S5 CAS PRATIQUE ── */
+        .cp-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--ivo);
+            margin-bottom: 4px;
+            font-family: 'Cinzel', serif
+        }
+
+        .cp-sub {
+            font-size: 12px;
+            color: var(--sbl);
+            margin-bottom: 16px
+        }
+
+        .infog-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0
+        }
+
+        .infog-step {
+            display: flex;
+            gap: 14px;
+            padding: 14px 0;
+            position: relative;
+            cursor: pointer
+        }
+
+        .infog-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 17px;
+            top: 54px;
+            width: 2px;
+            height: calc(100% - 20px);
+            background: rgba(201, 150, 43, .2)
+        }
+
+        .infog-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+            border: 1px solid rgba(201, 150, 43, .2);
+            background: var(--or-pale)
+        }
+
+        .infog-content {
+            flex: 1
+        }
+
+        .infog-era {
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--or);
+            letter-spacing: .5px;
+            margin-bottom: 4px;
+            font-family: 'Space Mono', monospace
+        }
+
+        .infog-headline {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--ivo);
+            margin-bottom: 3px
+        }
+
+        .infog-desc {
+            font-size: 12px;
+            color: var(--sbl);
+            line-height: 1.6
+        }
+
+        .infog-step .infog-content {
+            transition: opacity .2s
+        }
+
+        .infog-step.locked .infog-content {
+            opacity: .35
+        }
+
+        .infog-step.locked .infog-icon {
+            opacity: .4
+        }
+
+        .infog-step.locked::before {
+            content: 'Clique pour révéler →';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 9px;
+            color: rgba(201, 150, 43, .5);
+            font-weight: 600
+        }
+
+        .infog-detail {
+            display: none;
+            margin-top: 8px;
+            padding: 10px 12px;
+            background: rgba(201, 150, 43, .04);
+            border-left: 2px solid rgba(201, 150, 43, .3);
+            border-radius: 0 8px 8px 0
+        }
+
+        .infog-detail.show {
+            display: block;
+            animation: none
+        }
+
+        .infog-detail p {
+            font-size: 11px;
+            color: var(--ivo);
+            line-height: 1.65
+        }
+
+        .infog-detail p strong {
+            color: var(--or)
+        }
+
+        /* ── S6 QUIZ ── */
+        .cauris-display {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: rgba(232, 184, 75, .06);
+            border-bottom: 1px solid rgba(232, 184, 75, .12)
+        }
+
+        .cauris-icon {
+            font-size: 16px
+        }
+
+        .cauris-txt {
+            font-size: 12px;
+            color: var(--cauris);
+            font-weight: 700;
+            flex: 1
+        }
+
+        .cauris-count {
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--cauris);
+            background: rgba(232, 184, 75, .12);
+            border: 1px solid rgba(232, 184, 75, .25);
+            border-radius: 8px;
+            padding: 3px 10px;
+            font-family: 'Space Mono', monospace
+        }
+
+        .quiz-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            transition: opacity .3s;
+            margin-bottom: 10px
+        }
+
+        .quiz-card.locked {
+            opacity: .35;
+            pointer-events: none
+        }
+
+        .quiz-header {
+            padding: 12px 20px 10px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .qnum {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--or);
+            background: var(--or-pale);
+            border: 1px solid rgba(201, 150, 43, .2);
+            border-radius: 6px;
+            padding: 2px 8px;
+            font-family: 'Space Mono', monospace
+        }
+
+        .qprog {
+            font-size: 10px;
+            color: var(--sbl);
+            margin-left: auto;
+            font-family: 'Space Mono', monospace
+        }
+
+        .quiz-body {
+            padding: 16px 20px
+        }
+
+        .quiz-q {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--ivo);
+            line-height: 1.6;
+            margin-bottom: 14px
+        }
+
+        .quiz-opts {
+            display: flex;
+            flex-direction: column;
+            gap: 7px
+        }
+
+        .quiz-opt {
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1.5px solid var(--border);
+            background: rgba(255, 255, 255, .02);
+            font-family: Outfit, sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--ivo);
+            cursor: pointer;
+            text-align: left;
+            transition: all .2s;
+            width: 100%
+        }
+
+        .quiz-opt:hover:not(:disabled) {
+            border-color: rgba(201, 150, 43, .3);
+            color: var(--or)
+        }
+
+        .quiz-opt.correct {
+            border-color: rgba(76, 175, 80, .5);
+            background: rgba(76, 175, 80, .08);
+            color: var(--ok);
+            pointer-events: none
+        }
+
+        .quiz-opt.wrong {
+            border-color: rgba(181, 71, 42, .4);
+            background: rgba(181, 71, 42, .06);
+            color: var(--fail);
+            pointer-events: none
+        }
+
+        .quiz-fb {
+            display: none;
+            margin-top: 10px;
+            padding: 12px 14px;
+            border-radius: 9px;
+            font-size: 12px;
+            line-height: 1.65
+        }
+
+        .quiz-fb.show {
+            display: block
+        }
+
+        .quiz-fb.ok {
+            background: rgba(76, 175, 80, .06);
+            border: 1px solid rgba(76, 175, 80, .2);
+            color: var(--ok)
+        }
+
+        .quiz-fb.fail {
+            background: rgba(181, 71, 42, .06);
+            border: 1px solid rgba(181, 71, 42, .2);
+            color: var(--fail)
+        }
+
+        .hint-zone {
+            margin-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, .05);
+            padding-top: 10px
+        }
+
+        .hint-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 14px;
+            background: rgba(232, 184, 75, .06);
+            border: 1px solid rgba(232, 184, 75, .2);
+            border-radius: 9px;
+            cursor: pointer;
+            font-family: Outfit, sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--cauris);
+            transition: all .2s;
+            width: 100%
+        }
+
+        .hint-btn:hover {
+            background: rgba(232, 184, 75, .1)
+        }
+
+        .hint-btn:disabled {
+            opacity: .4;
+            cursor: not-allowed
+        }
+
+        .hint-text {
+            display: none;
+            margin-top: 8px;
+            padding: 9px 14px;
+            background: rgba(232, 184, 75, .05);
+            border: 1px solid rgba(232, 184, 75, .12);
+            border-radius: 8px;
+            font-size: 11px;
+            color: var(--cauris);
+            line-height: 1.6
+        }
+
+        .hint-text.show {
+            display: block;
+            animation: slideIn .2s ease
+        }
+
+        /* ── MISSION + RÉCAP ── */
+        .mission-box {
+            padding: 16px 18px;
+            background: rgba(201, 150, 43, .04);
+            border: 1px solid rgba(201, 150, 43, .15);
+            border-radius: 12px
+        }
+
+        .mission-tag {
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--or);
+            letter-spacing: .5px;
+            margin-bottom: 8px;
+            font-family: 'Space Mono', monospace
+        }
+
+        .mission-txt {
+            font-size: 13px;
+            color: var(--ivo);
+            line-height: 1.8
+        }
+
+        .mission-xp {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 12px;
+            background: var(--or-pale);
+            border: 1px solid rgba(201, 150, 43, .2);
+            border-radius: 8px;
+            padding: 5px 14px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--or)
+        }
+
+        /* ── RECAP BILAN ── */
+        .recap-bilan {
+            margin: 12px 0;
+            background: linear-gradient(135deg, rgba(201, 150, 43, .08), rgba(13, 10, 6, .3));
+            border: 1px solid rgba(201, 150, 43, .22);
+            border-radius: 16px;
+            overflow: hidden
+        }
+
+        .recap-bilan-top {
+            padding: 24px 24px 16px;
+            text-align: center;
+            border-bottom: 1px solid rgba(201, 150, 43, .1)
+        }
+
+        .recap-trophy {
+            font-size: 28px;
+            margin-bottom: 10px
+        }
+
+        .recap-xp-n {
+            font-size: 52px;
+            font-weight: 700;
+            color: var(--or);
+            font-family: 'Cinzel', serif;
+            line-height: 1
+        }
+
+        .recap-xp-l {
+            font-size: 11px;
+            color: var(--sbl);
+            margin-top: 6px;
+            font-family: 'Space Mono', monospace;
+            letter-spacing: .5px
+        }
+
+        .recap-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border-bottom: 1px solid rgba(201, 150, 43, .1)
+        }
+
+        .recap-stat {
+            padding: 14px 10px;
+            text-align: center;
+            border-right: 1px solid rgba(201, 150, 43, .1)
+        }
+
+        .recap-stat:last-child {
+            border-right: none
+        }
+
+        .rs-val {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--ivo);
+            font-family: 'Cinzel', serif
+        }
+
+        .rs-val.ok {
+            color: var(--ok)
+        }
+
+        .rs-val.cauris {
+            color: var(--cauris)
+        }
+
+        .rs-lbl {
+            font-size: 9px;
+            color: var(--sbl);
+            margin-top: 3px;
+            font-family: 'Space Mono', monospace;
+            letter-spacing: .3px
+        }
+
+        /* TL;DR acquis */
+        .recap-tldr {
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(201, 150, 43, .08)
+        }
+
+        .recap-tldr-tag {
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--or);
+            letter-spacing: 1.5px;
+            font-family: 'Space Mono', monospace;
+            margin-bottom: 10px
+        }
+
+        .recap-tldr-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 7px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, .04)
+        }
+
+        .recap-tldr-item:last-child {
+            border-bottom: none
+        }
+
+        .recap-tldr-check {
+            font-size: 13px;
+            flex-shrink: 0;
+            margin-top: 1px
+        }
+
+        .recap-tldr-txt {
+            font-size: 12px;
+            color: var(--ivo);
+            line-height: 1.6
+        }
+
+        .recap-tldr-txt span {
+            color: var(--or);
+            font-weight: 700
+        }
+
+        .recap-rules {
+            padding: 14px 20px
+        }
+
+        .recap-rules-tag {
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--sbl);
+            letter-spacing: 1.5px;
+            font-family: 'Space Mono', monospace;
+            margin-bottom: 10px
+        }
+
+        .recap-rule {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 14px;
+            margin-bottom: 7px;
+            background: rgba(255, 255, 255, .02);
+            border: 1px solid var(--border);
+            border-radius: 10px
+        }
+
+        .rr-n {
+            font-size: 11px;
+            font-weight: 900;
+            color: var(--or);
+            min-width: 18px;
+            flex-shrink: 0;
+            margin-top: 1px;
+            font-family: 'Space Mono', monospace
+        }
+
+        .rr-t {
+            font-size: 12px;
+            color: var(--ivo);
+            line-height: 1.65
+        }
+
+        .rr-t span {
+            color: var(--or);
+            font-weight: 700
+        }
+
+        .next-mod {
+            margin-top: 12px;
+            padding: 16px 18px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            transition: all .2s
+        }
+
+        .next-mod:hover {
+            border-color: rgba(201, 150, 43, .3);
+            background: rgba(201, 150, 43, .04)
+        }
+
+        .nm-badge {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: var(--or-pale);
+            border: 1px solid rgba(201, 150, 43, .2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 900;
+            color: var(--or);
+            flex-shrink: 0;
+            font-family: 'Space Mono', monospace
+        }
+
+        .nm-info {
+            flex: 1
+        }
+
+        .nm-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--ivo)
+        }
+
+        .nm-sub {
+            font-size: 11px;
+            color: var(--sbl);
+            margin-top: 3px
+        }
+
+        /* ── BOUTONS ── */
+        .btn-primary {
+            display: block;
+            width: 100%;
+            margin: 16px 0;
+            padding: 15px;
+            background: linear-gradient(135deg, #8C3320, #B5472A);
+            color: #F2E8D8;
+            border: none;
+            border-radius: 11px;
+            font-family: Outfit, sans-serif;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all .2s;
+            text-align: center
+        }
+
+        .btn-primary:hover {
+            opacity: .9;
+            transform: translateY(-1px)
+        }
+
+        .btn-primary:active {
+            transform: scale(.98)
+        }
+
+        .btn-sec {
+            display: block;
+            width: 100%;
+            margin: 6px 0;
+            padding: 13px;
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            font-family: Outfit, sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--sbl);
+            cursor: pointer;
+            transition: all .2s;
+            text-align: center
+        }
+
+        .btn-sec:hover {
+            border-color: rgba(201, 150, 43, .3);
+            color: var(--or)
+        }
+
+        /* ── TOASTS ── */
+        .xp-toast,
+        .warn-toast {
+            position: fixed;
+            top: 64px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 20px;
+            padding: 8px 18px;
+            font-size: 13px;
+            font-weight: 800;
+            z-index: 300;
+            animation: toastAnim .35s ease, toastFade .3s ease 2.2s forwards;
+            white-space: nowrap;
+            pointer-events: none
+        }
+
+        .xp-toast {
+            background: rgba(201, 150, 43, .9);
+            color: #0D0A06
+        }
+
+        .warn-toast {
+            background: rgba(181, 71, 42, .9);
+            color: #fff
+        }
+
+        @keyframes toastAnim {
+            from {
+                opacity: 0;
+                top: 45px
+            }
+
+            to {
+                opacity: 1;
+                top: 64px
+            }
+        }
+
+        @keyframes toastFade {
+            to {
+                opacity: 0
+            }
+        }
+
+        /* ── RESPONSIVE MOBILE ── */
+        @media(max-width:768px) {
+            .sidebar {
+                display: none
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 0 14px 70px
+            }
+
+            .bottom-bar {
+                left: 0
+            }
+
+            .mod-title {
+                font-size: 18px
+            }
+
+            .ts-headline {
+                font-size: 18px
+            }
+
+            .data-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .di-val {
+                font-size: 18px
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div class="top-logo">WÔY</div>
+        <div class="top-level">N0</div>
+        <div class="top-progress">
+            <div class="progress-fill" id="progressFill" style="width:5%"></div>
+        </div>
+        <div class="top-bar-right">
+            <div class="top-cauris">🐚 <span id="caurisDisplay">3</span></div>
+            <div class="top-xp" id="xpDisplay">0 XP</div>
+            <div class="theme-switcher">
+                <div class="theme-btns">
+                    <button class="theme-btn terra active" id="btnTerra" onclick="setTheme('terra')"><span class="tt">🔥
+                            Nuit Africaine</span></button>
+                    <button class="theme-btn violt" id="btnViolet" onclick="setTheme('violet')"><span class="tt">✦ WÔY
+                            Brand</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="sb-retour" onclick="alert('Retour au site')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15,18 9,12 15,6" />
+            </svg>
+            Retour au site
+        </div>
+        <div class="sb-header">
+            <div class="sb-level-name">Niveau 0 — L'Argent & les Marchés</div>
+            <div class="sb-level-meta">10 modules · GRATUIT</div>
+        </div>
+        <div class="sb-cauris">
+            <span style="font-size:16px">🐚</span>
+            <span class="sb-cauris-label">Cauris WÔY</span>
+            <span class="sb-cauris-val" id="sidebarCauris">3</span>
+        </div>
+        <div class="sb-modules">
+            <div class="sb-mod active">
+                <div class="sb-mod-icon">💰</div>
+                <div class="sb-mod-info">
+                    <div class="sb-mod-code">N0.1</div>
+                    <div class="sb-mod-title">C'est quoi l'argent vraiment ?</div>
+                    <div class="sb-mod-dur">⏱ 10 min</div>
+                </div>
+                <div class="sb-mod-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E8816A"
+                        stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="5,3 19,12 5,21 5,3" />
+                    </svg></div>
+            </div>
+            <div class="sb-mod locked">
+                <div class="sb-mod-icon">📈</div>
+                <div class="sb-mod-info">
+                    <div class="sb-mod-code">N0.2</div>
+                    <div class="sb-mod-title">C'est quoi un marché financier ?</div>
+                    <div class="sb-mod-dur">⏱ 8 min</div>
+                </div>
+                <div class="sb-mod-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+                        stroke="rgba(201,150,43,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" />
+                        <path d="M7 11V7a5 5 0 0110 0v4" />
+                    </svg></div>
+            </div>
+            <div class="sb-mod locked">
+                <div class="sb-mod-icon">🔗</div>
+                <div class="sb-mod-info">
+                    <div class="sb-mod-code">N0.3</div>
+                    <div class="sb-mod-title">C'est quoi la blockchain ?</div>
+                    <div class="sb-mod-dur">⏱ 8 min</div>
+                </div>
+                <div class="sb-mod-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+                        stroke="rgba(201,150,43,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" />
+                        <path d="M7 11V7a5 5 0 0110 0v4" />
+                    </svg></div>
+            </div>
+            <div class="sb-mod locked">
+                <div class="sb-mod-icon">₿</div>
+                <div class="sb-mod-info">
+                    <div class="sb-mod-code">N0.4</div>
+                    <div class="sb-mod-title">C'est quoi la crypto ?</div>
+                    <div class="sb-mod-dur">⏱ 8 min</div>
+                </div>
+                <div class="sb-mod-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+                        stroke="rgba(201,150,43,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" />
+                        <path d="M7 11V7a5 5 0 0110 0v4" />
+                    </svg></div>
+            </div>
+            <div class="sb-mod locked">
+                <div class="sb-mod-icon">🌍</div>
+                <div class="sb-mod-info">
+                    <div class="sb-mod-code">N0.5</div>
+                    <div class="sb-mod-title">Pourquoi l'Afrique s'y intéresse ?</div>
+                    <div class="sb-mod-dur">⏱ 8 min</div>
+                </div>
+                <div class="sb-mod-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+                        stroke="rgba(201,150,43,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" />
+                        <path d="M7 11V7a5 5 0 0110 0v4" />
+                    </svg></div>
+            </div>
+            <div class="sb-mod locked">
+                <div class="sb-mod-icon">🐚</div>
+                <div class="sb-mod-info">
+                    <div class="sb-mod-code">N0.6</div>
+                    <div class="sb-mod-title">Des cauris au FCFA</div>
+                    <div class="sb-mod-dur">⏱ 8 min</div>
+                </div>
+                <div class="sb-mod-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+                        stroke="rgba(201,150,43,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" />
+                        <path d="M7 11V7a5 5 0 0110 0v4" />
+                    </svg></div>
+            </div>
+            <div class="sb-mod locked">
+                <div class="sb-mod-icon">📉</div>
+                <div class="sb-mod-info">
+                    <div class="sb-mod-code">N0.7</div>
+                    <div class="sb-mod-title">L'inflation</div>
+                    <div class="sb-mod-dur">⏱ 7 min</div>
+                </div>
+                <div class="sb-mod-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+                        stroke="rgba(201,150,43,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" />
+                        <path d="M7 11V7a5 5 0 0110 0v4" />
+                    </svg></div>
+            </div>
+            <div class="sb-mod locked">
+                <div class="sb-mod-icon">💸</div>
+                <div class="sb-mod-info">
+                    <div class="sb-mod-code">N0.8</div>
+                    <div class="sb-mod-title">Western Union vs crypto</div>
+                    <div class="sb-mod-dur">⏱ 8 min</div>
+                </div>
+                <div class="sb-mod-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+                        stroke="rgba(201,150,43,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" />
+                        <path d="M7 11V7a5 5 0 0110 0v4" />
+                    </svg></div>
+            </div>
+            <div class="sb-mod locked">
+                <div class="sb-mod-icon">📱</div>
+                <div class="sb-mod-info">
+                    <div class="sb-mod-code">N0.9</div>
+                    <div class="sb-mod-title">Mobile Money vs crypto</div>
+                    <div class="sb-mod-dur">⏱ 8 min</div>
+                </div>
+                <div class="sb-mod-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+                        stroke="rgba(201,150,43,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" />
+                        <path d="M7 11V7a5 5 0 0110 0v4" />
+                    </svg></div>
+            </div>
+            <div class="sb-mod locked">
+                <div class="sb-mod-icon">⚠️</div>
+                <div class="sb-mod-info">
+                    <div class="sb-mod-code">N0.10</div>
+                    <div class="sb-mod-title">Comprendre les risques</div>
+                    <div class="sb-mod-dur">⏱ 9 min</div>
+                </div>
+                <div class="sb-mod-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+                        stroke="rgba(201,150,43,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" />
+                        <path d="M7 11V7a5 5 0 0110 0v4" />
+                    </svg></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TIMESKIP OVERLAY -->
+    <div class="timeskip-overlay" id="timeskipOv">
+        <div class="tsk-plus">+</div>
+        <div class="tsk-n" id="tskN"></div>
+        <div class="tsk-unit"></div>
+        <div class="tsk-ctx" id="tskCtx"></div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+        <div class="main-inner">
+
+            <!-- MODULE HEADER -->
+            <div class="mod-hd">
+                <div class="mod-hd-top">
+                    <div class="mod-code">N0.1</div>
+                    <div class="mod-dur-b">⏱ 10 min</div>
+                </div>
+                <div class="mod-title">C'est quoi l'argent vraiment ?</div>
+                <div class="mod-level">N0 · L'Argent &amp; les Marchés · Module 1 / 10 · GRATUIT · <span
+                        style="color:var(--or);font-weight:700">VERSION B — Navigation micro-étapes</span></div>
+            </div>
+
+            <!-- ══════════════════════
+  S0 · MICRO TENSION
+══════════════════════ -->
+            <div class="step vis" id="s0">
+                <div class="slabel">
+                    <div class="snum">0</div>
+                    <span class="stag">VOIR — La situation</span>
+                    <span class="stime">20 sec</span>
+                </div>
+
+                <div class="bloc-sep">📍 Mise en scène</div>
+
+                <div class="tension-scene">
+                    <div class="ts-eyebrow">📍 Dakar · Amadou · Son premier salaire</div>
+                    <div class="ts-headline">Amadou vient de toucher son premier salaire.</div>
+                    <div class="ts-sub">100 000 FCFA. Pas besoin maintenant — il veut garder ça pour plus tard.<br>Sa
+                        mère lui dit : <em>"Garde à la maison, mon fils. La banque c'est pas pour
+                            nous."</em><br>Gassama, son ami du quartier, dit autre chose : <em>"Dépose à la banque,
+                            l'argent va travailler pour toi."</em></div>
+                    <div class="ts-question">Deux personnes. Deux conseils.</div>
+                    <div class="ts-hint">→ Lequel tu suis ?</div>
+                </div>
+
+                <button class="btn-primary" onclick="addXP(10,'Étape suivante');goStep('s1')">Voir les 3 options
+                    →</button>
+            </div>
+
+            <!-- ══════════════════════
+  S1 · AGIR — Simulation
+══════════════════════ -->
+            <div class="step" id="s1">
+                <div class="slabel">
+                    <div class="snum">1</div>
+                    <span class="stag">AGIR — Essaie d'abord</span>
+                    <span class="stime">30 sec</span>
+                </div>
+
+                <div class="bloc-sep">🎮 Simulation interactive</div>
+
+                <div class="card">
+                    <div class="sim-header">
+                        <div class="sim-title">Amadou a 3 options.</div>
+                        <div class="sim-sub">Choisis avant de savoir la réponse. Aucune explication pour l'instant.
+                        </div>
+                    </div>
+                    <div class="sim-choices">
+
+                        <div class="sim-btn sim-a" onclick="simChoose('A', this)">
+                            <div class="sim-btn-inner">
+                                <div class="sim-letter">
+                                    <div class="sim-letter-box">A</div>
+                                </div>
+                                <div class="sim-content">
+                                    <div class="sim-choice-title">À la maison</div>
+                                    <div class="sim-choice-sub">Comme dit sa mère — en sécurité</div>
+                                </div>
+                                <div class="sim-icon-cell">
+                                    <div class="sim-icon-wrap"><svg width="16" height="16" viewBox="0 0 24 24"
+                                            fill="none" stroke="#60A5FA" stroke-width="1.8" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                                            <polyline points="9,22 9,12 15,12 15,22" />
+                                        </svg></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sim-btn sim-b" onclick="simChoose('B', this)">
+                            <div class="sim-btn-inner">
+                                <div class="sim-letter">
+                                    <div class="sim-letter-box">B</div>
+                                </div>
+                                <div class="sim-content">
+                                    <div class="sim-choice-title">À la banque</div>
+                                    <div class="sim-choice-sub">Comme dit Gassama — l'argent travaille</div>
+                                </div>
+                                <div class="sim-icon-cell">
+                                    <div class="sim-icon-wrap"><svg width="16" height="16" viewBox="0 0 24 24"
+                                            fill="none" stroke="#A78BFA" stroke-width="1.8" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <rect x="3" y="10" width="18" height="11" rx="1" />
+                                            <path d="M3 10l9-7 9 7" />
+                                            <line x1="8" y1="14" x2="8" y2="17" />
+                                            <line x1="12" y1="14" x2="12" y2="17" />
+                                            <line x1="16" y1="14" x2="16" y2="17" />
+                                        </svg></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sim-btn sim-c" onclick="simChoose('C', this)">
+                            <div class="sim-btn-inner">
+                                <div class="sim-letter">
+                                    <div class="sim-letter-box">C</div>
+                                </div>
+                                <div class="sim-content">
+                                    <div class="sim-choice-title">En or</div>
+                                    <div class="sim-choice-sub">Ce que personne ne dit — la troisième option</div>
+                                </div>
+                                <div class="sim-icon-cell">
+                                    <div class="sim-icon-wrap"><svg width="16" height="16" viewBox="0 0 24 24"
+                                            fill="none" stroke="#C9962B" stroke-width="1.8" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="5" />
+                                            <line x1="12" y1="1" x2="12" y2="3" />
+                                            <line x1="12" y1="21" x2="12" y2="23" />
+                                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                                            <line x1="1" y1="12" x2="3" y2="12" />
+                                            <line x1="21" y1="12" x2="23" y2="12" />
+                                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                                        </svg></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══════════════════════
+  S2 · COMPRENDRE — Révélation
+══════════════════════ -->
+            <div class="step" id="s2">
+                <div class="slabel">
+                    <div class="snum">2</div>
+                    <span class="stag">COMPRENDRE — La révélation</span>
+                    <span class="stime">1 min</span>
+                </div>
+
+                <div id="s2Dynamic"></div>
+
+                <button class="btn-primary" onclick="addXP(10,'Étape suivante');goStep('s3a')">Amadou veut comprendre.
+                    Il cherche une réponse. →</button>
+            </div>
+
+            <!-- ══════════════════════
+  S3 · HISTOIRE — Vidéo Amadou
+══════════════════════ -->
+            <!-- S3a : contexte dynamique -->
+            <div class="step" id="s3a">
+                <div class="slabel">
+                    <div class="snum">3</div>
+                    <span class="stag">VOIR — La rencontre</span>
+                    <span class="stime">20 sec</span>
+                </div>
+
+                <div class="bloc-sep">📍 La rencontre</div>
+
+                <div id="s3ChoiceContext" style="
+    margin:0 0 12px 0;padding:14px 18px;
+    background:rgba(201,150,43,.04);
+    border-left:3px solid rgba(201,150,43,.3);
+    border-radius:0 8px 8px 0;
+    font-size:13px;color:var(--sbl);
+    line-height:1.8
+  "></div>
+
+                <button class="btn-primary" onclick="addXP(5,'Suite');goStep('s3b')">Amadou veut comprendre. Il cherche
+                    une réponse. →</button>
+            </div>
+
+            <!-- S3b : micro-blocs Djéli -->
+            <div class="step" id="s3b">
+                <div class="slabel">
+                    <div class="snum">3</div>
+                    <span class="stag">VOIR — Le Djéli explique</span>
+                    <span class="stime">1 min</span>
+                </div>
+
+                <div class="bloc-sep">📖 Ce que le Djéli lui explique</div>
+
+                <div class="card card-pad">
+                    <div
+                        style="font-size:13px;color:rgba(196,160,85,.5);font-style:italic;margin-bottom:16px;line-height:1.6">
+                        Le Djéli WÔY s'arrête. Il reconnaît la question d'Amadou — celle que tout le monde se pose sans
+                        jamais oser la formuler.
+                    </div>
+
+                    <div style="display:flex;flex-direction:column;gap:16px">
+
+                        <div
+                            style="padding:14px 16px;background:rgba(255,255,255,.02);border-left:2px solid rgba(201,150,43,.2);border-radius:0 8px 8px 0">
+                            <div
+                                style="font-size:11px;font-weight:700;color:var(--sbl);letter-spacing:.5px;margin-bottom:6px;font-family:'Space Mono',monospace">
+                                AVANT L'ARGENT</div>
+                            <div style="font-size:13px;color:var(--ivo);line-height:1.8">Il pose son bâton orné de
+                                cauris. <strong style="color:var(--or)">"Avant l'argent, il y avait le troc."</strong>
+                                J'ai du riz, tu as du poisson — on échange. Simple.</div>
+                            <div style="font-size:12px;color:var(--sbl);margin-top:8px;line-height:1.7">Mais si le
+                                boucher ne veut pas de ton tissu ce jour-là, tu rentres chez toi le ventre vide.</div>
+                        </div>
+
+                        <div
+                            style="padding:14px 16px;background:rgba(255,255,255,.02);border-left:2px solid rgba(201,150,43,.2);border-radius:0 8px 8px 0">
+                            <div
+                                style="font-size:11px;font-weight:700;color:var(--sbl);letter-spacing:.5px;margin-bottom:6px;font-family:'Space Mono',monospace">
+                                LA SOLUTION</div>
+                            <div style="font-size:13px;color:var(--ivo);line-height:1.8">Alors quelqu'un a eu une idée.
+                                <strong style="color:var(--or)">Un objet que tout le monde accepte.</strong></div>
+                            <div style="font-size:12px;color:var(--sbl);margin-top:8px;line-height:1.7">Les cauris en
+                                Afrique, l'or ailleurs, puis les billets. Plus besoin que l'autre veuille ce que t'as.
+                                Tu paies, c'est réglé.</div>
+                        </div>
+
+                        <div
+                            style="padding:16px;background:rgba(201,150,43,.04);border:1px solid rgba(201,150,43,.2);border-radius:10px">
+                            <div
+                                style="font-size:11px;font-weight:700;color:var(--or);letter-spacing:.5px;margin-bottom:8px;font-family:'Space Mono',monospace">
+                                LA VÉRITÉ FONDAMENTALE</div>
+                            <div style="font-size:14px;font-weight:700;color:var(--ivo);line-height:1.7">Le Djéli se
+                                lève, tient son bâton devant lui :</div>
+                            <div
+                                style="font-size:13px;color:var(--or);line-height:1.8;margin-top:8px;font-style:italic">
+                                "Le billet FCFA dans ta poche — il vaut quelque chose parce que toi tu l'acceptes, moi
+                                je l'accepte, le boucher il l'accepte.<br><br>Le jour où personne ne l'accepte plus...
+                                il vaut le papier qu'il est."</div>
+                        </div>
+
+                        <div
+                            style="padding:12px 16px;background:rgba(255,255,255,.02);border-radius:8px;border:1px solid var(--border)">
+                            <div style="font-size:13px;color:var(--ivo);line-height:1.8">Amadou hoche la tête. Il
+                                comprend maintenant pourquoi l'argent se comporte comme ça. Mais il a encore sa question
+                                :</div>
+                            <div style="font-size:13px;font-weight:700;color:var(--ivo);margin-top:8px">"Maître, et moi
+                                — qu'est-ce que j'aurais dû faire avec mes 100 000 FCFA ?"</div>
+                            <div style="font-size:13px;color:var(--or);margin-top:8px;font-weight:700">Le Djéli sourit.
+                                "C'est ça la bonne question."</div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <button class="btn-primary" onclick="addXP(5,'Suite');goStep('s3c')">Voir la vidéo narrative →</button>
+            </div>
+
+            <!-- S3c : vidéo -->
+            <div class="step" id="s3c">
+                <div class="slabel">
+                    <div class="snum">3</div>
+                    <span class="stag">VOIR — Vidéo narrative</span>
+                    <span class="stime">~4 min</span>
+                </div>
+
+                <div class="bloc-sep">🎬 Vidéo narrative</div>
+
+                <div class="video-ph" onclick="videoClick()">
+                    <div class="video-badge">N0.1 · Amadou & le Djéli WÔY</div>
+                    <div class="vp-inner">
+                        <div class="vp-play">▶</div>
+                        <div class="vp-label">Amadou & le Djéli — L'argent, la confiance, et la bonne stratégie</div>
+                        <div class="vp-sub">~4 min · Narratif · À venir</div>
+                    </div>
+                </div>
+
+                <button class="btn-primary" onclick="addXP(5,'Suite');goStep('s3d')">Ce que le Djéli conseille à Amadou
+                    →</button>
+            </div>
+
+            <!-- S3d : conseil 40/40/20 -->
+            <div class="step" id="s3d">
+                <div class="slabel">
+                    <div class="snum">3</div>
+                    <span class="stag">VOIR — Le conseil du Djéli</span>
+                    <span class="stime">30 sec</span>
+                </div>
+
+                <div class="bloc-sep">✅ Ce que le Djéli conseille à Amadou</div>
+
+                <div class="card card-pad" style="background:rgba(201,150,43,.04);border-color:rgba(201,150,43,.2)">
+                    <div style="font-size:13px;color:var(--sbl);line-height:1.8;margin-bottom:16px">
+                        Le Djéli reprend son bâton. Il regarde le chiffre qu'Amadou lui a montré. Il hoche la
+                        tête.<br><br>
+                        <strong style="color:var(--ivo)">"Tu n'as pas à choisir entre ta mère et Gassama. L'argent a 3
+                            fonctions. Utilise les 3."</strong>
+                    </div>
+                    <div
+                        style="margin-bottom:14px;padding:10px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:8px;font-size:11px;color:var(--sbl);line-height:1.6">
+                        ⚠️ <em>Ce n'est pas une règle fixe. C'est une manière simple de comprendre les 3 rôles de
+                            l'argent : liquidité, rendement, protection. Les proportions varient selon ta
+                            situation.</em>
+                    </div>
+                    <div style="font-size:13px;font-weight:800;color:var(--or);margin-bottom:4px">Répartir — pas tout
+                        mettre au même endroit.</div>
+                    <div style="font-size:11px;color:var(--sbl);margin-bottom:14px">100 000 FCFA · 3 fonctions ·
+                        utilisées ensemble</div>
+                    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+                        <div
+                            style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.15);border-radius:9px">
+                            <div
+                                style="width:36px;height:36px;border-radius:8px;background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#60A5FA;flex-shrink:0;font-family:'Space Mono',monospace">
+                                40%</div>
+                            <div style="flex:1">
+                                <div style="font-size:12px;font-weight:700;color:#F5EDD6">À la maison</div>
+                                <div style="font-size:11px;color:rgba(196,160,85,.6);margin-top:2px">Liquidité —
+                                    accessible à tout moment</div>
+                            </div>
+                            <div
+                                style="font-size:13px;font-weight:700;color:#60A5FA;font-family:'Space Mono',monospace">
+                                40 000</div>
+                        </div>
+                        <div
+                            style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.15);border-radius:9px">
+                            <div
+                                style="width:36px;height:36px;border-radius:8px;background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#A78BFA;flex-shrink:0;font-family:'Space Mono',monospace">
+                                40%</div>
+                            <div style="flex:1">
+                                <div style="font-size:12px;font-weight:700;color:#F5EDD6">À la banque</div>
+                                <div style="font-size:11px;color:rgba(196,160,85,.6);margin-top:2px">Rendement —
+                                    intérêts 2.5%/an</div>
+                            </div>
+                            <div
+                                style="font-size:13px;font-weight:700;color:#A78BFA;font-family:'Space Mono',monospace">
+                                43 086</div>
+                        </div>
+                        <div
+                            style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(76,175,80,.06);border:1px solid rgba(76,175,80,.15);border-radius:9px">
+                            <div
+                                style="width:36px;height:36px;border-radius:8px;background:rgba(76,175,80,.12);border:1px solid rgba(76,175,80,.2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#6BC47A;flex-shrink:0;font-family:'Space Mono',monospace">
+                                20%</div>
+                            <div style="flex:1">
+                                <div style="font-size:12px;font-weight:700;color:#F5EDD6">En or</div>
+                                <div style="font-size:11px;color:rgba(196,160,85,.6);margin-top:2px">Protection — contre
+                                    l'inflation</div>
+                            </div>
+                            <div
+                                style="font-size:13px;font-weight:700;color:#6BC47A;font-family:'Space Mono',monospace">
+                                27 000</div>
+                        </div>
+                    </div>
+                    <div
+                        style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(201,150,43,.08);border:1px solid rgba(201,150,43,.2);border-radius:9px">
+                        <div>
+                            <div
+                                style="font-size:11px;color:var(--sbl);font-family:'Space Mono',monospace;margin-bottom:3px">
+                                TOTAL APRÈS 3 ANS</div>
+                            <div style="font-size:10px;color:rgba(196,160,85,.5)">Liquidité + rendement + protection
+                            </div>
+                        </div>
+                        <div style="text-align:right">
+                            <div style="font-size:20px;font-weight:900;color:var(--or);font-family:'Cinzel',serif">110
+                                086</div>
+                            <div style="font-size:10px;color:rgba(76,175,80,.8);font-weight:700">+10 086 FCFA</div>
+                        </div>
+                    </div>
+                    <div
+                        style="margin-top:12px;padding:10px 14px;background:rgba(201,150,43,.04);border-left:3px solid var(--or);border-radius:0 8px 8px 0;font-size:12px;color:var(--sbl);line-height:1.7">
+                        Le Djéli WÔY se lève, son pendentif WÔY diffuse une lumière chaude. <strong
+                            style="color:var(--ivo)">"Aucune option seule n'est la bonne réponse."</strong> <em>"La
+                            vraie question n'est pas où mettre ton argent. C'est comment il fonctionne — et pourquoi les
+                            marchés font bouger sa valeur."</em> Il pose son bâton. <em>"Un savoir véritable n'est pas
+                            fait pour être gardé. Il est fait pour être transmis."</em>
+                    </div>
+                </div>
+
+                <button class="btn-primary" onclick="addXP(10,'Étape suivante');goStep('s4')">Les chiffres réels
+                    →</button>
+            </div>
+
+            <!-- ══════════════════════
+  S4 · DONNÉES RÉELLES
+══════════════════════ -->
+            <div class="step" id="s4">
+                <div class="slabel">
+                    <div class="snum">4</div>
+                    <span class="stag">VOIR — Données réelles</span>
+                    <span class="stime">30 sec</span>
+                </div>
+
+                <div class="bloc-sep">📊 Sénégal · Chiffres vérifiables 2024</div>
+
+                <div class="card card-pad">
+                    <div class="data-grid">
+                        <div class="data-item">
+                            <div class="di-label">Inflation UEMOA</div>
+                            <div class="di-val">5.9%</div>
+                            <div class="di-ctx">Par an en moyenne 2022–2024</div>
+                            <div class="di-src">Source : BCEAO officiel</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="di-label">Taux épargne banque</div>
+                            <div class="di-val">2.5%</div>
+                            <div class="di-ctx">Ton argent croît de 2 500 FCFA/an pour 100 000 placés. L'inflation en
+                                mange 5 900. Bilan réel : −3 400 FCFA de pouvoir d'achat.</div>
+                            <div class="di-src">Source : SGBS / BICIS 2024</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="di-label">Or en FCFA · 3 ans</div>
+                            <div class="di-val">+35%</div>
+                            <div class="di-ctx">De 2021 à 2024 au Sénégal</div>
+                            <div class="di-src">Source : cours or × taux BCEAO</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="di-label">Non-bancarisés Afrique</div>
+                            <div class="di-val">57%</div>
+                            <div class="di-ctx">Des adultes sans compte bancaire</div>
+                            <div class="di-src">Source : Banque Mondiale 2023</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-primary" onclick="addXP(10,'Étape suivante');goStep('s5')">Comment ça marche vraiment
+                    →</button>
+            </div>
+
+            <!-- ══════════════════════
+  S5 · CAS PRATIQUE
+══════════════════════ -->
+            <div class="step" id="s5">
+                <div class="slabel">
+                    <div class="snum">5</div>
+                    <span class="stag">VOIR FAIRE — Cas pratique</span>
+                    <span class="stime">2 min</span>
+                </div>
+
+                <div class="bloc-sep">📱 Exploration interactive</div>
+
+                <div
+                    style="margin-bottom:14px;padding:14px 18px;background:rgba(181,71,42,.05);border:1px solid rgba(181,71,42,.15);border-radius:10px">
+                    <div style="font-size:12px;font-weight:800;color:var(--ivo);margin-bottom:4px">Djéli t'a expliqué
+                        l'histoire.</div>
+                    <div style="font-size:12px;color:var(--sbl);line-height:1.6">Maintenant voilà ce que ça change dans
+                        ta vie — aujourd'hui, au Sénégal, avec ton téléphone en poche.</div>
+                </div>
+
+                <div class="card card-pad">
+                    <div class="cp-title">Concrètement, qu'est-ce que ça change pour moi ?</div>
+                    <div class="cp-sub">Clique sur chaque implication pour la révéler.</div>
+                    <div style="font-size:10px;color:var(--sbl);font-family:'Space Mono',monospace;margin-bottom:14px">
+                        Progression : <span id="infogCounter" style="color:var(--or);font-weight:700">0 / 4</span> —
+                        <span id="infogStatus">révèle les 4 étapes pour continuer</span>
+                    </div>
+
+                    <div class="infog-timeline">
+
+                        <div class="infog-step locked" id="inf1" onclick="revealInfog(1)">
+                            <div class="infog-icon">📱</div>
+                            <div class="infog-content">
+                                <div class="infog-era">Aujourd'hui dans ta poche</div>
+                                <div class="infog-headline">Pourquoi Wave existe</div>
+                                <div class="infog-desc">Le problème du troc n'a pas disparu. Wave le résout autrement.
+                                </div>
+                                <div class="infog-detail" id="inf1-detail">
+                                    <p>Le troc exigeait que les deux parties aient exactement ce que l'autre voulait.
+                                        Impossible à grande échelle.<br><br>Wave, Orange Money, Free Money — c'est la
+                                        même logique que les cauris : <strong>un intermédiaire universel accepté par
+                                            tous</strong>. La différence ? C'est numérique. Et en Afrique de l'Ouest,
+                                        57% des adultes non-bancarisés ont adopté le Mobile Money avant la banque. Le
+                                        troc numérique a gagné là où la banque classique avait échoué.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="infog-step locked" id="inf2" onclick="revealInfog(2)">
+                            <div class="infog-icon">🏦</div>
+                            <div class="infog-content">
+                                <div class="infog-era">Ton FCFA, ta BCEAO</div>
+                                <div class="infog-headline">Pourquoi une monnaie vaut quelque chose</div>
+                                <div class="infog-desc">Pas parce qu'elle est rare. Parce qu'une institution la
+                                    garantit.</div>
+                                <div class="infog-detail" id="inf2-detail">
+                                    <p>La BCEAO garantit la confiance dans le FCFA pour 8 pays. Elle contrôle la
+                                        quantité de billets en circulation — trop en imprimer = inflation.<br><br>C'est
+                                        pourquoi <strong>le taux d'inflation UEMOA était de 5.9% en 2022-2024</strong> :
+                                        la masse monétaire a augmenté plus vite que la production réelle. Tes billets
+                                        ont la même valeur nominale — mais ils achètent moins.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="infog-step locked" id="inf3" onclick="revealInfog(3)">
+                            <div class="infog-icon">📉</div>
+                            <div class="infog-content">
+                                <div class="infog-era">Ce qui mange ton argent en silence</div>
+                                <div class="infog-headline">Pourquoi l'inflation est possible</div>
+                                <div class="infog-desc">Parce que l'argent fiat n'a pas de valeur fixe — c'est un flux.
+                                </div>
+                                <div class="infog-detail" id="inf3-detail">
+                                    <p>Si la monnaie avait une valeur intrinsèque fixe (comme l'or), l'inflation serait
+                                        impossible. Mais le FCFA est de la monnaie <em>fiat</em> — sa valeur dépend de
+                                        la confiance et de la quantité en circulation.<br><br>Quand la BCEAO imprime
+                                        plus de billets que l'économie ne produit de richesse, <strong>chaque billet
+                                            vaut proportionnellement moins</strong>. C'est ça l'inflation — pas une
+                                        hausse des prix, mais une baisse de la valeur de ta monnaie.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="infog-step locked" id="inf4" onclick="revealInfog(4)">
+                            <div class="infog-icon">🔗</div>
+                            <div class="infog-content">
+                                <div class="infog-era">La question que l'Afrique se pose</div>
+                                <div class="infog-headline">Pourquoi de nouvelles formes de monnaie émergent</div>
+                                <div class="infog-desc">Et si la confiance n'avait pas besoin d'une banque centrale ?
+                                </div>
+                                <div class="infog-detail" id="inf4-detail">
+                                    <p>Si la valeur du FCFA repose sur la confiance en la BCEAO — que se passe-t-il si
+                                        tu ne fais plus confiance aux institutions ?<br><br>C'est la question que des
+                                        millions d'Africains se posent. En réponse, de nouvelles formes de monnaie ont
+                                        émergé — basées sur les mathématiques et le consensus collectif plutôt que sur
+                                        un gouvernement. <strong>La confiance existe toujours — mais elle est distribuée
+                                            différemment.</strong> Tu en apprendras plus dans les modules suivants.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <button class="btn-primary" id="casPratiqueBtn" style="display:none" onclick="goStep('s6a')">Tester ta
+                    compréhension →</button>
+            </div>
+
+            <!-- ══════════════════════
+  S6 · RENFORCER — Quiz
+══════════════════════ -->
+            <div class="step" id="s6a">
+                <div class="slabel">
+                    <div class="snum">6</div>
+                    <span class="stag">RENFORCER — Question 1/5</span>
+                    <span class="stime">20 sec</span>
+                </div>
+
+                <div class="bloc-sep">🐚 Cauris &amp; Quiz</div>
+
+                <div class="card" style="margin-bottom:12px">
+                    <div class="cauris-display">
+                        <span class="cauris-icon">🐚</span>
+                        <span class="cauris-txt">Cauris disponibles pour des indices</span>
+                        <span class="cauris-count" id="caurisQuiz">3</span>
+                    </div>
+                </div>
+
+                <div class="quiz-card" id="qcard1">
+                    <div class="quiz-header">
+                        <span class="qnum">Q1</span>
+                        <span class="qprog">1 / 5</span>
+                    </div>
+                    <div class="quiz-body">
+                        <div class="quiz-q">Inflation = 6%/an. Banque = 2.5%/an. Tu places 100 000 FCFA pendant 1 an.
+                            Qu'est-il vraiment arrivé à ton argent ?</div>
+                        <div class="quiz-opts">
+                            <button class="quiz-opt"
+                                onclick="answer(1,this,true,'Exact. Tu as plus de FCFA (+2 500) mais ton pouvoir d\'achat a baissé. 2.5% - 6% = -3.5% en valeur réelle. Les intérêts ne compensent pas l\'inflation.')">Tu
+                                as gagné des FCFA mais perdu du pouvoir d'achat</button>
+                            <button class="quiz-opt"
+                                onclick="answer(1,this,false,'Non. Les intérêts (2.5%) sont inférieurs à l\'inflation (6%). Tu as plus de billets mais ils achètent moins.')">Tu
+                                as gagné à la fois des FCFA et du pouvoir d'achat</button>
+                            <button class="quiz-opt"
+                                onclick="answer(1,this,false,'Pas tout à fait. Le nombre de FCFA augmente grâce aux intérêts. Mais la valeur réelle diminue car l\'inflation est plus forte.')">Tu
+                                n'as ni gagné ni perdu</button>
+                        </div>
+                        <div class="quiz-fb" id="qfb1"></div>
+                        <div class="hint-zone">
+                            <button class="hint-btn" id="hbtn1" onclick="useHint(1)">🐚 Utiliser 1 Cauris pour un
+                                indice</button>
+                            <div class="hint-text" id="htxt1">Indice : compare les deux taux. Lequel est plus grand — le
+                                taux de la banque ou le taux d'inflation ?</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /s6a -->
+
+            <div class="step" id="s6b">
+                <div class="slabel">
+                    <div class="snum">6</div>
+                    <span class="stag">RENFORCER — Question 2/5</span>
+                    <span class="stime">20 sec</span>
+                </div>
+                <div class="quiz-card" id="qcard2">
+                    <div class="quiz-header">
+                        <span class="qnum">Q2</span>
+                        <span class="qprog">2 / 5</span>
+                    </div>
+                    <div class="quiz-body">
+                        <div class="quiz-q">Pourquoi un billet de 5 000 FCFA "vaut" 5 000 FCFA alors qu'il ne coûte que
+                            quelques centimes à imprimer ?</div>
+                        <div class="quiz-opts">
+                            <button class="quiz-opt"
+                                onclick="answer(2,this,false,'Non. Le papier n\'a presque aucune valeur intrinsèque. La valeur ne vient pas du billet lui-même.')">Parce
+                                qu'il est fait en papier spécial qui vaut cher</button>
+                            <button class="quiz-opt"
+                                onclick="answer(2,this,true,'Exact. Le FCFA vaut 5 000 FCFA parce que tout le monde accepte cette valeur et que la BCEAO la garantit. C\'est la confiance collective qui crée la valeur.')">Parce
+                                que tout le monde accepte qu'il vaut 5 000 FCFA</button>
+                            <button class="quiz-opt"
+                                onclick="answer(2,this,false,'Pas exactement. L\'or ne garantit plus directement les monnaies depuis 1971 (fin de Bretton Woods). La valeur repose aujourd\'hui sur la confiance.')">Parce
+                                qu'il est garanti par des réserves d'or</button>
+                        </div>
+                        <div class="quiz-fb" id="qfb2"></div>
+                        <div class="hint-zone">
+                            <button class="hint-btn" id="hbtn2" onclick="useHint(2)">🐚 Utiliser 1 Cauris pour un
+                                indice</button>
+                            <div class="hint-text" id="htxt2">Indice : pense au troc. Pourquoi les cauris avaient de la
+                                valeur en Afrique de l'Ouest ?</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /s6b -->
+
+            <div class="step" id="s6c">
+                <div class="slabel">
+                    <div class="snum">6</div>
+                    <span class="stag">RENFORCER — Question 3/5</span>
+                    <span class="stime">20 sec</span>
+                </div>
+                <div class="quiz-card" id="qcard3">
+                    <div class="quiz-header">
+                        <span class="qnum">Q3</span>
+                        <span class="qprog">3 / 5</span>
+                    </div>
+                    <div class="quiz-body">
+                        <div class="quiz-q">Kofi garde 250 000 FCFA sous le matelas pendant 5 ans. Inflation moyenne =
+                            5%/an. Combien peut-il acheter avec ses 250 000 FCFA à la fin ?</div>
+                        <div class="quiz-opts">
+                            <button class="quiz-opt"
+                                onclick="answer(3,this,false,'Non. Il a toujours 250 000 FCFA de billets. Mais ces billets achètent moins qu\'avant à cause de l\'inflation.')">Exactement
+                                250 000 FCFA de biens</button>
+                            <button class="quiz-opt"
+                                onclick="answer(3,this,true,'Exact ! 250 000 × (0.95)^5 ≈ 195 800 FCFA de pouvoir d\'achat. Il a perdu l\'équivalent de 54 200 FCFA sans dépenser un seul billet.')">Environ
+                                196 000 FCFA de biens (−54 000 FCFA)</button>
+                            <button class="quiz-opt"
+                                onclick="answer(3,this,false,'Non. L\'inflation réduit le pouvoir d\'achat. Ses billets achètent de moins en moins au fil du temps.')">Plus
+                                de 250 000 FCFA de biens</button>
+                        </div>
+                        <div class="quiz-fb" id="qfb3"></div>
+                        <div class="hint-zone">
+                            <button class="hint-btn" id="hbtn3" onclick="useHint(3)">🐚 Utiliser 1 Cauris pour un
+                                indice</button>
+                            <div class="hint-text" id="htxt3">Indice : calcule 250 000 × 0.95 × 0.95 × 0.95 × 0.95 ×
+                                0.95. Chaque année, tu perds 5% de pouvoir d'achat.</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /s6c -->
+
+            <div class="step" id="s6d">
+                <div class="slabel">
+                    <div class="snum">6</div>
+                    <span class="stag">RENFORCER — Question 4/5</span>
+                    <span class="stime">20 sec</span>
+                </div>
+                <div class="quiz-card" id="qcard4">
+                    <div class="quiz-header">
+                        <span class="qnum">Q4</span>
+                        <span class="qprog">4 / 5</span>
+                    </div>
+                    <div class="quiz-body">
+                        <div class="quiz-q">Le troc a un défaut majeur. Lequel ?</div>
+                        <div class="quiz-opts">
+                            <button class="quiz-opt"
+                                onclick="answer(4,this,false,'Non. Le troc existait bien avant les marchés organisés et fonctionnait à petite échelle.')">Les
+                                marchés n'existaient pas encore</button>
+                            <button class="quiz-opt"
+                                onclick="answer(4,this,false,'Pas exactement. Le vrai problème du troc n\'est pas le transport, mais la nécessité que les deux parties veulent exactement ce que l\'autre a.')">Les
+                                marchandises étaient trop lourdes à transporter</button>
+                            <button class="quiz-opt"
+                                onclick="answer(4,this,true,'Exact ! C\'est la double coïncidence des besoins. Je dois trouver quelqu\'un qui a ce que je veux ET qui veut ce que j\'ai. Avec la monnaie, ce problème disparaît.')">Il
+                                faut que chacun veuille exactement ce que l'autre a</button>
+                        </div>
+                        <div class="quiz-fb" id="qfb4"></div>
+                        <div class="hint-zone">
+                            <button class="hint-btn" id="hbtn4" onclick="useHint(4)">🐚 Utiliser 1 Cauris pour un
+                                indice</button>
+                            <div class="hint-text" id="htxt4">Indice : imagine Amadou avec du tissu qui veut de la
+                                viande. Le boucher ne veut pas de tissu. Que se passe-t-il ?</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /s6d -->
+
+            <div class="step" id="s6e">
+                <div class="slabel">
+                    <div class="snum">6</div>
+                    <span class="stag">RENFORCER — Question 5/5</span>
+                    <span class="stime">20 sec</span>
+                </div>
+                <div class="quiz-card" id="qcard5">
+                    <div class="quiz-header">
+                        <span class="qnum">Q5</span>
+                        <span class="qprog">5 / 5</span>
+                    </div>
+                    <div class="quiz-body">
+                        <div class="quiz-q">Si demain le gouvernement sénégalais annonçait l'arrêt du FCFA sans
+                            alternative, que se passerait-il ?</div>
+                        <div class="quiz-opts">
+                            <button class="quiz-opt"
+                                onclick="answer(5,this,false,'Pas nécessairement. Tout dépend de si une nouvelle monnaie de confiance est proposée. La valeur est dans la confiance, pas dans le billet.')">Rien
+                                — les billets gardent leur valeur</button>
+                            <button class="quiz-opt"
+                                onclick="answer(5,this,true,'Exact. La valeur du FCFA repose entièrement sur la confiance. Sans garantie institutionnelle et sans acceptation collective, les billets ne valent plus rien.')">Le
+                                FCFA perdrait toute valeur — plus personne ne l'accepterait</button>
+                            <button class="quiz-opt"
+                                onclick="answer(5,this,false,'Non. Le FCFA n\'est plus garanti par l\'or depuis des décennies. La valeur vient de la confiance collective, pas d\'un actif physique.')">Les
+                                billets gardent leur valeur car ils sont garantis par l'or</button>
+                        </div>
+                        <div class="quiz-fb" id="qfb5"></div>
+                        <div class="hint-zone">
+                            <button class="hint-btn" id="hbtn5" onclick="useHint(5)">🐚 Utiliser 1 Cauris pour un
+                                indice</button>
+                            <div class="hint-text" id="htxt5">Indice : repense à la définition. L'argent = confiance
+                                collective. Que se passe-t-il quand la confiance disparaît ?</div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /s6e -->
+
+            <!-- S7a : mission + calculateur -->
+            <div class="step" id="s7a">
+                <div class="slabel">
+                    <div class="snum">7</div>
+                    <span class="stag">MISSION — Terrain</span>
+                    <span class="stime">Actionnable</span>
+                </div>
+
+                <div class="bloc-sep">🎯 Mission terrain</div>
+
+                <div class="mission-box">
+                    <div class="mission-tag">🎯 Mission terrain · +100 XP</div>
+                    <div class="mission-txt">
+                        Demande à un membre de ta famille combien il a d'épargne qui dort sans travailler.<br><br>
+                        Utilise ce calculateur pour voir ce qu'il a vraiment perdu.<br><br>
+                        Montre-lui le résultat. Pose-lui la question : <em>"Si tu savais ça avant, tu aurais fait
+                            différemment ?"</em>
+                    </div>
+
+                    <div
+                        style="margin-top:16px;padding:16px;background:rgba(13,10,6,.5);border:1px solid rgba(201,150,43,.2);border-radius:12px">
+                        <div
+                            style="font-size:10px;font-weight:700;color:var(--or);letter-spacing:.5px;margin-bottom:12px;font-family:'Space Mono',monospace">
+                            🧮 CALCULATEUR D'INFLATION</div>
+
+                        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+                            <div>
+                                <label
+                                    style="font-size:11px;color:var(--sbl);display:block;margin-bottom:5px;font-family:'Space Mono',monospace">Montant
+                                    épargné (FCFA)</label>
+                                <input id="calcMontant" type="number" placeholder="ex: 200 000"
+                                    oninput="calcInflation()"
+                                    style="width:100%;padding:10px 12px;background:rgba(255,255,255,.04);border:1px solid rgba(201,150,43,.2);border-radius:8px;color:var(--ivo);font-family:'Space Mono',monospace;font-size:13px;outline:none">
+                            </div>
+                            <div>
+                                <label
+                                    style="font-size:11px;color:var(--sbl);display:block;margin-bottom:5px;font-family:'Space Mono',monospace">Nombre
+                                    d'années sans bouger</label>
+                                <input id="calcAnnees" type="number" placeholder="ex: 3" min="1" max="20"
+                                    oninput="calcInflation()"
+                                    style="width:100%;padding:10px 12px;background:rgba(255,255,255,.04);border:1px solid rgba(201,150,43,.2);border-radius:8px;color:var(--ivo);font-family:'Space Mono',monospace;font-size:13px;outline:none">
+                            </div>
+                        </div>
+
+                        <div id="calcResult" style="display:none">
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+                                <div
+                                    style="padding:10px 12px;background:rgba(181,71,42,.06);border:1px solid rgba(181,71,42,.2);border-radius:8px;text-align:center">
+                                    <div
+                                        style="font-size:9px;color:rgba(181,71,42,.7);font-family:'Space Mono',monospace;margin-bottom:4px">
+                                        VALEUR RÉELLE AUJOURD'HUI</div>
+                                    <div id="calcValeurReelle"
+                                        style="font-size:16px;font-weight:900;color:#B54732;font-family:'Cinzel',serif">
+                                    </div>
+                                    <div style="font-size:9px;color:rgba(181,71,42,.6);margin-top:2px">FCFA de pouvoir
+                                        d'achat</div>
+                                </div>
+                                <div
+                                    style="padding:10px 12px;background:rgba(181,71,42,.06);border:1px solid rgba(181,71,42,.2);border-radius:8px;text-align:center">
+                                    <div
+                                        style="font-size:9px;color:rgba(181,71,42,.7);font-family:'Space Mono',monospace;margin-bottom:4px">
+                                        PERTE RÉELLE</div>
+                                    <div id="calcPerte"
+                                        style="font-size:16px;font-weight:900;color:#B54732;font-family:'Cinzel',serif">
+                                    </div>
+                                    <div style="font-size:9px;color:rgba(181,71,42,.6);margin-top:2px">FCFA évaporés
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="calcMessage"
+                                style="font-size:11px;color:var(--sbl);line-height:1.6;padding:10px 12px;background:rgba(255,255,255,.02);border-radius:8px;font-style:italic">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mission-xp">⚡ +100 XP si complétée</div>
+                </div>
+
+                <button class="btn-primary"
+                    onclick="goStep('s7b');document.getElementById('finalXP').textContent=S.xp;document.getElementById('quizScore').textContent=S.quizCorrect+'/5';document.getElementById('caurisLeft').textContent=S.cauris;">Voir
+                    mon bilan →</button>
+            </div><!-- /s7a -->
+
+            <!-- S7b : bilan + récap + 3 règles -->
+            <div class="step" id="s7b">
+                <div class="slabel">
+                    <div class="snum">7</div>
+                    <span class="stag">RÉCAP — Bilan du module</span>
+                    <span class="stime">1 min</span>
+                </div>
+
+                <div class="bloc-sep">🏆 Bilan du module</div>
+
+                <div class="recap-bilan">
+
+                    <!-- XP + stats -->
+                    <div class="recap-bilan-top">
+                        <div class="recap-trophy">🏆</div>
+                        <div class="recap-xp-n" id="finalXP">0</div>
+                        <div class="recap-xp-l">XP GAGNÉS · N0.1</div>
+                    </div>
+
+                    <div class="recap-stats">
+                        <div class="recap-stat">
+                            <div class="rs-val ok" id="quizScore">0/5</div>
+                            <div class="rs-lbl">Quiz correct</div>
+                        </div>
+                        <div class="recap-stat">
+                            <div class="rs-val cauris" id="caurisLeft">3</div>
+                            <div class="rs-lbl">🐚 Cauris restants</div>
+                        </div>
+                        <div class="recap-stat">
+                            <div class="rs-val">N0.1</div>
+                            <div class="rs-lbl">Module terminé</div>
+                        </div>
+                    </div>
+
+                    <!-- TL;DR Option A — ce que tu viens d'apprendre -->
+                    <div class="recap-tldr">
+                        <div class="recap-tldr-tag">✅ Ce que tu viens d'apprendre</div>
+                        <div class="recap-tldr-item">
+                            <div class="recap-tldr-check">✦</div>
+                            <div class="recap-tldr-txt">Pourquoi <span>l'argent perd de la valeur</span> même sans être
+                                dépensé — et comment l'inflation travaille en silence contre toi</div>
+                        </div>
+                        <div class="recap-tldr-item">
+                            <div class="recap-tldr-check">✦</div>
+                            <div class="recap-tldr-txt">Comment <span>calculer le coût réel</span> de l'inflation sur
+                                tes économies en FCFA avec des données BCEAO vérifiables</div>
+                        </div>
+                        <div class="recap-tldr-item">
+                            <div class="recap-tldr-check">✦</div>
+                            <div class="recap-tldr-txt">Pourquoi <span>l'argent = confiance collective</span> — et ce
+                                que ça change dans tes décisions financières</div>
+                        </div>
+                    </div>
+
+                    <!-- 3 règles -->
+                    <div class="recap-rules">
+                        <div class="recap-rules-tag">📌 3 règles à retenir</div>
+                        <div class="recap-rule">
+                            <div class="rr-n">1</div>
+                            <div class="rr-t"><span>L'argent = confiance.</span> Le FCFA vaut quelque chose uniquement
+                                parce que tout le monde accepte qu'il vaut quelque chose. Retirez la confiance — le
+                                billet ne vaut plus rien.</div>
+                        </div>
+                        <div class="recap-rule">
+                            <div class="rr-n">2</div>
+                            <div class="rr-t"><span>L'argent immobile recule.</span> L'inflation est invisible mais
+                                réelle. Garder de l'argent sans l'investir = le voir perdre de la valeur chaque année.
+                            </div>
+                        </div>
+                        <div class="recap-rule">
+                            <div class="rr-n">3</div>
+                            <div class="rr-t"><span>Comprendre avant d'agir.</span> Amadou aurait pu mettre tout son
+                                argent sur n'importe quoi. Le Djéli WÔY lui a appris à comprendre d'abord. C'est la
+                                philosophie WÔY.</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="bloc-sep">⏭️ Prochain module</div>
+
+                <div class="next-mod" onclick="alert('N0.2 — Bientôt disponible !')">
+                    <div class="nm-badge">N0.2</div>
+                    <div class="nm-info">
+                        <div class="nm-title">C'est quoi un marché financier ?</div>
+                        <div class="nm-sub">Tu viens de comprendre pourquoi l'argent qui dort perd. Dans N0.2 : où le
+                            mettre pour qu'il travaille ?</div>
+                    </div>
+                    <span style="font-size:18px;color:var(--sbl)">→</span>
+                </div>
+            </div>
+
+        </div><!-- /main-inner -->
+    </div><!-- /main -->
+
+    <!-- BOTTOM PROGRESS BAR -->
+    <div class="bottom-bar">
+        <span class="bb-label">Progression N0</span>
+        <div class="bb-track">
+            <div class="bb-fill" id="bbFill"></div>
+        </div>
+        <span class="bb-pct" id="bbPct">1 / 10</span>
+    </div>
+
+    <script>
+        // ════════════════════════════
+        // STATE
+        // ════════════════════════════
+        var S = {
+            xp: 0,
+            cauris: 3,
+            choice: null,
+            quizAnswered: [false, false, false, false, false],
+            quizCorrect: 0,
+            infogsRevealed: 0
+        };
+
+        // ════════════════════════════
+        // THEME SWITCHER
+        // ════════════════════════════
+        function setTheme(t) {
+            const root = document.documentElement;
+            if (t === 'violet') {
+                root.setAttribute('data-theme', 'violet');
+                document.getElementById('btnTerra').classList.remove('active');
+                document.getElementById('btnViolet').classList.add('active');
+            } else {
+                root.removeAttribute('data-theme');
+                document.getElementById('btnTerra').classList.add('active');
+                document.getElementById('btnViolet').classList.remove('active');
+            }
+            localStorage.setItem('woy-theme', t);
+            showToast(t === 'violet' ? '✦ WÔY Brand activé' : '🔥 Nuit Africaine activée', 'warn');
+        }
+        (function () {
+            const saved = localStorage.getItem('woy-theme');
+            if (saved === 'violet') setTheme('violet');
+        })();
+
+        // ════════════════════════════
+        // NAVIGATION
+        // ════════════════════════════
+        function goStep(id) {
+            document.querySelectorAll('.step').forEach(function (s) { s.classList.remove('vis'); });
+            var el = document.getElementById(id);
+            if (el) {
+                el.classList.add('vis');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            if (id === 's3a') injectS3Context();
+            updateUI();
+        }
+
+        function updateUI() {
+            var steps = ['s0', 's1', 's2', 's3a', 's3b', 's3c', 's3d', 's4', 's5', 's6a', 's6b', 's6c', 's6d', 's6e', 's7a', 's7b'];
+            var vis = '';
+            document.querySelectorAll('.step.vis').forEach(function (s) { vis = s.id; });
+            var idx = steps.indexOf(vis);
+            var pct = idx >= 0 ? Math.max(5, Math.round((idx + 1) / steps.length * 100)) : 5;
+            var fill = document.getElementById('progressFill');
+            if (fill) fill.style.width = pct + '%';
+            document.getElementById('xpDisplay').textContent = S.xp + ' XP';
+            document.getElementById('caurisDisplay').textContent = S.cauris;
+            var cq = document.getElementById('caurisQuiz');
+            if (cq) cq.textContent = S.cauris;
+            var sc = document.getElementById('sidebarCauris');
+            if (sc) sc.textContent = S.cauris;
+        }
+
+        // ════════════════════════════
+        // S1 — SIMULATION
+        // ════════════════════════════
+        function simChoose(choice, btn) {
+            S.choice = choice;
+            addXP(30, 'Décision prise');
+
+            document.querySelectorAll('.sim-btn').forEach(function (b) {
+                b.style.opacity = '.35';
+                b.style.pointerEvents = 'none';
+            });
+            btn.style.opacity = '1';
+            btn.style.borderColor = 'rgba(201,150,43,.5)';
+            btn.style.background = 'rgba(201,150,43,.06)';
+
+            setTimeout(launchTimeSkip, 700);
+        }
+
+        // ════════════════════════════
+        // TIME SKIP
+        // ════════════════════════════
+        function launchTimeSkip() {
+            var ov = document.getElementById('timeskipOv');
+            var ctxEl = document.getElementById('tskCtx');
+            var ctxMap = {
+                'A': 'Amadou n\'a touché à rien.\nSes billets sont toujours là.\n\nMais le marché, lui, n\'a pas attendu.',
+                'B': 'Amadou a été raisonnable.\nLa banque a travaillé pour lui.\n\nMais était-ce suffisant ?',
+                'C': 'Amadou a suivi l\'instinct africain millénaire.\nL\'or, valeur refuge depuis les pharaons.\n\nLes chiffres parlent d\'eux-mêmes.'
+            };
+            ctxEl.textContent = ctxMap[S.choice] || '';
+            ov.classList.add('active');
+
+            var n = document.getElementById('tskN');
+            var unit = document.querySelector('.tsk-unit');
+            var count = 0;
+            n.textContent = count;
+            var iv = setInterval(function () {
+                count++;
+                n.textContent = count;
+                unit.textContent = count === 1 ? 'an plus tard…' : 'ans plus tard…';
+                if (count >= 3) { clearInterval(iv); setTimeout(function () { ov.classList.remove('active'); showReveal(); }, 1800); }
+            }, 600);
+        }
+
+        var RESULTS = {
+            A: {
+                label: 'Matelas — logique, mais dangereux', icon: '🛏️',
+                nominal: '83 469', diff: '−16 531 FCFA',
+                diffColor: '#B54732', borderColor: 'rgba(181,71,42,.3)', bg: 'rgba(181,71,42,.05)',
+                desc: 'L\'inflation au Sénégal = 5.9%/an moy. En 3 ans, l\'argent a perdu du pouvoir d\'achat sans qu\'Amadou dépense un seul FCFA.',
+                note: '≈ 33 trajets Dakar-Thiès perdus sans rien dépenser', noteColor: 'rgba(181,71,42,.7)',
+                intro: 'Tu as gardé l\'argent à la maison, comme la mère d\'Amadou le conseillait.'
+            },
+            B: {
+                label: 'Banque — séduisant, mais incomplet', icon: '🏦',
+                nominal: '107 716', diff: '+7 716 FCFA nominal',
+                diffColor: '#E0A040', borderColor: 'rgba(224,160,64,.25)', bg: 'rgba(224,160,64,.04)',
+                desc: '2.5%/an d\'intérêts : tu as plus de billets. Mais l\'inflation à 5.9% efface le gain. En pouvoir d\'achat réel : ~90 300 FCFA. Tu perds sans le voir.',
+                note: 'Tu as plus de billets. Mais ils achètent moins.', noteColor: 'rgba(224,160,64,.7)',
+                intro: 'Tu as mis à la banque, comme Gassama le conseillait.'
+            },
+            C: {
+                label: 'Or — a bien marché sur cette période', icon: '🪙',
+                nominal: '135 000', diff: '+35 000 FCFA',
+                diffColor: '#4CAF50', borderColor: 'rgba(76,175,80,.3)', bg: 'rgba(76,175,80,.05)',
+                desc: 'L\'or en FCFA a progressé de +35% entre 2021 et 2024. Bon résultat — mais l\'or n\'est pas liquide immédiatement : il faut trouver un acheteur. Prix volatile, pas toujours accessible.',
+                note: '≈ 350 kg de riz brisé · Ce n\'est pas une recommandation d\'investissement.', noteColor: 'rgba(76,175,80,.7)',
+                intro: 'Tu as choisi l\'or. Le choix que personne ne mentionne.'
+            }
+        };
+
+        function resultCard(key, isChoice) {
+            var d = RESULTS[key];
+            var badge = isChoice ? '<div style="position:absolute;top:-9px;right:12px;background:var(--or);color:#0D0A06;font-size:9px;font-weight:800;padding:2px 8px;border-radius:5px;font-family:Outfit,sans-serif">Ton choix</div>' : '';
+            var eyebrow = isChoice
+                ? '<div style="font-size:10px;font-weight:700;color:rgba(196,160,85,.5);font-family:\'Space Mono\',monospace;margin-bottom:8px;letter-spacing:.5px;font-style:italic">' + d.intro + '</div>'
+                : '';
+            return '<div style="position:relative;padding:14px 16px;background:' + d.bg + ';border:1.5px solid ' + d.borderColor + ';border-radius:12px;margin-bottom:10px;animation:slideIn .2s ease both">'
+                + badge + eyebrow
+                + '<div style="display:flex;align-items:flex-start;gap:12px">'
+                + '<div style="width:32px;height:32px;border-radius:8px;background:' + d.bg + ';border:1px solid ' + d.borderColor + ';display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">' + d.icon + '</div>'
+                + '<div style="flex:1;min-width:0">'
+                + '<div style="font-size:13px;font-weight:700;color:#F5EDD6;margin-bottom:4px">' + d.label + '</div>'
+                + '<div style="font-size:11px;color:rgba(196,160,85,.6);line-height:1.6">' + d.desc + '</div>'
+                + '<div style="font-size:10px;color:' + d.noteColor + ';margin-top:5px;font-style:italic">' + d.note + '</div>'
+                + '</div>'
+                + '<div style="text-align:right;flex-shrink:0;margin-left:8px">'
+                + '<div style="font-size:17px;font-weight:900;color:' + d.diffColor + ';font-family:\'Cinzel\',serif">' + d.nominal + '</div>'
+                + '<div style="font-size:11px;font-weight:700;color:' + d.diffColor + ';margin-top:2px">' + d.diff + '</div>'
+                + '</div></div></div>';
+        }
+
+        function renderS2() {
+            var el = document.getElementById('s2Dynamic');
+            if (!el) return;
+            var c = S.choice;
+            var d = RESULTS[c];
+
+            var html = '<div class="bloc-sep">👆 Ton choix — 3 ans plus tard</div>';
+            html += '<div style="font-size:10px;color:rgba(196,160,85,.5);font-family:\'Space Mono\',monospace;margin-bottom:8px">BCEAO · Inflation UEMOA · Prix or Sénégal · 2021→2024</div>';
+            html += resultCard(c, true);
+
+            // Punchline dynamique selon le choix
+            var punchlines = {
+                A: 'Amadou n\'a rien touché.<br>Rien dépensé. Rien bougé.<br><span style="color:' + d.diffColor + '">Mais son argent a bougé — sans sa permission.</span>',
+                B: 'Amadou a fait le geste raisonnable.<br>Il a mis à la banque.<br><span style="color:' + d.diffColor + '">Mais raisonnable ne veut pas dire optimal.<br>L\'inflation a mangé plus que la banque n\'a donné.</span>',
+                C: 'Amadou a eu le bon réflexe.<br>L\'or a tenu sa promesse — cette fois.<br><span style="color:' + d.diffColor + '">Mais l\'or peut aussi baisser. Et il faut un acheteur.<br>Un bon résultat ne veut pas dire une bonne stratégie.</span>'
+            };
+
+            var compreh = {
+                A: 'L\'argent, c\'est du papier. 👉 Mais pas n\'importe lequel.<br><strong>C\'est du papier… basé sur une promesse.</strong>',
+                B: 'La banque garde tes billets. Mais l\'inflation, elle, ne dort pas.<br><strong>Tu avances de 2.5%. Elle avance de 5.9%.</strong>',
+                C: 'L\'or a de la mémoire — il garde sa valeur sur le long terme.<br><strong>Mais il n\'est pas toujours liquide. Trouver un acheteur prend du temps.</strong>'
+            };
+            var hooks = {
+                A: 'L\'argent qui dort ne se repose pas — il rétrécit.',
+                B: 'Gagner des FCFA et perdre du pouvoir d\'achat — c\'est ça, l\'inflation invisible.',
+                C: 'Un bon rendement ne sert à rien si tu ne peux pas accéder à ton argent au bon moment.'
+            };
+
+            html += '<div class="punchline" style="margin-bottom:12px">'
+                + '<div class="pl-main">' + punchlines[c] + '</div>'
+                + '<div class="pl-compreh">' + compreh[c] + '</div>'
+                + '<div class="pl-hook">' + hooks[c] + '</div>'
+                + '</div>';
+
+            // Blocs contextuels selon le choix
+            if (c === 'A') {
+                // Choix matelas = même que la mère → montrer Gassama (banque) + Or
+                html += '<div class="bloc-sep">🏦 Ce que Gassama conseillait</div>';
+                html += resultCard('B', false);
+                html += '<div class="bloc-sep">🪙 L\'autre option</div>';
+                html += resultCard('C', false);
+            } else if (c === 'B') {
+                // Choix banque = même que Gassama → montrer mère (matelas) + Or
+                html += '<div class="bloc-sep">🛏️ Ce que la mère conseillait</div>';
+                html += resultCard('A', false);
+                html += '<div class="bloc-sep">🪙 L\'autre option</div>';
+                html += resultCard('C', false);
+            } else {
+                // Choix or = personne → montrer mère (matelas) + Gassama (banque)
+                html += '<div class="bloc-sep">🛏️ Ce que la mère conseillait</div>';
+                html += resultCard('A', false);
+                html += '<div class="bloc-sep">🏦 Ce que Gassama conseillait</div>';
+                html += resultCard('B', false);
+            }
+
+            el.innerHTML = html;
+        }
+
+        function showReveal() {
+            addXP(50, 'Résultat révélé');
+            renderS2();
+            goStep('s2');
+        }
+
+        function injectS3Context() {
+            var el = document.getElementById('s3ChoiceContext');
+            if (!el || !S.choice) return;
+            var ctx = {
+                A: 'Amadou marche à Sandaga, la tête pleine de chiffres. 83 469 FCFA. Il a suivi le conseil de sa mère — et il a perdu sans rien faire. Il croise le Djéli WÔY. <em>"Maître, comment l\'argent peut-il bouger sans qu\'on le touche ?"</em>',
+                B: 'Amadou marche à Sandaga, la tête pleine de chiffres. 107 716 FCFA. Il a suivi Gassama — la banque. Il a des billets en plus, mais il a perdu en pouvoir d\'achat. Il croise le Djéli WÔY. <em>"Maître, j\'ai fait le bon geste. Pourquoi je perds quand même ?"</em>',
+                C: 'Amadou marche à Sandaga, la tête pleine de chiffres. 135 000 FCFA. L\'or a marché — cette fois. Mais il sait que ça aurait pu tourner autrement. Il croise le Djéli WÔY. <em>"Maître, j\'ai eu de la chance. Comment ne pas en dépendre ?"</em>'
+            };
+            el.innerHTML = ctx[S.choice] || '';
+        }
+
+        // ════════════════════════════
+        // S5 — INFOGRAPHIES
+        // ════════════════════════════
+        var revealedCount = 0;
+
+        function revealInfog(n) {
+            var step = document.getElementById('inf' + n);
+            var detail = document.getElementById('inf' + n + '-detail');
+            if (!step || step.dataset.revealed) return;
+
+            step.dataset.revealed = '1';
+            step.classList.remove('locked');
+            if (detail) detail.classList.add('show');
+
+            revealedCount++;
+            addXP(15, '+15 XP');
+
+            // Update counter
+            var counter = document.getElementById('infogCounter');
+            var status = document.getElementById('infogStatus');
+            if (counter) counter.textContent = revealedCount + ' / 4';
+            if (status) {
+                if (revealedCount >= 4) {
+                    status.textContent = '✓ tout révélé';
+                    status.style.color = 'var(--ok)';
+                } else {
+                    status.textContent = 'révèle les ' + (4 - revealedCount) + ' étape' + (4 - revealedCount > 1 ? 's' : '') + ' restante' + (4 - revealedCount > 1 ? 's' : '') + ' pour continuer';
+                }
+            }
+
+            if (revealedCount >= 4) {
+                var btn = document.getElementById('casPratiqueBtn');
+                if (btn) { btn.style.display = 'block'; btn.scrollIntoView({ behavior: 'smooth', block: 'end' }); }
+            }
+        }
+
+        // ════════════════════════════
+        // S6 — QUIZ
+        // ════════════════════════════
+        function answer(n, btn, correct, fb) {
+            if (S.quizAnswered[n - 1]) return;
+            S.quizAnswered[n - 1] = true;
+
+            var card = document.getElementById('qcard' + n);
+            card.querySelectorAll('.quiz-opt').forEach(function (o) { o.disabled = true; o.style.pointerEvents = 'none'; });
+            btn.classList.add(correct ? 'correct' : 'wrong');
+
+            var fbEl = document.getElementById('qfb' + n);
+            if (fbEl) { fbEl.textContent = (correct ? '✅ ' : '❌ ') + fb; fbEl.className = 'quiz-fb show ' + (correct ? 'ok' : 'fail'); }
+
+            if (correct) { S.quizCorrect++; addXP(50, '+50 XP'); }
+            else addXP(15, '+15 XP');
+
+            var hbtn = document.getElementById('hbtn' + n);
+            if (hbtn) hbtn.disabled = true;
+
+            var nextSteps = { 1: 's6b', 2: 's6c', 3: 's6d', 4: 's6e', 5: 's7a' };
+            setTimeout(function () {
+                var next = nextSteps[n];
+                if (next === 's7a') {
+                    document.getElementById('finalXP').textContent = S.xp;
+                    document.getElementById('quizScore').textContent = S.quizCorrect + '/5';
+                    document.getElementById('caurisLeft').textContent = S.cauris;
+                }
+                goStep(next);
+            }, 1600);
+        }
+
+        function useHint(n) {
+            if (S.cauris <= 0) {
+                showToast('Plus de Cauris disponibles', 'warn');
+                return;
+            }
+            if (S.quizAnswered[n - 1]) return;
+
+            S.cauris--;
+            updateUI();
+
+            var htxt = document.getElementById('htxt' + n);
+            var hbtn = document.getElementById('hbtn' + n);
+            if (htxt) htxt.classList.add('show');
+            if (hbtn) hbtn.disabled = true;
+
+            showToast('−1 🐚 Cauris utilisé', 'warn');
+        }
+
+        // ════════════════════════════
+        // XP + TOASTS
+        // ════════════════════════════
+        function addXP(pts, label) {
+            S.xp += pts;
+            updateUI();
+            showToast('+' + pts + ' XP', 'xp');
+            if (navigator.vibrate) navigator.vibrate(40);
+        }
+
+        function showToast(msg, type) {
+            var t = document.createElement('div');
+            t.className = type === 'xp' ? 'xp-toast' : 'warn-toast';
+            t.textContent = msg;
+            document.body.appendChild(t);
+            setTimeout(function () { if (t.parentNode) t.remove(); }, 2600);
+        }
+
+        function calcInflation() {
+            var montant = parseFloat(document.getElementById('calcMontant').value);
+            var annees = parseFloat(document.getElementById('calcAnnees').value);
+            var result = document.getElementById('calcResult');
+
+            if (!montant || !annees || montant <= 0 || annees <= 0) {
+                result.style.display = 'none';
+                return;
+            }
+
+            var inflation = 0.059;
+            var valeurReelle = Math.round(montant * Math.pow(1 - inflation, annees));
+            var perte = montant - valeurReelle;
+            var pcPerte = Math.round((perte / montant) * 100);
+
+            document.getElementById('calcValeurReelle').textContent = valeurReelle.toLocaleString('fr-FR');
+            document.getElementById('calcPerte').textContent = '−' + perte.toLocaleString('fr-FR');
+
+            var messages = [
+                '≈ ' + Math.round(perte / 500) + ' trajets Dakar-Thiès perdus sans rien dépenser.',
+                '≈ ' + Math.round(perte / 400) + ' kg de riz brisé évaporés sans dépenser un billet.',
+                pcPerte + '% du pouvoir d\'achat perdu — juste en attendant.'
+            ];
+            document.getElementById('calcMessage').textContent = messages[Math.floor(Math.random() * messages.length)];
+            result.style.display = 'block';
+        }
+
+        function videoClick() {
+            showToast('Vidéo Amadou — Bientôt disponible', 'warn');
+            addXP(10, 'Vidéo');
+        }
+
+        updateUI();
+    </script>
+</body>
+
+</html>
