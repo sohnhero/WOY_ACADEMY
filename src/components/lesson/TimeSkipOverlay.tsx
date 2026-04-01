@@ -46,7 +46,7 @@ export const TimeSkipOverlay: React.FC<TimeSkipOverlayProps> = ({ active, year, 
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.3, type: "spring", stiffness: 100 }}
-            className="relative flex flex-col items-center text-center gap-5 max-w-lg"
+            className="relative flex flex-col items-center text-center gap-5 max-w-lg lg:ml-[330px]"
           >
             <span className={cn("text-[9px] font-mono font-black uppercase tracking-[0.4em]", theme === 'terracotta' ? "text-[#C4A055]/60" : "text-[#7B2FBE]/60")}>Saut Temporel</span>
 

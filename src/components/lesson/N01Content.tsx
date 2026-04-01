@@ -101,7 +101,7 @@ export const N01Content: React.FC<N01ContentProps> = ({
             initial={{ opacity: 0, y: 30, scale: 0.8 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.8 }}
-            className="fixed top-20 left-1/2 -translate-x-1/2 z-[999] px-5 py-2 rounded-full bg-black/80 backdrop-blur-xl border border-white/10 shadow-xl flex items-center gap-2"
+            className="fixed top-24 left-1/2 -translate-x-1/2 lg:left-[calc(50%+165px)] z-[999] px-5 py-2 rounded-full bg-black/80 backdrop-blur-xl border border-white/10 shadow-2xl flex items-center gap-2"
           >
             <Zap size={14} className={accentText} />
             <span className={cn("font-mono font-black text-sm", accentText)}>+{xpToast} XP</span>

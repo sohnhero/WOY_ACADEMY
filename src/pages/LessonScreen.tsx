@@ -17,6 +17,7 @@ import {
 import { cn } from '../utils/cn';
 import { useAppContext } from '../context/AppContext';
 import { StarField } from '../components/common/StarField';
+import { Logo } from '../components/common/Logo';
 import { N01Content } from '../components/lesson/N01Content';
 import { LessonSidebar as DesktopSidebar } from '../components/lesson/LessonSidebar';
 
@@ -35,6 +36,7 @@ export const LessonScreen: React.FC<LessonScreenProps> = ({ lessonId, onBack }) 
   } = useAppContext();
 
   const [activeLessonTab, setActiveLessonTab] = useState('cours');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedSimOption, setSelectedSimOption] = useState<string | null>(null);
   const [currentQuizStep, setCurrentQuizStep] = useState(0);
   const [selectedQuizOption, setSelectedQuizOption] = useState<string | null>(null);
@@ -47,17 +49,23 @@ export const LessonScreen: React.FC<LessonScreenProps> = ({ lessonId, onBack }) 
 
   useEffect(() => {
     if (lessonScrollRef.current) lessonScrollRef.current.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [activeLessonTab, currentQuizStep, quizFinished]);
+    setIsSidebarOpen(false); // Close sidebar on tab change or lesson load
+  }, [activeLessonTab, currentQuizStep, quizFinished, lessonId]);
 
-  // Using semantic variables directly in the TSX
+  // Theme-aware helper classes using semantic variables
   const colors = {
+    bg: 'bg-black',
     accent: 'bg-highlight',
     textAccent: 'text-highlight',
+    glowPrimary: 'bg-accent',
+    glowSecondary: 'bg-accent-light',
     activeTabBg: 'bg-highlight/10',
     activeTabBorder: 'border-highlight/20',
     sidebarActiveBg: 'bg-highlight/10',
     sidebarActiveBorder: 'border-highlight/30'
   };
+
+  const themeClass = theme === 'violet' ? 'violet-theme' : 'terracotta-theme';
 
   const lessonData = {
     id: "N1.3",
@@ -68,7 +76,7 @@ export const LessonScreen: React.FC<LessonScreenProps> = ({ lessonId, onBack }) 
     simulation: {
       question: "Amadou vient de recevoir sa seed phrase. Qu'est-ce qu'il fait ?",
       options: [
-        { id: 'A', text: 'Il prend une photo avec son téléphone', status: 'Dangereux', feedback: 'DANGER CRITIQUE. Google Photos synchronise automatiquement. 3M comptes hackés par jour.' },
+        { id: 'A', text: 'Il prend une photo with son téléphone', status: 'Dangereux', feedback: 'DANGER CRITIQUE. Google Photos synchronise automatiquement. 3M comptes hackés par jour.' },
         { id: 'B', text: 'Il la note dans les notes de son téléphone', status: 'Risqué', feedback: 'Mieux qu\'une photo mais toujours digital. Les notes se synchronisent aussi.' },
         { id: 'C', text: 'Il la note sur papier en lieu sûr', status: 'Optimal', feedback: 'Papier = hors ligne = impossible à hacker à distance.' }
       ]
@@ -82,40 +90,81 @@ export const LessonScreen: React.FC<LessonScreenProps> = ({ lessonId, onBack }) 
     ]
   };
 
+  const SidebarBackdrop = () => (
+    <div 
+      className={cn(
+        "fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] lg:hidden transition-all duration-500",
+        isSidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+      )}
+      onClick={() => setIsSidebarOpen(false)}
+    />
+  );
+
   // Narrative logic for N0.1
   if (lessonId === 'N0.1' || lessonId === '0.1') {
     return (
-      <div className={cn("fixed inset-0 z-[60] overflow-hidden flex safe-top", theme === 'terracotta' ? 'terracotta-theme' : 'violet-theme')}>
-        <div className={cn("absolute inset-0 transition-colors duration-1000 bg-black/40 backdrop-blur-sm")} />
+      <div className={cn("fixed inset-0 z-[60] overflow-hidden flex", themeClass)}>
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          <StarField />
+          <div className={cn("absolute -top-[5%] left-[10%] w-[70%] h-[60%] blur-[120px] opacity-15 rounded-full transition-all duration-1000 animate-cosmic-drift", colors.glowPrimary)} />
+          <div className={cn("absolute top-[40%] right-[-5%] w-[60%] h-[50%] blur-[100px] opacity-10 rounded-full transition-all duration-1000 animate-pulse-glow delay-700", colors.glowSecondary)} />
+        </div>
+        <div className={cn("absolute inset-0 transition-colors duration-1000 bg-black/40 backdrop-blur-sm z-0")} />
         
-        <DesktopSidebar lessonId={lessonId} onBack={onBack} />
-        <div className="flex-1 overflow-y-auto relative">
-          <N01Content
-            currentCoins={globalCoins}
-            onUpdateCoins={(val) => setGlobalCoins(val)}
-            onComplete={(xpReward, caurisReward) => {
-              setGlobalCoins(prev => prev + caurisReward/2); // Adjustment logic if needed
-              onBack();
-            }}
-          />
+        <div className="relative z-[100] flex w-full h-full overflow-hidden">
+          <SidebarBackdrop />
+          <DesktopSidebar lessonId={lessonId} onBack={onBack} isOpen={isSidebarOpen} />
+          
+          <div className="flex-1 overflow-y-auto relative flex flex-col">
+            <header className="lg:hidden p-4 flex justify-between items-center bg-black/20 backdrop-blur-md safe-top border-b border-white/5 relative z-[80]">
+               <button onClick={() => setIsSidebarOpen(true)} className="p-2 -ml-2 text-white/50 hover:text-white transition-colors">
+                  <BookOpen size={20} />
+               </button>
+               <Logo />
+            </header>
+            <div className="flex-1 overflow-y-auto">
+              <N01Content
+                currentCoins={globalCoins}
+                onUpdateCoins={(val) => setGlobalCoins(val)}
+                onComplete={(xpReward, caurisReward) => {
+                  setGlobalCoins(prev => prev + caurisReward/2);
+                  onBack();
+                }}
+              />
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className={cn("fixed inset-0 z-[60] flex flex-col overflow-hidden", theme === 'terracotta' ? 'terracotta-theme' : 'violet-theme')}>
-      <div className={cn("absolute inset-0 transition-colors duration-1000 bg-black/60 backdrop-blur-md")} />
+    <div className={cn("fixed inset-0 z-[60] flex flex-col overflow-hidden", themeClass)}>
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <StarField />
+        <div className={cn("absolute -top-[5%] left-[10%] w-[70%] h-[60%] blur-[120px] opacity-15 rounded-full transition-all duration-1000 animate-cosmic-drift", colors.glowPrimary)} />
+        <div className={cn("absolute top-[40%] right-[-5%] w-[60%] h-[50%] blur-[100px] opacity-10 rounded-full transition-all duration-1000 animate-pulse-glow delay-700", colors.glowSecondary)} />
+      </div>
+      <div className={cn("absolute inset-0 transition-colors duration-1000 bg-black/60 backdrop-blur-md z-0")} />
       
-      <div className="flex-1 flex overflow-hidden lg:grid lg:grid-cols-[330px,1fr]">
-        <DesktopSidebar lessonId={lessonId} onBack={onBack} />
+      <div className="flex-1 flex overflow-hidden lg:grid lg:grid-cols-[330px,1fr] relative z-10">
+        <SidebarBackdrop />
+        <DesktopSidebar lessonId={lessonId} onBack={onBack} isOpen={isSidebarOpen} />
         
         <div className="flex-1 flex flex-col overflow-hidden relative">
-          <header className="px-4 py-3 flex justify-between items-center bg-black/40 backdrop-blur-xl z-20 border-b border-white/[0.05] safe-top relative">
-            <button onClick={() => { setGlobalCoins(localCoins); onBack(); }} className="group flex items-center gap-1.5 transition-colors cursor-pointer text-accent hover:text-accent-light">
-              <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-              <span className="font-bold text-xs">Retour</span>
-            </button>
+          <header className="px-4 py-3 flex justify-between items-center bg-black/40 backdrop-blur-xl z-[85] border-b border-white/[0.05] safe-top relative">
+            <div className="flex items-center gap-3">
+              <button 
+                 onClick={() => setIsSidebarOpen(true)} 
+                 className="lg:hidden p-2 -ml-2 text-white/50 hover:text-white transition-colors"
+              >
+                <BookOpen size={18} />
+              </button>
+              <button onClick={() => { setGlobalCoins(localCoins); onBack(); }} className="group flex items-center gap-1.5 transition-colors cursor-pointer text-accent hover:text-accent-light">
+                <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+                <span className="font-bold text-[10px] sm:text-xs">Retour</span>
+              </button>
+            </div>
             <div className="flex items-center gap-1.5 bg-white/[0.06] border border-white/10 rounded-full px-3 py-1">
               <Coins size={11} className={colors.textAccent} />
               <span className="font-mono text-[11px] font-bold leading-none">{localCoins}</span>
