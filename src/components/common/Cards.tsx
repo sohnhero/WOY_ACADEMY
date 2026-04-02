@@ -145,7 +145,7 @@ export const NiveauCard: React.FC<NiveauCardProps> = ({ niveau, index, expanded,
           </div>
           {isInProgress && (
             <div className="mt-2.5">
-              <ProgressBar progress={niveau.progress} colorClass="bg-gradient-to-r from-accent to-highlight" />
+              <ProgressBar progress={niveau.progress} colorClass="bg-accent shadow-[0_0_8px_var(--woy-accent-glow)]" />
             </div>
           )}
         </div>

@@ -103,13 +103,14 @@ export const LessonScreen: React.FC<LessonScreenProps> = ({ lessonId, onBack }) 
   // Narrative logic for N0.1
   if (lessonId === 'N0.1' || lessonId === '0.1') {
     return (
-      <div className={cn("fixed inset-0 z-[60] overflow-hidden flex", themeClass)}>
+      <div className={cn("fixed inset-0 z-[100]", colors.bg, "overflow-hidden flex", themeClass)}>
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           <StarField />
-          <div className={cn("absolute -top-[5%] left-[10%] w-[70%] h-[60%] blur-[120px] opacity-15 rounded-full transition-all duration-1000 animate-cosmic-drift", colors.glowPrimary)} />
-          <div className={cn("absolute top-[40%] right-[-5%] w-[60%] h-[50%] blur-[100px] opacity-10 rounded-full transition-all duration-1000 animate-pulse-glow delay-700", colors.glowSecondary)} />
+          {/* Edge-to-edge nebula glows for narrative view - Increased for vibrance */}
+          <div className={cn("absolute -top-[10%] left-[-10%] w-[90%] h-[70%] blur-[180px] opacity-35 rounded-full transition-all duration-1000 animate-cosmic-drift", colors.glowPrimary)} />
+          <div className={cn("absolute top-[20%] right-[-15%] w-[80%] h-[70%] blur-[160px] opacity-30 rounded-full transition-all duration-1000 animate-pulse-glow delay-700", colors.glowSecondary)} />
         </div>
-        <div className={cn("absolute inset-0 transition-colors duration-1000 bg-black/40 backdrop-blur-sm z-0")} />
+        <div className={cn("absolute inset-0 transition-colors duration-1000 bg-black/15 backdrop-blur-sm z-0")} />
         
         <div className="relative z-[100] flex w-full h-full overflow-hidden">
           <SidebarBackdrop />
@@ -142,10 +143,11 @@ export const LessonScreen: React.FC<LessonScreenProps> = ({ lessonId, onBack }) 
     <div className={cn("fixed inset-0 z-[60] flex flex-col overflow-hidden", themeClass)}>
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <StarField />
-        <div className={cn("absolute -top-[5%] left-[10%] w-[70%] h-[60%] blur-[120px] opacity-15 rounded-full transition-all duration-1000 animate-cosmic-drift", colors.glowPrimary)} />
-        <div className={cn("absolute top-[40%] right-[-5%] w-[60%] h-[50%] blur-[100px] opacity-10 rounded-full transition-all duration-1000 animate-pulse-glow delay-700", colors.glowSecondary)} />
+        {/* Edge-to-edge nebula glows for standard lesson view - Increased for vibrance */}
+        <div className={cn("absolute -top-[10%] left-[-10%] w-[90%] h-[70%] blur-[180px] opacity-35 rounded-full transition-all duration-1000 animate-cosmic-drift", colors.glowPrimary)} />
+        <div className={cn("absolute top-[20%] right-[-15%] w-[80%] h-[70%] blur-[160px] opacity-30 rounded-full transition-all duration-1000 animate-pulse-glow delay-700", colors.glowSecondary)} />
       </div>
-      <div className={cn("absolute inset-0 transition-colors duration-1000 bg-black/60 backdrop-blur-md z-0")} />
+      <div className={cn("absolute inset-0 transition-colors duration-1000 bg-black/20 backdrop-blur-md z-0")} />
       
       <div className="flex-1 flex overflow-hidden lg:grid lg:grid-cols-[330px,1fr] relative z-10">
         <SidebarBackdrop />

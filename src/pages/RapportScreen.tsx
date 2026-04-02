@@ -58,7 +58,7 @@ export const RapportScreen = () => {
                       <div key={i} className="flex items-center gap-4">
                         <span className="w-12 text-sm font-bold font-mono tracking-tight">{coin.name}</span>
                         <div className="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden shrink-0">
-                          <div className="h-full bg-gradient-to-r from-accent to-highlight rounded-full" style={{ width: `${coin.pct}%` }} />
+                          <div className="h-full bg-accent rounded-full shadow-[0_0_8px_var(--woy-accent-glow)]" style={{ width: `${coin.pct}%` }} />
                         </div>
                         <span className="w-8 text-right text-sm font-bold text-highlight font-mono">{coin.score}</span>
                       </div>

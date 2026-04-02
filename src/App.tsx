@@ -47,23 +47,40 @@ const AppContent = () => {
 
   // Theme-aware helper classes using semantic variables
   const colors = {
-    bg: 'bg-black',
+    bg: 'bg-black/95',
     textAccent: 'text-accent',
     textHighlight: 'text-highlight',
     glowPrimary: 'bg-accent',
-    glowSecondary: 'bg-accent-light',
+    glowSecondary: theme === 'violet' ? 'bg-highlight' : 'bg-accent-light',
   };
 
   const themeClass = theme === 'violet' ? 'violet-theme' : 'terracotta-theme';
 
+  const GlobalBackground = () => (
+    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+      <StarField />
+      
+      {/* Primary Nebula Glows - Spanned for edge vibrancy but with reduced opacity */}
+      <div className={cn("absolute -top-[15%] left-[-10%] w-[90%] h-[80%] blur-[180px] opacity-20 rounded-full transition-all duration-1000 animate-cosmic-drift", colors.glowPrimary)} />
+      <div className={cn("absolute top-[20%] right-[-15%] w-[85%] h-[75%] blur-[160px] opacity-15 rounded-full transition-all duration-1000 animate-pulse-glow delay-700", colors.glowSecondary)} />
+      
+      {/* Secondary Balancing Glows */}
+      <div className={cn("absolute bottom-[-15%] left-[-5%] w-[75%] h-[65%] blur-[170px] opacity-15 rounded-full transition-all duration-1000 animate-cosmic-drift delay-1000", colors.glowPrimary)} />
+      <div className={cn("absolute top-[40%] left-[20%] w-[60%] h-[60%] blur-[200px] opacity-12 rounded-full transition-all duration-1000 animate-pulse-glow delay-500", colors.glowSecondary)} />
+      <div className={cn("absolute bottom-[10%] right-[5%] w-[70%] h-[60%] blur-[160px] opacity-15 rounded-full transition-all duration-1000 animate-cosmic-drift delay-1500", colors.glowPrimary)} />
+
+      {/* Texture Overlay */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')] opacity-[0.04] mix-blend-overlay pointer-events-none" />
+      
+      {/* Light Ambient Depth - Subtle vignette to focus the center */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/15 pointer-events-none" />
+    </div>
+  );
+
   if (!isAuthenticated) {
     return (
       <div className={cn("min-h-screen transition-colors duration-700 font-sans text-white selection:bg-white/20 overflow-hidden relative", colors.bg, themeClass)}>
-        <div className="fixed inset-0 pointer-events-none overflow-hidden">
-          <StarField />
-          <div className={cn("absolute -top-[10%] left-1/4 w-[60%] h-[60%] blur-[120px] opacity-20 rounded-full animate-pulse-glow transition-all duration-1000", colors.glowPrimary)} />
-          <div className={cn("absolute bottom-[-10%] right-1/4 w-[50%] h-[50%] blur-[100px] opacity-10 rounded-full animate-pulse-glow transition-all duration-1000 delay-1000", colors.glowSecondary)} />
-        </div>
+        <GlobalBackground />
         <AuthScreen onLogin={() => setIsAuthenticated(true)} />
       </div>
     );
@@ -91,35 +108,7 @@ const AppContent = () => {
   return (
     <div className={cn("min-h-screen transition-colors duration-700 font-sans text-white selection:bg-white/20", colors.bg, themeClass)}>
       {/* Global Cosmic Background Stack */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <StarField />
-        
-        {/* Dynamic Nebula Glows */}
-        <div
-          className={cn(
-            "absolute -top-[5%] left-[10%] w-[70%] h-[60%] blur-[120px] opacity-15 rounded-full transition-all duration-1000 animate-cosmic-drift",
-            colors.glowPrimary
-          )}
-        />
-        <div
-          className={cn(
-            "absolute top-[40%] right-[-5%] w-[60%] h-[50%] blur-[100px] opacity-10 rounded-full transition-all duration-1000 animate-pulse-glow delay-700",
-            colors.glowSecondary
-          )}
-        />
-        <div
-          className={cn(
-            "absolute bottom-[-10%] left-[20%] w-[50%] h-[40%] blur-[110px] opacity-10 rounded-full transition-all duration-1000 animate-cosmic-drift delay-1000",
-            colors.glowPrimary
-          )}
-        />
-
-        {/* Texture Overlay */}
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')] opacity-[0.08] mix-blend-overlay pointer-events-none" />
-        
-        {/* Deep vignette */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40 pointer-events-none" />
-      </div>
+      <GlobalBackground />
 
       {/* Desktop Header */}
       <header className="hidden lg:flex relative z-50 border-b border-white/5 backdrop-blur-xl bg-black/20 px-8 py-4 justify-between items-center sticky top-0">
@@ -127,7 +116,7 @@ const AppContent = () => {
           <div className="flex items-center gap-3">
             <Logo />
             <h1 className="font-serif text-xl tracking-[0.2em] font-bold uppercase">
-              WÔY <span className={colors.textHighlight}>ACADEMY</span>
+              WÔY <span className={colors.textAccent}>ACADEMY</span>
             </h1>
           </div>
 
@@ -150,8 +139,8 @@ const AppContent = () => {
                 className={cn(
                   "relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all cursor-pointer",
                   activeTab === tab.id
-                    ? "bg-white/[0.08] text-white"
-                    : "text-white/40 hover:text-white/70 hover:bg-white/[0.03]"
+                    ? "bg-white/[0.08] text-accent font-bold"
+                    : "text-white/40 hover:text-accent hover:bg-accent/5"
                 )}
               >
                 <tab.icon size={16} />
@@ -159,7 +148,7 @@ const AppContent = () => {
                 {activeTab === tab.id && (
                   <motion.div
                     layoutId="desktop-nav-indicator"
-                    className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-highlight"
+                    className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-accent shadow-[0_0_8px_var(--woy-accent-glow)]"
                   />
                 )}
               </button>
@@ -219,14 +208,14 @@ const AppContent = () => {
             }}
             className={cn(
               "relative flex flex-col items-center gap-1.5 transition-all text-[9px] font-bold uppercase tracking-widest",
-              activeTab === tab.id ? colors.textHighlight : "text-white/20"
+              activeTab === tab.id ? colors.textAccent : "text-white/20"
             )}
           >
             <tab.icon size={20} />
             {activeTab === tab.id && (
               <motion.div
                 layoutId="mobile-nav-indicator"
-                className="absolute -top-3 w-1.5 h-1.5 rounded-full bg-highlight"
+                className="absolute -top-3 w-1.5 h-1.5 rounded-full bg-accent shadow-[0_0_5px_var(--woy-accent-glow)]"
               />
             )}
           </button>
@@ -241,7 +230,7 @@ const AppContent = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[100] bg-black"
+            className={cn("fixed inset-0 z-[100]", colors.bg)}
           >
             <LessonScreen 
               lessonId={currentLesson} 

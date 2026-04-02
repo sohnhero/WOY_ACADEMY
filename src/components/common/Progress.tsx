@@ -3,13 +3,13 @@ import { motion } from 'motion/react';
 import { cn } from '../../utils/cn';
 
 // --- Linear Progress Bar ---
-export const ProgressBar = ({ progress, colorClass = 'bg-gradient-to-r from-accent to-highlight' }: { progress: number; colorClass?: string }) => (
+export const ProgressBar = ({ progress, colorClass = 'bg-accent' }: { progress: number; colorClass?: string }) => (
   <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden shrink-0">
     <motion.div
       initial={{ width: 0 }}
       animate={{ width: `${progress}%` }}
       transition={{ duration: 1, ease: 'easeOut', delay: 0.5 }}
-      className={cn("h-full rounded-full", colorClass)}
+      className={cn("h-full rounded-full shadow-[0_0_10px_var(--woy-accent-glow)]", colorClass)}
     />
   </div>
 );
@@ -19,7 +19,6 @@ export const ScoreRing = ({ score, size = 90, strokeWidth = 7, id = 'default' }:
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (score / 100) * circumference;
-  const gradientId = `scoreGradient-${id}`;
 
   return (
     <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
@@ -33,26 +32,21 @@ export const ScoreRing = ({ score, size = 90, strokeWidth = 7, id = 'default' }:
           stroke="rgba(255,255,255,0.06)"
           strokeWidth={strokeWidth}
         />
-        {/* Progress arc */}
+        {/* Progress arc - Solid Color */}
         <motion.circle
           cx={size / 2}
           cy={size / 2}
           r={radius}
           fill="none"
-          stroke={`url(#${gradientId})`}
+          stroke="var(--woy-accent)"
           strokeWidth={strokeWidth}
           strokeLinecap="round"
           strokeDasharray={circumference}
           initial={{ strokeDashoffset: circumference }}
           animate={{ strokeDashoffset: offset }}
           transition={{ duration: 1.5, ease: 'easeOut', delay: 0.3 }}
+          className="drop-shadow-[0_0_8px_var(--woy-accent-glow)]"
         />
-        <defs>
-          <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="var(--woy-accent)" />
-            <stop offset="100%" stopColor="var(--woy-highlight)" />
-          </linearGradient>
-        </defs>
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <motion.span
@@ -75,14 +69,13 @@ export const XPBar = ({ current, total }: { current: number; total: number }) =>
   return (
     <div className="flex flex-col gap-1.5 w-full">
       <div className="flex justify-between items-center text-[10px]">
-        <span className="text-white/40">N1 maîtrisé</span>
-        <span className="text-white/50 font-mono">{Math.round(pct)}%</span>
+        <span className="text-white/40 font-bold uppercase tracking-wider">Maîtrise</span>
+        <span className="text-accent font-mono font-bold">{Math.round(pct)}%</span>
       </div>
       <ProgressBar progress={pct} />
       <div className="flex items-center gap-1.5 text-[10px] text-white/40 font-mono">
         <div className="flex items-center gap-1">
-          <span className="inline-block w-2 h-2 rounded-full bg-accent" />
-          <span className="inline-block w-2 h-2 rounded-full bg-highlight" />
+          <span className="inline-block w-2 h-2 rounded-full bg-accent animate-pulse" />
         </div>
         <span>{current}/{total} XP</span>
       </div>

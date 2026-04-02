@@ -140,7 +140,7 @@ export const HomeScreen = () => {
           <motion.button
             whileTap={{ scale: 0.97 }}
             onClick={() => setCurrentLesson('1.3')}
-            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-accent to-accent-light font-bold text-sm text-white flex items-center justify-center gap-2 shadow-lg shadow-accent/20 cursor-pointer"
+            className="w-full py-3.5 rounded-xl bg-accent font-bold text-sm text-white flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(var(--woy-accent-rgb),0.3)] cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-all"
           >
             Continuer N1.3 — Sécuriser son wallet <ChevronRight size={16} />
           </motion.button>
@@ -312,7 +312,7 @@ export const HomeScreen = () => {
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setCurrentLesson('N0.1')}
-                className="w-full py-4 rounded-2xl font-bold flex items-center justify-center gap-3 shadow-2xl bg-gradient-to-r from-accent to-accent-light hover:brightness-110 transition-all cursor-pointer text-white"
+                className="w-full py-4 rounded-2xl font-bold flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(var(--woy-accent-rgb),0.4)] bg-accent hover:brightness-110 transition-all cursor-pointer text-white"
               >
                 Commencer le Module N0.1 <ChevronRight size={18} />
               </motion.button>

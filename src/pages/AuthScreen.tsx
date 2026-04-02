@@ -43,8 +43,8 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onLogin }) => {
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         className="w-full max-w-md relative mt-16 sm:mt-8 mb-8"
       >
-        {/* Decorative Cinematic Backglow */}
-        <div className="hidden sm:block absolute -inset-1 bg-gradient-to-tr from-accent/20 via-highlight/10 to-transparent rounded-[1.5rem] sm:rounded-[2rem] blur-[20px] sm:blur-[30px] opacity-70 pointer-events-none" />
+        {/* Decorative Cinematic Backglow - Unified to Accent */}
+        <div className="hidden sm:block absolute -inset-2 bg-gradient-to-tr from-accent/30 via-accent/15 to-transparent rounded-[1.5rem] sm:rounded-[2rem] blur-[30px] sm:blur-[40px] opacity-80 pointer-events-none" />
 
         <div className="p-2 sm:p-10 sm:rounded-[2rem] bg-black/40 sm:backdrop-blur-3xl border-transparent sm:border-white/[0.08] sm:border flex flex-col items-center relative sm:overflow-hidden sm:shadow-[0_0_50px_rgba(0,0,0,0.5)]">
           {/* Interior Ambient Lights */}
@@ -53,7 +53,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onLogin }) => {
 
           {/* Logo Wrapper */}
           <div className="relative mb-6 sm:mb-8">
-            <div className="absolute inset-0 bg-gradient-to-tr from-accent to-highlight blur-[30px] opacity-20 rounded-full" />
+            <div className="absolute inset-0 bg-highlight blur-[35px] opacity-25 rounded-full" />
             <div className="relative z-10 w-16 h-16 sm:w-20 sm:h-20 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center backdrop-blur-md shadow-2xl">
               <Logo className="w-10 h-10 sm:w-12 sm:h-12" />
             </div>
@@ -121,9 +121,9 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onLogin }) => {
 
             <button
               type="submit"
-              className="mt-4 w-full relative overflow-hidden bg-gradient-to-r from-accent to-accent-light text-white font-bold py-4 rounded-xl text-sm uppercase tracking-[0.2em] shadow-lg shadow-accent/20 hover:shadow-accent-light/40 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 group cursor-pointer"
+              className="mt-4 w-full relative overflow-hidden bg-accent text-white font-bold py-4 rounded-xl text-sm uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(var(--woy-accent-rgb),0.3)] hover:shadow-accent/50 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 group cursor-pointer"
             >
-              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="relative z-10 flex items-center gap-2">
                 {view === 'login' ? 'Initialiser' : 'Créer l\'Identité'}
                 <ArrowRight size={16} className="group-hover:translate-x-1.5 transition-transform duration-300" />

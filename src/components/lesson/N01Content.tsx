@@ -42,7 +42,7 @@ export const N01Content: React.FC<N01ContentProps> = ({
   const accentBg = 'bg-accent';
   const accentBg10 = 'bg-accent/10';
   const accentBorder = 'border-highlight/30';
-  const secondaryGrad = 'from-accent to-accent-light';
+  const secondaryBtn = 'bg-accent shadow-[0_0_15px_rgba(var(--woy-accent-rgb),0.2)]';
 
   const maxXP = 300;
   const xpPercent = Math.min((xp / maxXP) * 100, 100);
@@ -169,7 +169,7 @@ export const N01Content: React.FC<N01ContentProps> = ({
                   <p className="text-white font-bold text-sm sm:text-base uppercase tracking-wider font-serif">Lequel tu suis ?</p>
                   <button
                     onClick={() => { addXP(10); onSetStep(1); }}
-                    className={cn("w-full py-3 sm:py-4 rounded-xl bg-gradient-to-r text-white font-black text-xs uppercase tracking-[0.2em] shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer", secondaryGrad)}
+                    className={cn("w-full py-3 sm:py-4 rounded-xl text-white font-black text-xs uppercase tracking-[0.2em] shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer", secondaryBtn)}
                   >
                     Voir les 3 options
                   </button>
@@ -430,7 +430,7 @@ export const N01Content: React.FC<N01ContentProps> = ({
 
                 <button
                   onClick={() => onSetStep(7)}
-                  className={cn("w-full py-3 sm:py-4 rounded-xl bg-gradient-to-r text-white font-black text-xs uppercase tracking-[0.2em] hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer", secondaryGrad)}
+                  className={cn("w-full py-3 sm:py-4 rounded-xl text-white font-black text-xs uppercase tracking-[0.2em] hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer", secondaryBtn)}
                 >
                   Voir les données réelles
                 </button>
@@ -686,7 +686,7 @@ export const N01Content: React.FC<N01ContentProps> = ({
 
             <button
               onClick={() => onSetStep(currentStep + 1)}
-              className={cn("w-full py-4 rounded-xl bg-gradient-to-r text-white font-black text-xs uppercase tracking-[0.2em] shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer", secondaryGrad)}
+              className={cn("w-full py-4 rounded-xl text-white font-black text-xs uppercase tracking-[0.2em] shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer", secondaryBtn)}
             >
               Terminer le module
             </button>

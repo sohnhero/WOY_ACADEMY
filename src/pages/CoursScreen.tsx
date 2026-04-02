@@ -70,13 +70,13 @@ export const CoursScreen = () => {
             </div>
             <button
               onClick={() => setCurrentLesson('1.3')}
-              className="w-9 h-9 rounded-full bg-white/[0.06] border border-white/10 flex items-center justify-center shrink-0 cursor-pointer"
+              className="w-9 h-9 rounded-full bg-white/[0.06] border border-white/10 flex items-center justify-center shrink-0 cursor-pointer hover:bg-white/10 transition-colors"
             >
               <ChevronRight size={16} className="text-highlight" />
             </button>
           </div>
           <div className="mt-3">
-            <ProgressBar progress={68} colorClass="bg-gradient-to-r from-accent to-accent-light" />
+            <ProgressBar progress={68} colorClass="bg-accent" />
           </div>
         </div>
       </motion.div>
@@ -196,7 +196,7 @@ export const CoursScreen = () => {
               <p className="text-[10px] text-white/30 font-mono">N1.3 · Sécurité</p>
               <h3 className="font-bold text-sm mt-0.5 text-white">Sécuriser son wallet en 10 min</h3>
               <div className="mt-3">
-                <ProgressBar progress={68} colorClass="bg-gradient-to-r from-accent to-accent-light" />
+                <ProgressBar progress={68} colorClass="bg-accent" />
               </div>
               <p className="text-[10px] text-white/40 mt-2 flex items-center gap-1.5">
                 <Clock size={9} /> 9 min · Quiz + Mission · <span className="text-highlight font-bold">+150 XP</span>

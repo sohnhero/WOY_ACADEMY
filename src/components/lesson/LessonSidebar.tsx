@@ -62,7 +62,7 @@ export const LessonSidebar: React.FC<LessonSidebarProps> = ({ lessonId, onBack, 
 
   return (
     <aside className={cn(
-      "fixed lg:relative inset-y-0 left-0 z-[100] lg:z-[75] flex flex-col gap-0 border-r border-white/5 h-full w-[310px] sm:w-[330px] shrink-0 scrollable-sidebar transition-all duration-500 ease-out bg-[#0D0A07] shadow-2xl lg:shadow-none",
+      "fixed lg:relative inset-y-0 left-0 z-[100] lg:z-[75] flex flex-col gap-0 border-r border-white/5 h-full w-[310px] sm:w-[330px] shrink-0 scrollable-sidebar transition-all duration-500 ease-out bg-black/5 backdrop-blur-3xl shadow-2xl lg:shadow-none",
       isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
     )}>
       {/* Return Button */}
@@ -97,7 +97,7 @@ export const LessonSidebar: React.FC<LessonSidebarProps> = ({ lessonId, onBack, 
 
       {/* User Credits Card (Simplified like screenshot) */}
       <div className="px-8 py-6">
-        <div className="bg-[#151210] border border-white/5 rounded-2xl p-4 flex items-center justify-between shadow-xl">
+        <div className="bg-white/[0.03] border border-white/5 rounded-2xl p-4 flex items-center justify-between shadow-xl">
           <div className="flex items-center gap-3">
              <div className="w-9 h-9 rounded-xl bg-highlight/10 flex items-center justify-center border border-highlight/20 text-highlight">
                 <Coins size={18} />
@@ -121,7 +121,7 @@ export const LessonSidebar: React.FC<LessonSidebarProps> = ({ lessonId, onBack, 
               className={cn(
                 "p-4 rounded-xl flex items-center gap-4 transition-all group relative cursor-pointer", 
                 isActive 
-                  ? "bg-[#1A1612] border border-white/10"
+                  ? "bg-accent/10 border border-accent/20 shadow-[0_0_15px_rgba(var(--woy-accent-rgb),0.15)]"
                   : (isLocked ? "opacity-30 pointer-events-none" : "hover:bg-white/[0.02] border border-transparent")
               )}
             >
@@ -129,8 +129,8 @@ export const LessonSidebar: React.FC<LessonSidebarProps> = ({ lessonId, onBack, 
               <div className={cn(
                 "w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-all",
                 isActive 
-                  ? "bg-highlight/20 text-highlight"
-                  : "bg-[#151210] text-white/20 group-hover:text-white/40"
+                  ? "bg-accent text-black shadow-[0_0_12px_rgba(var(--woy-accent-rgb),0.4)]"
+                  : "bg-white/5 text-white/20 group-hover:text-white/40"
               )}>
                 {isLocked ? <Lock size={16} /> : <Icon size={18} />}
               </div>

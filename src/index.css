@@ -19,23 +19,25 @@
 }
 
 .terracotta-theme {
-  --woy-accent: #B5472A;
-  --woy-accent-light: #D4623E;
-  --woy-accent-muted: rgba(181, 71, 42, 0.1);
-  --woy-accent-glow: rgba(181, 71, 42, 0.3);
-  --woy-highlight: #C4A055;
-  --woy-highlight-light: #EEDC82;
-  --woy-sidebar-bg: #151210;
+  --woy-accent: #FF7043;
+  --woy-accent-rgb: 255, 112, 67;
+  --woy-accent-light: #FF8A65;
+  --woy-accent-muted: rgba(255, 112, 67, 0.1);
+  --woy-accent-glow: rgba(255, 112, 67, 0.5);
+  --woy-highlight: #FFD700;
+  --woy-highlight-light: #FFF176;
+  --woy-sidebar-bg: #15100E;
 }
 
 .violet-theme {
-  --woy-accent: #7B2FBE;
-  --woy-accent-light: #9B4FDE;
-  --woy-accent-muted: rgba(123, 47, 190, 0.1);
-  --woy-accent-glow: rgba(123, 47, 190, 0.3);
-  --woy-highlight: #7B2FBE;
-  --woy-highlight-light: #9D50ED;
-  --woy-sidebar-bg: #100D15;
+  --woy-accent: #A855F7;
+  --woy-accent-rgb: 168, 85, 247;
+  --woy-accent-light: #C084FC;
+  --woy-accent-muted: rgba(168, 85, 247, 0.15);
+  --woy-accent-glow: rgba(168, 85, 247, 0.5);
+  --woy-highlight: #E020FF;  /* Electric Magenta - Matching image highlights */
+  --woy-highlight-light: #F5D0FF;
+  --woy-sidebar-bg: #100E15;
 }
 
 @theme {
@@ -52,7 +54,7 @@
 }
 
 body {
-  @apply bg-[#0D0A07] text-white antialiased overflow-x-hidden;
+  @apply bg-[#1C1613] text-white antialiased overflow-x-hidden;
   font-family: var(--font-sans);
   -webkit-tap-highlight-color: transparent;
 }

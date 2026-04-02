@@ -522,7 +522,7 @@ export const LaambScreen = () => {
                 <motion.button
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full bg-gradient-to-r from-accent to-accent-light text-white font-bold py-5 rounded-2xl text-[13px] uppercase tracking-[0.2em] shadow-lg shadow-accent/30 flex items-center justify-center gap-3 cursor-pointer"
+                  className="w-full bg-accent text-white font-bold py-5 rounded-2xl text-[13px] uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(var(--woy-accent-rgb),0.4)] flex items-center justify-center gap-3 cursor-pointer hover:scale-[1.01] transition-transform"
                 >
                   S'abonner — 20 000 FCFA/MOIS
                 </motion.button>
