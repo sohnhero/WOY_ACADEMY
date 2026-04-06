@@ -7,7 +7,7 @@ interface AppContextType {
   setActiveTab: (tab: TabType) => void;
   theme: Theme;
   setTheme: (theme: Theme) => void;
-  
+
   // User Stats
   globalCoins: number;
   setGlobalCoins: (coins: number | ((prev: number) => number)) => void;
@@ -19,10 +19,10 @@ interface AppContextType {
   setN1Modules: (count: number) => void;
   isShieldActive: boolean;
   handleActivateShield: () => void;
-  
+
   // Data
   niveaux: any[];
-  
+
   // Lesson State
   currentLesson: string | null;
   setCurrentLesson: (id: string | null) => void;
@@ -37,19 +37,24 @@ import { niveaux as initialNiveaux } from '../data/niveaux';
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Load state from localStorage
   const loadState = <T,>(key: string, defaultValue: T): T => {
-    const saved = localStorage.getItem(key);
-    return saved ? JSON.parse(saved) : defaultValue;
+    try {
+      const saved = localStorage.getItem(key);
+      return saved ? JSON.parse(saved) : defaultValue;
+    } catch (e) {
+      console.warn(`Error loading state for key "${key}":`, e);
+      return defaultValue;
+    }
   };
 
   const [activeTab, setActiveTab] = useState<TabType>('accueil');
   const [theme, setTheme] = useState<Theme>(() => loadState('theme', 'terracotta'));
-  
+
   const [globalCoins, setGlobalCoins] = useState<number>(() => loadState('globalCoins', 175));
   const [userXP, setUserXP] = useState<number>(() => loadState('userXP', 1450));
   const [streak, setStreak] = useState<number>(() => loadState('streak', 12));
   const [n1Modules, setN1Modules] = useState<number>(() => loadState('n1Modules', 3));
   const [isShieldActive, setIsShieldActive] = useState<boolean>(() => loadState('isShieldActive', false));
-  
+
   const [niveaux] = useState(initialNiveaux);
   const [currentLesson, setCurrentLesson] = useState<string | null>(null);
   const [showingLesson, setShowLesson] = useState(false);
@@ -64,12 +69,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // Sync with localStorage and apply global theme class
   useEffect(() => {
     localStorage.setItem('theme', JSON.stringify(theme));
-    
+
     // Apply theme class to document element for global CSS variable availability
     const root = window.document.documentElement;
     root.classList.remove('terracotta-theme', 'violet-theme');
     root.classList.add(`${theme}-theme`);
-    
+
     localStorage.setItem('globalCoins', JSON.stringify(globalCoins));
     localStorage.setItem('userXP', JSON.stringify(userXP));
     localStorage.setItem('streak', JSON.stringify(streak));

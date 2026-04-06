@@ -27,14 +27,14 @@ export const ModuleCard: React.FC<{ mod: any; index: number; onClick?: () => voi
       onClick={mod.status !== 'verrouillé' ? onClick : undefined}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.6 + index * 0.12 }}
-      whileHover={mod.status !== 'verrouillé' ? { scale: 1.01 } : undefined}
+      transition={{ delay: 0.4 + index * 0.08 }}
+      whileHover={mod.status !== 'verrouillé' ? { scale: 1.005 } : undefined}
       whileTap={mod.status !== 'verrouillé' ? { scale: 0.98 } : undefined}
       className={cn(
         "p-4 lg:p-5 rounded-2xl border transition-all duration-200 flex items-center gap-4 cursor-pointer",
         mod.status === 'verrouillé'
-          ? "bg-white/[0.01] border-white/5 opacity-50"
-          : "bg-white/[0.03] border-white/[0.08] hover:border-highlight/30 hover:bg-white/[0.05]"
+          ? "bg-white/[0.01] border-white/[0.04] opacity-35"
+          : "bg-surface border-white/[0.06] hover:border-accent/15 hover:bg-surface-hover card-glow"
       )}
     >
       {statusIcon()}
@@ -68,16 +68,26 @@ export const ModuleCard: React.FC<{ mod: any; index: number; onClick?: () => voi
 // --- Stat Card ---
 export const StatCard = ({ icon: Icon, label, value, subValue, color }: any) => (
   <motion.div
-    whileHover={{ y: -2 }}
-    className="bg-white/[0.03] border border-white/10 backdrop-blur-md rounded-2xl p-4 flex flex-col gap-2"
+    whileHover={{ y: -4, scale: 1.01 }}
+    className="relative bg-surface border border-white/[0.06] rounded-[2rem] p-5 flex flex-col items-center justify-center gap-3 card-glow min-h-[160px] overflow-hidden group"
   >
-    <div className={cn("p-2 rounded-lg w-fit", color)}>
-      <Icon size={18} className="text-white" />
+    <div className="absolute top-0 left-0 w-16 h-16 bg-white/[0.02] blur-2xl rounded-full -ml-8 -mt-8 pointer-events-none" />
+    
+    <div className={cn(
+      "relative p-4 rounded-full transition-all duration-500 group-hover:scale-110 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] border border-white/5",
+      color
+    )}>
+      <Icon size={22} className="text-white/80 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]" />
     </div>
-    <div>
-      <p className="text-[10px] uppercase tracking-widest text-white/40 font-medium">{label}</p>
-      <p className="text-xl font-bold text-white mt-1">{value}</p>
-      {subValue && <p className="text-[10px] text-white/30 italic">{subValue}</p>}
+    
+    <div className="text-center relative z-10">
+      <p className="text-[9px] font-black uppercase tracking-[0.25em] text-white/25 mb-1.5">{label}</p>
+      <p className="text-xl font-bold text-white/90 tracking-tight">{value}</p>
+      {subValue && (
+        <p className="text-[9px] text-white/20 font-bold uppercase tracking-widest mt-1">
+          {subValue}
+        </p>
+      )}
     </div>
   </motion.div>
 );
@@ -101,11 +111,10 @@ export const NiveauCard: React.FC<NiveauCardProps> = ({ niveau, index, expanded,
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.3 + index * 0.1 }}
-      whileHover={!isLocked ? { scale: 1.01 } : undefined}
-      whileTap={!isLocked ? { scale: 0.98 } : undefined}
+      whileHover={!isLocked ? { scale: 1.005 } : undefined}
       className={cn(
         "rounded-2xl border overflow-hidden transition-all duration-200 cursor-pointer",
-        isLocked ? "bg-white/[0.02] border-white/5 opacity-70" : "bg-white/[0.03] border-white/[0.08] hover:border-highlight/30 hover:bg-white/[0.05]"
+        isLocked ? "bg-white/[0.01] border-white/[0.04] opacity-35" : "bg-surface border-white/[0.06] hover:border-accent/15 hover:bg-surface-hover card-glow"
       )}
     >
       {/* Header */}
@@ -136,7 +145,7 @@ export const NiveauCard: React.FC<NiveauCardProps> = ({ niveau, index, expanded,
             <span>{niveau.totalModules} modules</span>
             {niveau.time && <span>{niveau.time}</span>}
             {isDone && <span className="text-green-400">Complété</span>}
-            {isInProgress && <span className="text-highlight font-bold">En cours {niveau.progress}%</span>}
+            {isInProgress && <span className="text-accent/70 font-bold">En cours {niveau.progress}%</span>}
             {niveau.rewards.map((r, i) => (
               <span key={i} className="flex items-center gap-1 text-white/30">
                 <r.icon size={11} /> {r.text}
@@ -145,7 +154,7 @@ export const NiveauCard: React.FC<NiveauCardProps> = ({ niveau, index, expanded,
           </div>
           {isInProgress && (
             <div className="mt-2.5">
-              <ProgressBar progress={niveau.progress} colorClass="bg-accent shadow-[0_0_8px_var(--woy-accent-glow)]" />
+              <ProgressBar progress={niveau.progress} />
             </div>
           )}
         </div>
@@ -161,7 +170,7 @@ export const NiveauCard: React.FC<NiveauCardProps> = ({ niveau, index, expanded,
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="border-t border-white/5 bg-black/20"
+            className="border-t border-white/5 bg-sidebar"
           >
             <div className="p-4 flex flex-col gap-2">
               {niveau.subModules.length > 0 ? (
@@ -173,13 +182,13 @@ export const NiveauCard: React.FC<NiveauCardProps> = ({ niveau, index, expanded,
                       "group p-3 rounded-xl border flex items-center justify-between transition-all active:scale-[0.98]",
                       sub.done 
                         ? "bg-green-500/5 border-green-500/10 hover:bg-green-500/10" 
-                        : (sub.current ? "bg-highlight/10 border-highlight/20 hover:bg-highlight/15" : "bg-white/5 border-white/5 hover:bg-white/10")
+                        : (sub.current ? "bg-accent/10 border-accent/20 hover:bg-accent/15" : "bg-white/[0.03] border-white/5 hover:bg-white/[0.06]")
                     )}
                   >
                     <div className="flex items-center gap-3">
                       <div className={cn(
                         "w-8 h-8 rounded-lg flex items-center justify-center",
-                        sub.done ? "bg-green-500/20 text-green-400" : (sub.current ? "bg-highlight/20 text-highlight" : "bg-white/5 text-white/40")
+                        sub.done ? "bg-green-500/20 text-green-400" : (sub.current ? "bg-accent/20 text-accent" : "bg-white/5 text-white/40")
                       )}>
                         {sub.done ? <CircleCheck size={16} /> : (sub.current ? <PlayCircle size={16} /> : <Lock size={14} />)}
                       </div>

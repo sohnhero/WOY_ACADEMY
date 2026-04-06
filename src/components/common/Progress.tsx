@@ -4,12 +4,12 @@ import { cn } from '../../utils/cn';
 
 // --- Linear Progress Bar ---
 export const ProgressBar = ({ progress, colorClass = 'bg-accent' }: { progress: number; colorClass?: string }) => (
-  <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden shrink-0">
+  <div className="h-2 w-full bg-white/[0.08] rounded-full overflow-hidden shrink-0">
     <motion.div
       initial={{ width: 0 }}
       animate={{ width: `${progress}%` }}
       transition={{ duration: 1, ease: 'easeOut', delay: 0.5 }}
-      className={cn("h-full rounded-full shadow-[0_0_10px_var(--woy-accent-glow)]", colorClass)}
+      className={cn("h-full rounded-full shadow-[0_0_8px_var(--woy-accent-glow)]", colorClass)}
     />
   </div>
 );
@@ -32,7 +32,7 @@ export const ScoreRing = ({ score, size = 90, strokeWidth = 7, id = 'default' }:
           stroke="rgba(255,255,255,0.06)"
           strokeWidth={strokeWidth}
         />
-        {/* Progress arc - Solid Color */}
+        {/* Progress arc */}
         <motion.circle
           cx={size / 2}
           cy={size / 2}

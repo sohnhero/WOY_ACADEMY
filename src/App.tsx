@@ -10,7 +10,11 @@ import {
   Sun, 
   Moon,
   Search,
-  Bell
+  Bell,
+  Flame,
+  Settings,
+  Zap,
+  Shield
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from './utils/cn';
@@ -30,8 +34,168 @@ import { LessonScreen } from './pages/LessonScreen';
 
 // Common Components
 import { Logo } from './components/common/Logo';
-import { StarField } from './components/common/StarField';
 
+// --- Desktop Icon Sidebar ---
+const DesktopSidebar = () => {
+  const { activeTab, setActiveTab, setCurrentLesson, userXP } = useAppContext();
+  const level = Math.floor(userXP / 1000) + 1;
+  const xpProgress = (userXP % 1000) / 1000 * 100;
+
+  const navItems = [
+    { id: 'accueil', icon: Home, label: 'Accueil' },
+    { id: 'cours', icon: BookOpen, label: 'Cours' },
+    { id: 'rapport', icon: BarChart3, label: 'Rapport' },
+    { id: 'laamb', icon: Swords, label: 'LAAMB' },
+    { id: 'communaute', icon: Users, label: 'Communauté' },
+  ];
+
+  return (
+    <aside className="hidden lg:flex flex-col items-center w-[76px] shrink-0 py-6 gap-2 bg-sidebar rounded-l-[1.75rem] border-r border-white/[0.04]">
+      {/* Logo + Level */}
+      <div className="flex flex-col items-center gap-3 mb-6">
+        <Logo className="w-10 h-10" />
+        {/* Level indicator */}
+        <div className="flex flex-col items-center gap-1">
+          <span className="text-[8px] font-black text-accent uppercase tracking-[0.2em]">LVL {level}</span>
+          <div className="w-8 h-[3px] bg-white/[0.06] rounded-full overflow-hidden">
+            <motion.div 
+              initial={{ width: 0 }}
+              animate={{ width: `${xpProgress}%` }}
+              className="h-full bg-accent/60 rounded-full"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Nav Icons */}
+      <nav className="flex flex-col items-center gap-1.5 flex-1">
+        {navItems.map((item) => (
+          <button
+            key={item.id}
+            onClick={() => {
+              setActiveTab(item.id as any);
+              setCurrentLesson(null);
+            }}
+            className={cn(
+              "relative w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 cursor-pointer group",
+              activeTab === item.id
+                ? "bg-accent/15 text-accent border border-accent/20"
+                : "text-white/25 hover:text-white/50 hover:bg-white/[0.04]"
+            )}
+            title={item.label}
+          >
+            <item.icon size={19} strokeWidth={activeTab === item.id ? 2.2 : 1.8} />
+            {/* Tooltip */}
+            <div className="absolute left-full ml-3 px-3 py-1.5 bg-surface-light border border-white/10 rounded-lg text-[10px] font-bold text-white whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 shadow-xl">
+              {item.label}
+            </div>
+            {/* Active indicator line */}
+            {activeTab === item.id && (
+              <motion.div
+                layoutId="sidebar-active-line"
+                className="absolute -left-[1px] top-2 bottom-2 w-[3px] rounded-r-full bg-accent"
+              />
+            )}
+          </button>
+        ))}
+      </nav>
+
+      {/* Bottom: Settings */}
+      <div className="flex flex-col items-center gap-2 mt-auto">
+        <div className="w-8 h-[1px] bg-white/[0.06] mb-1" />
+        <button
+          onClick={() => {
+            setActiveTab('profil');
+            setCurrentLesson(null);
+          }}
+          className={cn(
+            "w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 cursor-pointer",
+            activeTab === 'profil'
+              ? "bg-accent/15 text-accent border border-accent/20"
+              : "text-white/25 hover:text-white/50 hover:bg-white/[0.04]"
+          )}
+          title="Profil & Réglages"
+        >
+          <Settings size={19} strokeWidth={1.8} />
+        </button>
+      </div>
+    </aside>
+  );
+};
+
+// --- Desktop Top Bar ---
+const TopBar = () => {
+  const { theme, setTheme, globalCoins, streak, userXP, isShieldActive } = useAppContext();
+  const level = Math.floor(userXP / 1000) + 1;
+
+  return (
+    <header className="flex items-center justify-between px-8 h-[72px] shrink-0 border-b border-white/[0.04]">
+      {/* Left: Greeting */}
+      <div className="text-left">
+        <p className="text-white/30 text-[11px] font-medium tracking-wide">Bon retour parmi nous</p>
+        <h1 className="text-lg font-bold text-white/90 tracking-tight leading-tight">
+          Bonsoir, <span className="shimmer-gold">AMADOU</span>
+        </h1>
+      </div>
+
+      {/* Center: Search */}
+      <div className="hidden xl:flex items-center gap-3 bg-white/[0.03] border border-white/[0.05] rounded-xl px-4 py-2.5 w-[280px] cursor-pointer hover:bg-white/[0.05] transition-colors">
+        <Search size={14} className="text-white/20" />
+        <span className="text-white/15 text-[13px]">Rechercher...</span>
+      </div>
+
+      {/* Right: Stats bar */}
+      <div className="flex items-center gap-2">
+        {/* Streak Pill */}
+        <div className="flex items-center gap-1.5 bg-orange-900/20 border border-orange-800/20 rounded-xl px-3 py-2 group cursor-default">
+          <Flame size={13} className="text-orange-400/80" />
+          <span className="font-mono text-[11px] font-bold text-orange-300/80">{streak}</span>
+        </div>
+
+        {/* Shield status */}
+        {isShieldActive && (
+          <div className="flex items-center gap-1.5 bg-accent/8 border border-accent/15 rounded-xl px-3 py-2">
+            <Shield size={13} className="text-accent/70 fill-accent/10" />
+          </div>
+        )}
+
+        {/* Cauris */}
+        <div className="flex items-center gap-1.5 bg-white/[0.03] border border-white/[0.05] rounded-xl px-3 py-2 cursor-default">
+          <Coins size={13} className="text-highlight/70" />
+          <span className="font-mono text-[11px] font-bold text-white/60">{globalCoins}</span>
+        </div>
+
+        {/* Divider */}
+        <div className="w-[1px] h-6 bg-white/[0.05] mx-1" />
+
+        {/* Bell */}
+        <button className="relative w-9 h-9 rounded-xl bg-white/[0.03] border border-white/[0.05] flex items-center justify-center text-white/25 hover:text-white/50 hover:bg-white/[0.06] transition-all cursor-pointer">
+          <Bell size={15} />
+          <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-accent rounded-full" />
+        </button>
+
+        {/* Theme */}
+        <button
+          onClick={() => setTheme(theme === 'violet' ? 'terracotta' : 'violet')}
+          className="w-9 h-9 rounded-xl bg-white/[0.03] border border-white/[0.05] flex items-center justify-center text-white/25 hover:text-white/50 hover:bg-white/[0.06] transition-all cursor-pointer"
+        >
+          {theme === 'violet' ? <Sun size={15} /> : <Moon size={15} />}
+        </button>
+
+        {/* Avatar */}
+        <div className="w-9 h-9 rounded-xl overflow-hidden border-2 border-white/[0.06] cursor-pointer hover:border-accent/30 transition-all ml-1">
+          <img 
+            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" 
+            alt="Profile" 
+            className="w-full h-full object-cover" 
+          />
+        </div>
+      </div>
+    </header>
+  );
+};
+
+// --- Main App Content ---
 const AppContent = () => {
   const { 
     theme, 
@@ -40,47 +204,18 @@ const AppContent = () => {
     setActiveTab, 
     currentLesson, 
     setCurrentLesson, 
-    globalCoins 
+    globalCoins,
+    userXP,
+    streak
   } = useAppContext();
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Theme-aware helper classes using semantic variables
-  const colors = {
-    bg: 'bg-black/95',
-    textAccent: 'text-accent',
-    textHighlight: 'text-highlight',
-    glowPrimary: 'bg-accent',
-    glowSecondary: theme === 'violet' ? 'bg-highlight' : 'bg-accent-light',
-  };
-
   const themeClass = theme === 'violet' ? 'violet-theme' : 'terracotta-theme';
-
-  const GlobalBackground = () => (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-      <StarField />
-      
-      {/* Primary Nebula Glows - Spanned for edge vibrancy but with reduced opacity */}
-      <div className={cn("absolute -top-[15%] left-[-10%] w-[90%] h-[80%] blur-[180px] opacity-20 rounded-full transition-all duration-1000 animate-cosmic-drift", colors.glowPrimary)} />
-      <div className={cn("absolute top-[20%] right-[-15%] w-[85%] h-[75%] blur-[160px] opacity-15 rounded-full transition-all duration-1000 animate-pulse-glow delay-700", colors.glowSecondary)} />
-      
-      {/* Secondary Balancing Glows */}
-      <div className={cn("absolute bottom-[-15%] left-[-5%] w-[75%] h-[65%] blur-[170px] opacity-15 rounded-full transition-all duration-1000 animate-cosmic-drift delay-1000", colors.glowPrimary)} />
-      <div className={cn("absolute top-[40%] left-[20%] w-[60%] h-[60%] blur-[200px] opacity-12 rounded-full transition-all duration-1000 animate-pulse-glow delay-500", colors.glowSecondary)} />
-      <div className={cn("absolute bottom-[10%] right-[5%] w-[70%] h-[60%] blur-[160px] opacity-15 rounded-full transition-all duration-1000 animate-cosmic-drift delay-1500", colors.glowPrimary)} />
-
-      {/* Texture Overlay */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')] opacity-[0.04] mix-blend-overlay pointer-events-none" />
-      
-      {/* Light Ambient Depth - Subtle vignette to focus the center */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/15 pointer-events-none" />
-    </div>
-  );
 
   if (!isAuthenticated) {
     return (
-      <div className={cn("min-h-screen transition-colors duration-700 font-sans text-white selection:bg-white/20 overflow-hidden relative", colors.bg, themeClass)}>
-        <GlobalBackground />
+      <div className={cn("min-h-screen transition-colors duration-500 font-sans text-white selection:bg-white/20 overflow-hidden relative", themeClass)}>
         <AuthScreen onLogin={() => setIsAuthenticated(true)} />
       </div>
     );
@@ -88,96 +223,45 @@ const AppContent = () => {
 
   const renderActiveScreen = () => {
     switch (activeTab) {
-      case 'accueil':
-        return <HomeScreen />;
-      case 'cours':
-        return <CoursScreen />;
-      case 'rapport':
-        return <RapportScreen />;
-      case 'laamb':
-        return <LaambScreen />;
-      case 'communaute':
-        return <CommunauteScreen />;
-      case 'profil':
-        return <ProfilScreen />;
-      default:
-        return <HomeScreen />;
+      case 'accueil': return <HomeScreen />;
+      case 'cours': return <CoursScreen />;
+      case 'rapport': return <RapportScreen />;
+      case 'laamb': return <LaambScreen />;
+      case 'communaute': return <CommunauteScreen />;
+      case 'profil': return <ProfilScreen />;
+      default: return <HomeScreen />;
     }
   };
 
   return (
-    <div className={cn("min-h-screen transition-colors duration-700 font-sans text-white selection:bg-white/20", colors.bg, themeClass)}>
-      {/* Global Cosmic Background Stack */}
-      <GlobalBackground />
+    <div className={cn("min-h-screen transition-colors duration-500 font-sans text-white selection:bg-white/20", themeClass)}>
+      
+      {/* Desktop Layout: Sidebar + Container */}
+      <div className="hidden lg:flex h-screen p-3 gap-0">
+        <DesktopSidebar />
 
-      {/* Desktop Header */}
-      <header className="hidden lg:flex relative z-50 border-b border-white/5 backdrop-blur-xl bg-black/20 px-8 py-4 justify-between items-center sticky top-0">
-        <div className="flex items-center gap-8">
-          <div className="flex items-center gap-3">
-            <Logo />
-            <h1 className="font-serif text-xl tracking-[0.2em] font-bold uppercase">
-              WÔY <span className={colors.textAccent}>ACADEMY</span>
-            </h1>
-          </div>
-
-          {/* Desktop Nav Links */}
-          <nav className="flex items-center gap-1">
-            {[
-              { id: 'accueil', icon: Home, label: 'Accueil' },
-              { id: 'cours', icon: BookOpen, label: 'Cours' },
-              { id: 'rapport', icon: BarChart3, label: 'Rapport' },
-              { id: 'laamb', icon: Swords, label: 'LAAMB' },
-              { id: 'communaute', icon: Users, label: 'Communauté' },
-              { id: 'profil', icon: User, label: 'Profil' },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => {
-                  setActiveTab(tab.id as any);
-                  setCurrentLesson(null);
-                }}
-                className={cn(
-                  "relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all cursor-pointer",
-                  activeTab === tab.id
-                    ? "bg-white/[0.08] text-accent font-bold"
-                    : "text-white/40 hover:text-accent hover:bg-accent/5"
-                )}
+        {/* Main Container */}
+        <div className="flex-1 flex flex-col bg-surface/40 rounded-r-[1.75rem] border border-white/[0.04] border-l-0 overflow-hidden panel-inset">
+          <TopBar />
+          
+          <main className="flex-1 overflow-y-auto">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.2 }}
               >
-                <tab.icon size={16} />
-                <span>{tab.label}</span>
-                {activeTab === tab.id && (
-                  <motion.div
-                    layoutId="desktop-nav-indicator"
-                    className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-accent shadow-[0_0_8px_var(--woy-accent-glow)]"
-                  />
-                )}
-              </button>
-            ))}
-          </nav>
+                {renderActiveScreen()}
+              </motion.div>
+            </AnimatePresence>
+          </main>
         </div>
+      </div>
 
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 cursor-pointer hover:bg-white/10 transition-all">
-            <Coins size={16} className="text-highlight" />
-            <span className="font-mono text-sm font-bold tracking-tighter">{globalCoins}</span>
-          </div>
-          <button
-            onClick={() => setTheme(theme === 'violet' ? 'terracotta' : 'violet')}
-            className="p-2 rounded-full bg-white/5 border border-white/10 hover:scale-105 transition-transform cursor-pointer"
-          >
-            {theme === 'violet' ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
-          <div className="relative cursor-pointer group">
-             <div className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden transition-all group-hover:border-white/30">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="Profile" className="w-full h-full object-crop" />
-             </div>
-             <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-black rounded-full" />
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content Area */}
-      <main className="relative min-h-[calc(100vh-140px)] lg:min-h-min">
+      {/* Mobile Layout */}
+      <div className="lg:hidden min-h-screen">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
@@ -189,40 +273,43 @@ const AppContent = () => {
             {renderActiveScreen()}
           </motion.div>
         </AnimatePresence>
-      </main>
 
-      {/* Mobile Nav Bar */}
-      <nav className="lg:hidden fixed bottom-6 left-5 right-5 h-[72px] bg-black/60 backdrop-blur-2xl border border-white/10 rounded-[2rem] flex items-center justify-between px-6 z-[60] shadow-2xl">
-        {[
-          { id: 'accueil', icon: Home, label: 'Accueil' },
-          { id: 'cours', icon: BookOpen, label: 'Cours' },
-          { id: 'rapport', icon: BarChart3, label: 'Rapport' },
-          { id: 'laamb', icon: Swords, label: 'LAAMB' },
-          { id: 'profil', icon: User, label: 'Profil' },
-        ].map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => {
-              setActiveTab(tab.id as any);
-              setCurrentLesson(null);
-            }}
-            className={cn(
-              "relative flex flex-col items-center gap-1.5 transition-all text-[9px] font-bold uppercase tracking-widest",
-              activeTab === tab.id ? colors.textAccent : "text-white/20"
-            )}
-          >
-            <tab.icon size={20} />
-            {activeTab === tab.id && (
-              <motion.div
-                layoutId="mobile-nav-indicator"
-                className="absolute -top-3 w-1.5 h-1.5 rounded-full bg-accent shadow-[0_0_5px_var(--woy-accent-glow)]"
-              />
-            )}
-          </button>
-        ))}
-      </nav>
+        {/* Mobile Bottom Nav */}
+        <nav className="fixed bottom-0 left-0 right-0 h-[76px] bg-sidebar/95 backdrop-blur-xl border-t border-white/[0.04] flex items-center justify-around px-4 z-[60] safe-bottom">
+          {[
+            { id: 'accueil', icon: Home, label: 'Accueil' },
+            { id: 'cours', icon: BookOpen, label: 'Cours' },
+            { id: 'rapport', icon: BarChart3, label: 'Rapport' },
+            { id: 'laamb', icon: Swords, label: 'LAAMB' },
+            { id: 'profil', icon: User, label: 'Profil' },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => {
+                setActiveTab(tab.id as any);
+                setCurrentLesson(null);
+              }}
+              className={cn(
+                "relative flex flex-col items-center gap-1 py-2 px-3 rounded-xl transition-all cursor-pointer",
+                activeTab === tab.id 
+                  ? "text-accent" 
+                  : "text-white/20"
+              )}
+            >
+              <tab.icon size={21} strokeWidth={activeTab === tab.id ? 2.2 : 1.6} />
+              <span className="text-[7px] font-bold uppercase tracking-[0.15em]">{tab.label}</span>
+              {activeTab === tab.id && (
+                <motion.div
+                  layoutId="mobile-tab-indicator"
+                  className="absolute -top-0.5 left-1/2 -translate-x-1/2 w-5 h-[2.5px] rounded-full bg-accent"
+                />
+              )}
+            </button>
+          ))}
+        </nav>
+      </div>
 
-      {/* Active Lesson Modal / Screen */}
+      {/* Active Lesson Modal */}
       <AnimatePresence>
         {currentLesson && (
           <motion.div
@@ -230,7 +317,7 @@ const AppContent = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className={cn("fixed inset-0 z-[100]", colors.bg)}
+            className="fixed inset-0 z-[100] bg-bg"
           >
             <LessonScreen 
               lessonId={currentLesson} 
