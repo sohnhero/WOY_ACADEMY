@@ -51,12 +51,9 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onLogin }) => {
           <div className="hidden sm:block absolute -top-32 -right-32 w-64 h-64 bg-white/5 blur-[80px] rounded-full pointer-events-none" />
           <div className="hidden sm:block absolute -bottom-32 -left-32 w-64 h-64 bg-white/5 blur-[80px] rounded-full pointer-events-none" />
 
-          {/* Logo Wrapper */}
-          <div className="relative mb-6 sm:mb-8">
-            <div className="absolute inset-0 bg-highlight blur-[35px] opacity-25 rounded-full" />
-            <div className="relative z-10 w-16 h-16 sm:w-20 sm:h-20 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center backdrop-blur-md shadow-2xl">
-              <Logo className="w-10 h-10 sm:w-12 sm:h-12" />
-            </div>
+          {/* Prominent Logo (Branding Focus) */}
+          <div className="relative mb-8 sm:mb-10">
+            <Logo className="w-28 h-28 sm:w-32 sm:h-32 drop-shadow-[0_0_30px_rgba(var(--woy-accent-rgb),0.3)] transition-transform duration-700 hover:scale-105" />
           </div>
 
           <h1 className="text-xl sm:text-3xl font-serif font-bold tracking-[0.1em] mb-2 sm:mb-3 uppercase text-center bg-gradient-to-b from-white to-white/50 bg-clip-text text-transparent relative z-10">

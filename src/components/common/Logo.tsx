@@ -7,15 +7,19 @@ interface LogoProps {
 }
 
 export const Logo: React.FC<LogoProps> = ({ className }) => {
+  const { theme } = useAppContext();
+
+  const logoUrl = theme === 'violet'
+    ? "https://res.cloudinary.com/drxouwbms/image/upload/v1775672645/Untitled_design_7_eolulz.png"
+    : "https://res.cloudinary.com/drxouwbms/image/upload/v1775672585/Untitled_design_6_nismno.png";
+
   return (
-    <div
-      className={cn("relative flex items-center justify-center w-10 h-10 shrink-0 cursor-pointer drop-shadow-[0_4_8_var(--woy-accent-glow)]", className)}
-    >
-      <div
-        className={cn("absolute inset-0 shadow-lg shadow-black/20 bg-accent")}
-        style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}
+    <div className={cn("relative flex items-center justify-center w-10 h-10 shrink-0 cursor-pointer overflow-hidden", className)}>
+      <img
+        src={logoUrl}
+        alt="Wôy Academy Logo"
+        className="w-full h-full object-contain"
       />
-      <span className="relative z-10 font-serif text-xl font-bold text-white mb-0.5">W</span>
     </div>
   );
 };
