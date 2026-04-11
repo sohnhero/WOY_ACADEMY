@@ -20,7 +20,7 @@ export const ShieldCard: React.FC<ShieldCardProps> = ({
     <motion.div
       onClick={!isActive ? onActivate : undefined}
       className={cn(
-        "relative rounded-[2.5rem] p-6 flex flex-col items-center justify-center min-h-[180px] overflow-hidden cursor-pointer group transition-all duration-700",
+        "relative rounded-[2.5rem] p-5 flex flex-col items-center justify-center min-h-[150px] overflow-hidden cursor-pointer group transition-all duration-700",
         isActive 
           ? "glass-boutique border-accent/50" 
           : "bg-surface/40 border border-white/[0.05]",
@@ -42,12 +42,12 @@ export const ShieldCard: React.FC<ShieldCardProps> = ({
       <div className="relative z-10 flex flex-col items-center">
         {/* Shield Icon Container */}
         <div className={cn(
-          "p-5 rounded-[2rem] border transition-all duration-700 backdrop-blur-xl mb-4",
+          "p-4 rounded-[1.8rem] border transition-all duration-700 backdrop-blur-xl mb-3",
           isActive 
             ? "bg-accent/20 border-accent/50 shadow-xl" 
             : "bg-white/[0.03] border-white/[0.08]"
         )}>
-          <Shield size={36} className={cn(
+          <Shield size={30} className={cn(
             "transition-colors duration-700",
             isActive ? "text-accent fill-accent/40" : "text-white/10"
           )} />
@@ -55,9 +55,9 @@ export const ShieldCard: React.FC<ShieldCardProps> = ({
 
         {/* Labels */}
         <div className="text-center">
-          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 mb-2">BOUCLIER</p>
+          <p className="text-[9px] font-black uppercase tracking-[0.4em] text-white/30 mb-1.5">BOUCLIER</p>
           <span className={cn(
-            "text-[11px] font-black tracking-widest uppercase py-1 px-3 rounded-full border",
+            "text-[10px] font-black tracking-widest uppercase py-1 px-3 rounded-full border",
             isActive ? "text-accent border-accent/40 bg-accent/10" : "text-white/40 border-white/5"
           )}>
             {isActive ? "Opérationnel" : "Activé via 50 Coins"}

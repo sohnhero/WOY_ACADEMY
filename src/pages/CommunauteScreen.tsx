@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import { 
-  Globe, 
-  BookOpen, 
-  ShieldCheck, 
-  BarChart3, 
-  MessageSquare, 
-  Trophy, 
-  Users, 
-  ArrowRight, 
-  Flame, 
-  User, 
-  ChevronUp, 
-  ChevronDown, 
-  Star, 
-  Medal, 
-  Clock 
+import {
+  Globe,
+  BookOpen,
+  ShieldCheck,
+  BarChart3,
+  MessageSquare,
+  Trophy,
+  Users,
+  ArrowRight,
+  Flame,
+  User,
+  ChevronUp,
+  ChevronDown,
+  Star,
+  Medal,
+  Clock
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../utils/cn';
@@ -173,7 +173,7 @@ export const CommunauteScreen = () => {
                   <Medal size={40} className="text-highlight" />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <h3 className="text-xl font-bold font-serif uppercase tracking-tight text-highlight">LIGUE OR</h3>
+                  <h3 className="text-xl font-bold font-serif uppercase tracking-tight text-highlight">LIGUE</h3>
                   <div className="text-[10px] text-white/40 font-bold uppercase tracking-[0.1em]">Semaine 12 · 20 membres</div>
                   <div className="flex items-center gap-1.5 text-[10px] font-bold text-accent mt-1 bg-accent/10 border border-accent/20 px-3 py-1 rounded-full w-fit">
                     <Clock size={12} />

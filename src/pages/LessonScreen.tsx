@@ -101,7 +101,7 @@ export const LessonScreen: React.FC<LessonScreenProps> = ({ lessonId, onBack }) 
   );
 
   // Narrative logic for N0.1
-  if (lessonId === 'N0.1' || lessonId === '0.1') {
+  if (lessonId === 'N0.1' || lessonId === '0.1' || lessonId === '1.1') {
     return (
       <div className={cn("fixed inset-0 z-[100]", colors.bg, "overflow-hidden flex", themeClass)}>
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">

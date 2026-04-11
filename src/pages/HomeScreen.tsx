@@ -168,9 +168,10 @@ export const HomeScreen = () => {
           isLocked={isLeagueLocked}
           className="min-h-0 py-3 rounded-xl aspect-square"
         />
-        <div className="bg-surface border border-white/[0.04] rounded-xl p-3 flex flex-col items-center justify-center gap-1.5 opacity-40 grayscale group">
-          <LockIcon size={14} className="text-white/20 mb-1" />
-          <span className="text-[8px] uppercase tracking-widest text-white/20 font-bold">WÔY LAAMB</span>
+        <div className="bg-accent/10 border border-accent/20 rounded-xl p-3 flex flex-col items-center justify-center gap-1.5 group cursor-pointer active:scale-95 transition-transform">
+          <Target size={14} className="text-accent mb-1 drop-shadow-[0_0_8px_rgba(var(--woy-accent-rgb),0.3)]" />
+          <span className="text-[8px] uppercase tracking-widest text-accent font-black">QUÊTES</span>
+          <span className="text-[10px] font-mono font-bold text-white/80">1/3</span>
         </div>
       </motion.section>
     </div>
@@ -268,8 +269,8 @@ export const HomeScreen = () => {
             <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 blur-[70px] rounded-full pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-highlight/5 blur-[70px] rounded-full pointer-events-none" />
 
-            <div className="flex items-center justify-between w-full relative z-10">
-              <div className="px-3 py-1.5 rounded-full bg-white/5 border border-white/5 text-[9px] font-black tracking-[0.3em] text-white/20 uppercase shadow-inner">
+            <div className="flex justify-center w-full relative z-10 pt-2 mb-4">
+              <div className="px-4 py-2 rounded-full bg-white/10 border border-white/10 text-[9px] font-black tracking-[0.4em] text-white/40 uppercase shadow-[inset_0_0_10px_rgba(255,255,255,0.05)]">
                 STATISTIQUES WÔY
               </div>
             </div>
@@ -277,22 +278,28 @@ export const HomeScreen = () => {
             <div className="relative flex-1 flex flex-col items-center justify-center transition-transform duration-1000">
               {/* Score Outer Aura */}
               <div className="absolute inset-0 bg-accent/5 blur-[40px] rounded-full animate-pulse" />
-              <ScoreRing score={78} size={150} strokeWidth={9} id="supreme-desktop" />
+              <ScoreRing score={97} size={125} strokeWidth={8} id="supreme-desktop" />
             </div>
 
-            <div className="w-full space-y-5 relative z-10">
-              <div className="flex justify-between items-end px-1">
-                <div className="flex flex-col">
-                  <span className="text-[10px] font-black tracking-[0.2em] text-white/20 uppercase mb-0.5 leading-none">MAÎTRISE NIV. {level}</span>
-                  <span className="text-2xl font-serif font-bold text-white tracking-tight leading-none group-hover:text-accent transition-all duration-500">Initié WÔY</span>
+            <div className="w-full relative z-10 flex flex-col items-center gap-4 mt-2 mb-2">
+              <XPBar current={xpInLevel} total={xpForNext} />
+
+              {/* Next Level Progression Info */}
+              <div className="flex items-center gap-3 mt-1">
+                <div className="flex flex-col items-center px-4 py-1.5 bg-white/[0.08] border border-white/[0.12] rounded-2xl shadow-xl group-hover:border-accent/30 transition-all duration-500">
+                  <span className="text-[7px] font-black text-white/30 uppercase tracking-[0.2em] mb-0.5">PROCHAIN</span>
+                  <span className="text-[11px] font-serif font-black text-white/90">Niveau {level + 1}</span>
                 </div>
-                <div className="flex flex-col items-end">
-                  <span className="text-[11px] font-mono font-bold text-accent drop-shadow-[0_0_10px_rgba(var(--woy-accent-rgb),0.3)]">{xpInLevel} <span className="text-white/20">/</span> {xpForNext}</span>
-                  <span className="text-[8px] font-black text-white/10 uppercase tracking-widest mt-1">Énergie XP</span>
+
+                <div className="w-px h-6 bg-white/[0.1]" />
+
+                <div className="flex flex-col items-center px-4 py-1.5 bg-accent/10 border border-accent/20 rounded-2xl shadow-xl group-hover:bg-accent/15 transition-all duration-500">
+                  <span className="text-[7px] font-black text-accent uppercase tracking-[0.2em] mb-0.5">RESTE</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[11px] font-serif font-black text-accent drop-shadow-[0_0_8px_rgba(var(--woy-accent-rgb),0.3)]">{Math.ceil((xpForNext - xpInLevel) / 150)}</span>
+                    <span className="text-[7px] font-black text-white/30 uppercase tracking-widest">MODULES</span>
+                  </div>
                 </div>
-              </div>
-              <div className="relative">
-                <XPBar current={xpInLevel} total={xpForNext} />
               </div>
             </div>
           </motion.div>
@@ -319,57 +326,73 @@ export const HomeScreen = () => {
           </div>
         </div>
 
-        {/* Row 2, Col 9-12: Supreme LAAMB Section (Holo-Hub) */}
+        {/* Row 2, Col 9-12: Daily Missions Section (Interactive) */}
         <div className="col-span-4 h-full min-h-0">
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="group relative glass-boutique border-accent/20 rounded-[2.5rem] p-10 overflow-hidden h-full flex flex-col"
+            className="group relative glass-boutique border-accent/20 rounded-[2.5rem] p-8 xl:p-10 overflow-hidden h-full flex flex-col"
           >
-            {/* Scanlines Effect */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[length:100%_4px] pointer-events-none opacity-20" />
-
             {/* Standardized Unified Background (Matches Hero Module) */}
             <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/40 to-transparent z-1" />
             <div className="absolute top-0 right-0 w-48 h-48 bg-accent/15 blur-[80px] rounded-full pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-highlight/10 blur-[80px] rounded-full pointer-events-none" />
 
-            <div className="absolute top-8 right-10 opacity-60">
-              <LockIcon size={18} className="text-highlight animate-pulse" />
-            </div>
-
             <div className="flex items-center gap-5 mb-8 relative z-10">
-              <div className="relative">
-                <div className="w-14 h-14 rounded-[1.4rem] bg-accent/20 border border-accent/30 flex items-center justify-center shadow-[inset_0_0_20px_rgba(var(--woy-accent-rgb),0.2)]">
-                  <Swords size={26} className="text-accent drop-shadow-[0_0_8px_rgba(var(--woy-accent-rgb),0.5)]" />
-                </div>
-                <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-highlight rounded-full border-4 border-bg flex items-center justify-center animate-bounce shadow-lg shadow-highlight/20" />
+              <div className="w-14 h-14 rounded-[1.4rem] bg-accent/20 border border-accent/30 flex items-center justify-center shadow-[inset_0_0_20px_rgba(var(--woy-accent-rgb),0.2)]">
+                <Target size={26} className="text-accent drop-shadow-[0_0_8px_rgba(var(--woy-accent-rgb),0.5)]" />
               </div>
               <div className="flex flex-col text-left">
-                <h4 className="text-[12px] font-black tracking-[0.4em] uppercase text-accent/80 leading-none">WÔY LAAMB</h4>
+                <h4 className="text-[12px] font-black tracking-[0.4em] uppercase text-accent/80 leading-none">MISSIONS</h4>
                 <div className="flex items-center gap-2 mt-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-accent/40 animate-pulse" />
-                  <span className="text-[11px] font-bold text-white/30 uppercase tracking-[0.1em] leading-none">Arène de Marché v1.2</span>
+                  <span className="text-[11px] font-bold text-white/30 uppercase tracking-[0.1em] leading-none">Héritage Quotidien</span>
                 </div>
               </div>
             </div>
 
-            <div className="flex-1 flex flex-col justify-center gap-4 opacity-10 grayscale pointer-events-none relative z-10">
-              {[1, 2].map((i) => (
-                <div key={i} className="h-12 w-full bg-white/[0.02] border border-white/5 rounded-2xl flex items-center px-5 justify-between shadow-inner">
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded bg-white/5 flex items-center justify-center"><Coins size={12} className="text-white/10" /></div>
-                    <div className="w-24 h-2 bg-white/5 rounded-full" />
+            {/* Missions List */}
+            <div className="flex-1 space-y-5 relative z-10">
+              {[
+                { title: "Explorateur", desc: "Finir 1 leçon", progress: 100, goal: "1/1", reward: "50 XP", icon: BookOpen, color: "text-accent" },
+                { title: "Vétéran", desc: "Gagner 100 XP", progress: 65, goal: "65/100", reward: "10 Cauris", icon: Zap, color: "text-highlight" },
+                { title: "Fidèle", desc: "Série de 7 jours", progress: 85, goal: "6/7", reward: "100 XP", icon: Award, color: "text-purple-400" }
+              ].map((m, idx) => (
+                <div key={idx} className="group/item relative">
+                  <div className="flex justify-between items-start mb-2">
+                    <div className="flex items-center gap-3">
+                      <div className={cn("w-8 h-8 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center", m.color)}>
+                        <m.icon size={14} />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[11px] font-black text-white/80 uppercase tracking-wider leading-none">{m.title}</span>
+                        <span className="text-[9px] text-white/20 mt-1 uppercase tracking-widest">{m.desc}</span>
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-end gap-1">
+                      <span className="text-[10px] font-mono font-bold text-white/40">{m.goal}</span>
+                      <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-white/5 border border-white/5">
+                        <span className="text-[8px] font-black text-highlight uppercase">{m.reward}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="w-14 h-2 bg-accent/10 rounded-full" />
+                  {/* Mini Progress Bar */}
+                  <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      animate={{ width: `${m.progress}%` }}
+                      transition={{ duration: 1, delay: 0.8 + (idx * 0.1) }}
+                      className={cn("h-full rounded-full", m.progress === 100 ? "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]" : "bg-accent shadow-[0_0_8px_rgba(var(--woy-accent-rgb),0.3)]")}
+                    />
+                  </div>
                 </div>
               ))}
             </div>
 
             <div className="pt-8 border-t border-white/[0.05] flex justify-center relative z-10">
-              <div className="px-6 py-2.5 rounded-full bg-highlight/10 border border-highlight/20 shadow-[0_0_20px_rgba(var(--woy-highlight-rgb),0.1)] group-hover:scale-105 transition-transform duration-500">
-                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-highlight shimmer-gold">Expansion Bientôt Disponible</span>
+              <div className="px-6 py-2.5 rounded-full bg-accent/10 border border-accent/20 shadow-[0_0_20px_rgba(var(--woy-accent-rgb),0.1)] group-hover:scale-105 transition-transform duration-500 cursor-pointer">
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-accent">Voir toutes les quêtes</span>
               </div>
             </div>
           </motion.div>

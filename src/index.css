@@ -146,6 +146,15 @@ body {
   @apply border-white/[0.05];
 }
 
+/* Hide scrollbars globally and via utility class (no Tailwind plugin needed) */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE / Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;             /* Chrome / Safari / WebKit */
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 3px;

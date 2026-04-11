@@ -15,7 +15,7 @@ export const StreakCard: React.FC<StreakCardProps> = ({
   return (
     <motion.div
       className={cn(
-        "relative glass-boutique rounded-[2.5rem] p-6 flex flex-col items-center justify-center min-h-[180px] overflow-hidden group",
+        "relative glass-boutique rounded-[2.5rem] p-5 flex flex-col items-center justify-center min-h-[150px] overflow-hidden group",
         className
       )}
     >
@@ -27,14 +27,14 @@ export const StreakCard: React.FC<StreakCardProps> = ({
       {/* Content Stack */}
       <div className="relative z-10 flex flex-col items-center">
         {/* Layered Flame Icon Container */}
-        <div className="bg-accent/10 p-5 rounded-[2rem] border border-accent/20 shadow-xl backdrop-blur-md mb-4">
-          <Flame size={36} className="text-accent" />
+        <div className="bg-accent/10 p-4 rounded-[1.8rem] border border-accent/20 shadow-xl backdrop-blur-md mb-3">
+          <Flame size={30} className="text-accent" />
         </div>
         
         {/* Labels */}
         <div className="text-center">
-          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 mb-2">STREAK</p>
-          <span className="text-[11px] font-black tracking-widest uppercase py-1 px-3 rounded-full border border-accent/40 bg-accent/10 text-accent">
+          <p className="text-[9px] font-black uppercase tracking-[0.4em] text-white/30 mb-1.5">STREAK</p>
+          <span className="text-[10px] font-black tracking-widest uppercase py-1 px-3 rounded-full border border-accent/40 bg-accent/10 text-accent">
             {days} {days > 1 ? 'Jours' : 'Jour'}
           </span>
         </div>
