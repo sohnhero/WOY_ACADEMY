@@ -17,8 +17,31 @@ import { cn } from '../utils/cn';
 
 export const RapportScreen = () => {
   return (
-    <div className="flex flex-col min-h-[calc(100vh-80px)] bg-transparent">
-      <main className="px-5 flex flex-col w-full max-w-2xl lg:max-w-6xl mx-auto safe-top pb-32 lg:pb-12">
+    <div className="flex flex-col h-[calc(100vh-80px)] bg-transparent relative overflow-hidden">
+      {/* ── HIGH-LEVEL LOCK OVERLAY ── */}
+      <div className="absolute inset-x-0 top-[10%] bottom-0 z-50 flex items-start justify-center p-6 pointer-events-auto">
+        <div className="artifact-glass rounded-[2rem] p-8 max-w-sm w-full flex flex-col items-center justify-center text-center gap-4 border border-white/10 shadow-2xl relative overflow-hidden backdrop-blur-3xl mt-10">
+          <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+          <div className="absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+          
+          <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-2 shadow-inner">
+             <Lock className="text-white/40" size={28} />
+          </div>
+          
+          <div>
+             <h2 className="text-xl font-serif font-black text-white leading-none mb-2 uppercase tracking-tighter">Accès Verrouillé</h2>
+             <p className="text-[11px] font-black uppercase tracking-[0.2em] text-white/30 leading-relaxed max-w-[240px]">
+                Le Rapport WÔY nécessite une habilitation tactique supérieure.
+             </p>
+          </div>
+          
+          <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden mt-4">
+             <div className="h-full w-1/3 bg-white/20 animate-pulse" />
+          </div>
+        </div>
+      </div>
+
+      <main className="px-5 flex flex-col w-full max-w-2xl lg:max-w-6xl mx-auto safe-top pb-32 lg:pb-12 blur-md opacity-20 pointer-events-none select-none grayscale-[0.5] transition-all duration-1000">
         {/* Header Section */}
         <div className="flex flex-col gap-1.5 mb-10">
           <div className="flex items-center gap-2.5">

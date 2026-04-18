@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useAppContext } from '../../context/AppContext';
-import { StarField } from '../common/StarField';
+import { CosmicBackground } from '../common/StarField';
 
 interface TimeSkipOverlayProps {
   active: boolean;
@@ -41,7 +41,7 @@ export const TimeSkipOverlay: React.FC<TimeSkipOverlayProps> = ({ active, year, 
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-2xl flex flex-col items-center justify-center p-6 overflow-hidden"
         >
-          <StarField />
+          <CosmicBackground />
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
