@@ -228,7 +228,7 @@ const TopBar = () => {
   const level = Math.floor(userXP / 1000) + 1;
 
   return (
-    <header className="flex items-center justify-between px-8 h-[72px] shrink-0 border-b border-white/[0.04]">
+    <header className="flex items-center justify-between px-8 h-[72px] shrink-0 relative z-50">
       {/* Left: Greeting */}
       <div className="text-left">
         <p className="text-white/30 text-[11px] font-medium tracking-wide">Bon retour parmi nous</p>
@@ -344,10 +344,10 @@ const AppContent = () => {
         />
 
         {/* Main Container */}
-        <div className="flex-1 flex flex-col bg-surface/40 rounded-r-[1.75rem] border border-white/[0.04] border-l-0 overflow-hidden panel-inset">
+        <div className="flex-1 flex flex-col overflow-hidden relative">
           <TopBar />
           
-          <main className="flex-1 overflow-y-auto scrollbar-hide">
+          <main className="flex-1 overflow-y-auto scrollbar-hide relative z-10">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}

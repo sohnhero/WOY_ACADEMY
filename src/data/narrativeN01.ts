@@ -1,4 +1,4 @@
-export type CharacterKey = 'AMADOU' | 'GASSAMA' | 'DJELI' | 'MERE' | 'AWA' | 'NARRATOR';
+export type CharacterKey = 'AMADOU' | 'GASSAMA' | 'DJELI' | 'MERE' | 'AWA' | 'MOUSSA' | 'FATOU' | 'NARRATOR';
 
 export interface StoryBeat {
   id: string;
@@ -6,7 +6,8 @@ export interface StoryBeat {
   text?: string;
   subText?: string;
   type?: 'dialogue' | 'narration' | 'interactive' | 'visual' | 'choice' | 'big-moment' | 'quote' | 'mission' | 'recap';
-  interactiveType?: 'WAVE_ALERT' | 'CHOICE_SYSTEM' | 'DEVALUATION_SLIDER' | 'QUIZ' | 'RECAP_STATS' | 'BRANCHING_REVEAL';
+  interactiveType?: 'WAVE_ALERT' | 'CHOICE_SYSTEM' | 'DEVALUATION_SLIDER' | 'QUIZ' | 'RECAP_STATS' | 'BRANCHING_REVEAL' | 'ASSET_MATCH' | 'NEWS_SWIPE' | 'LIQUIDITY_CHOICE' | 'MISSION_N02' | 'BLOCKCHAIN_VISUALIZER' | 'ANALOGY_MATCHER' | 'CLASSIFICATION_EXERCISE' | 'MISSION_N03' | 'WAVE_VS_BITCOIN';
+  interactiveData?: any;
   autoContinue?: boolean;
   condition?: {
     choice?: string;
@@ -25,6 +26,8 @@ export const AVATARS: Record<CharacterKey, string> = {
   DJELI: 'https://res.cloudinary.com/drxouwbms/image/upload/v1775914519/Untitled_design_2_dgkeh6.png',
   MERE: 'https://res.cloudinary.com/drxouwbms/image/upload/v1775922105/Untitled_design_4_mbwf9k.png',
   AWA: 'https://res.cloudinary.com/drxouwbms/image/upload/v1775923106/Untitled_design_5_ocze3i.png',
+  MOUSSA: 'https://res.cloudinary.com/drxouwbms/image/upload/v1776502094/Untitled_design_2_p6fryd.png',
+  FATOU: 'https://res.cloudinary.com/drxouwbms/image/upload/v1776502720/Untitled_design_3_j5hbsa.png',
   NARRATOR: ''
 };
 
@@ -38,7 +41,7 @@ export const NARRATIVE_N01: Scene[] = [
       { id: 's0b2', type: 'interactive', interactiveType: 'WAVE_ALERT', text: "Son premier salaire. Pour la première fois de sa vie, l'argent vient de lui.", subText: "100 000 FCFA · Virement reçu" },
       { id: 's0b3', character: 'MERE', type: 'dialogue', text: "« Cet argent, tu le gardes. Tu mets ce que tu peux sous le matelas. On ne sait jamais ce qui peut arriver avec les banques. »", subText: "Le taxi le dépose devant la maison familiale. Sa mère est dans la cour, elle étend du linge à la lumière déclinante." },
       { id: 's0b4', character: 'GASSAMA', type: 'dialogue', text: "« Mets tout en banque. Sérieusement. La SGBS donne deux virgule cinq pour cent. L'argent sous le matelas, c'est de l'argent qui dort. »", subText: "Son téléphone vibre. C'est Gassama. Son ami d'enfance — il parle avec la certitude de quelqu'un qui n'a encore jamais vraiment perdu." },
-      { id: 's0b5', character: 'AWA', type: 'dialogue', text: "« Achète de l'or au marché. C'est ce qui garde sa valeur. Les billets, ça brûle. L'or, ça reste. »", subText: "Sa tante Awa passe dans the cour. Elle a entendu." },
+      { id: 's0b5', character: 'AWA', type: 'dialogue', text: "« Achète de l'or au marché. C'est ce qui garde sa valeur. Les billets, ça brûle. L'or, ça reste. »", subText: "Sa tante Awa passe dans laavoid  cour. Elle a entendu." },
       { id: 's0b6', type: 'narration', text: "Trois personnes. Trois conseils. Aucun n'explique pourquoi. Et cent mille francs qui attendent.", subText: "Amadou doit choisir." }
     ]
   },
@@ -46,8 +49,15 @@ export const NARRATIVE_N01: Scene[] = [
     id: 's1',
     title: 'Le Choix',
     beats: [
-      { id: 's1b0', type: 'interactive', interactiveType: 'CHOICE_SYSTEM', text: "Si tu étais Amadou — que ferais-tu ce soir ?", subText: "Pas de bonne réponse. Choisis d'abord." }
-    ]
+      { id: 's1b0', type: 'interactive', interactiveType: 'CHOICE_SYSTEM', 
+      text: "Choisis une direction pour tes 100 000 FCFA", 
+      subText: "Aminata doit décider. Sa mère, Gassama ou Tante AWA ?",
+      interactiveData: [
+        { id: 'A', title: 'Matelas', desc: 'Comme sa mère. Concret. On peut le toucher.', icon: 'Home', accent: 'bg-blue-500' },
+        { id: 'B', title: 'Banque', desc: 'Comme Gassama. 2.5% intérêts.', icon: 'Landmark', accent: 'bg-purple-500' },
+        { id: 'C', title: 'Or', desc: 'Comme tante Awa. Garde sa valeur.', icon: 'Coins', accent: 'bg-highlight' }
+      ]
+    }]
   },
   {
     id: 's2',
@@ -55,13 +65,13 @@ export const NARRATIVE_N01: Scene[] = [
     beats: [
       { id: 's2intro', type: 'big-moment', text: "3 ANS PLUS TARD", subText: "Que reste-t-il de ses 100 000 FCFA ?" },
       { id: 's2reveal', type: 'interactive', interactiveType: 'BRANCHING_REVEAL', text: "Révélation des résultats" },
-      
+
       // Choice A specific beats
       { id: 's2b1a', type: 'narration', condition: { choice: 'A' }, text: "Tu as perdu 11 100 FCFA. Sans rien dépenser. L'inflation a mangé ton épargne en silence.", subText: "Matelas, banque, or — chacun expose à un risque différent." },
-      
+
       // Choice B specific beats
       { id: 's2b1b', type: 'narration', condition: { choice: 'B' }, text: "Tu as gagné des billets — mais perdu du pouvoir d'achat. La banque donne moins que ce que l'inflation prend.", subText: "Matelas, banque, or — chacun expose à un risque différent." },
-      
+
       // Choice C specific beats
       { id: 's2b1c', type: 'narration', condition: { choice: 'C' }, text: "L'or a monté — cette fois. Mais si l'or avait chuté de 30% ? Tout était au même endroit.", subText: "Matelas, banque, or — chacun expose à un risque différent." },
 
@@ -75,7 +85,7 @@ export const NARRATIVE_N01: Scene[] = [
     title: 'La Cour',
     beats: [
       { id: 's3b0', type: 'narration', text: "La Cour · Médina · Nuit.", subText: "Djéli WÔY est assis sur le banc. Boubou noir brodé de fils dorés. Un bâton garni de cauris." },
-      
+
       // Choice A specific opening
       { id: 's3ctxA', condition: { choice: 'A' }, type: 'narration', text: "Amadou a 88 900 FCFA réels. Il a suivi sa mère — et il a perdu sans rien faire. « Maître, comment l'argent peut-il bouger sans qu'on le touche ? »" },
       // Choice B specific opening
@@ -117,5 +127,43 @@ export const NARRATIVE_N01: Scene[] = [
       { id: 's7b1', type: 'recap', text: "BILAN · N0.1", subText: "3 RÈGLES D'OR" },
       { id: 's7b2', character: 'DJELI', type: 'dialogue', text: "« Un savoir véritable n'est pas fait pour être gardé. Il est fait pour être transmis. »", subText: "DJÉLI WÔY · ÉPILOGUE" }
     ]
+  }
+];
+
+export const QUIZ_N01 = [
+  { 
+    q: "Pourquoi les cauris ont-ils échoué ?", 
+    o: ["Trop faciles à perdre", "Les Africains ont arrêté d'y croire", "Les Européens ont importé des tonnes", "Les gouvernements les ont interdits"], 
+    ok: 2, 
+    hint: "Quelqu'un d'autre a contrôlé l'offre...",
+    fb: "Européens → gisements océan Indien → tonnes importées → inflation massive. Le problème : quelqu'un d'autre contrôlait l'offre."
+  },
+  { 
+    q: "11 jan 1994. FCFA dévalué de 50%. Grand-mère : 300 000 FCFA. Le 12 au matin ?", 
+    o: ["300 000", "270 000", "150 000", "0"], 
+    ok: 2, 
+    hint: "C'est la moitié de la valeur.",
+    fb: "300 000 × 50% = 150 000 perdus. En une nuit. Décision : France + FMI."
+  },
+  { 
+    q: "200K sous le matelas, inflation 4%, 14 ans. Valeur réelle ?", 
+    o: ["200 000", "280 000", "~115 000", "160 000"], 
+    ok: 2, 
+    hint: "L'argent perd de la valeur avec le temps.",
+    fb: "200 000 ÷ (1.04)^14 = 115 473 FCFA. Perte : 84 527 sans jamais dépenser."
+  },
+  { 
+    q: "Quel est le point faible de Bitcoin ?", 
+    o: ["Transportable", "Divisible", "Stable à court terme", "Durable"], 
+    ok: 2, 
+    hint: "Regarde le prix sur une journée...",
+    fb: "La volatilité court terme est la seule faiblesse. Long terme : +200 000% en 10 ans."
+  },
+  { 
+    q: "Pourquoi répartir 40/40/20 ?", 
+    o: ["Maximiser les gains", "Éviter la faillite", "Protéger contre plusieurs risques", "Les intérêts"], 
+    ok: 2, 
+    hint: "Ne pas mettre tous les œufs dans le même panier.",
+    fb: "Chaque part protège contre un risque différent. Tout en banque = tout exposé au même risque."
   }
 ];

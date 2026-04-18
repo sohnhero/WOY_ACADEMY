@@ -1,28 +1,28 @@
 import React from 'react';
 import { CinematicStoryteller } from './CinematicStoryteller';
-import { NARRATIVE_N01, QUIZ_N01 } from '../../data/narrativeN01';
+import { NARRATIVE_N02, QUIZ_N02 } from '../../data/narrativeN02';
 
-interface N01ContentProps {
+interface N02ContentProps {
   onComplete: (xp: number, cauris: number) => void;
   currentCoins: number;
   onUpdateCoins: (newCoins: number) => void;
   onBack: () => void;
 }
 
-export const N01Content: React.FC<N01ContentProps> = ({ 
-  onComplete, 
-  currentCoins, 
+export const N02Content: React.FC<N02ContentProps> = ({
+  onComplete,
+  currentCoins,
   onUpdateCoins,
   onBack
 }) => {
   return (
-    <CinematicStoryteller 
-      narrative={NARRATIVE_N01}
-      quizData={QUIZ_N01}
+    <CinematicStoryteller
+      narrative={NARRATIVE_N02}
+      quizData={QUIZ_N02}
       cauris={currentCoins}
       onCaurisChange={onUpdateCoins}
-      modulePrefix="MODULE N0.1"
-      moduleTitle={<>L'argent : <br />Une question de confiance</>}
+      modulePrefix="MODULE N0.2"
+      moduleTitle={<>C'est quoi un<br />marché financier ?</>}
       onBack={onBack}
       onComplete={(xp, cauris) => {
         onUpdateCoins(cauris);

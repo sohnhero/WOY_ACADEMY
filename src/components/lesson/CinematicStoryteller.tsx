@@ -2,23 +2,48 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronRight, ChevronLeft, Zap, Coins, Trophy, Sparkles } from 'lucide-react';
 import { cn } from '../../utils/cn';
-import { Scene, StoryBeat, NARRATIVE_N01, CharacterKey } from '../../data/narrativeN01';
+import { Scene, StoryBeat, CharacterKey } from '../../data/narrativeN01';
 import { NarrativeAvatar } from './NarrativeAvatar';
 import { useTypewriter } from '../../hooks/useTypewriter';
 import { audioService } from '../../utils/AudioService';
 
-import { WaveAlert, ChoiceSystem, DevaluationSlider, NarrativeQuiz, BranchingReveal } from './NarrativeInteractions';
+import { 
+  WaveAlert, 
+  ChoiceSystem, 
+  DevaluationSlider, 
+  NarrativeQuiz, 
+  BranchingReveal, 
+  AssetMatrixCategorizer, 
+  NewsImpactPredictor, 
+  LiquidityScenarioEngine, 
+  MissionTerrainN02,
+  BlockchainVisualizer,
+  AnalogyMatcher,
+  ClassificationExercise,
+  MissionTerrainN03,
+  WaveVsBitcoin
+} from './NarrativeInteractions';
 
 interface CinematicStorytellerProps {
+  narrative: Scene[];
+  quizData?: { q: string, o: string[], ok: number, hint: string, fb: string }[];
   onComplete: (xp: number, cauris: number) => void;
   onCaurisChange: (newCauris: number) => void;
   cauris: number;
+  modulePrefix: string;
+  moduleTitle: React.ReactNode;
+  onBack: () => void;
 }
 
 export const CinematicStoryteller: React.FC<CinematicStorytellerProps> = ({
+  narrative,
+  quizData = [],
   onComplete,
   cauris,
-  onCaurisChange
+  onCaurisChange,
+  modulePrefix,
+  moduleTitle,
+  onBack
 }) => {
   const [sceneIndex, setSceneIndex] = useState(0);
   const [beatIndex, setBeatIndex] = useState(0);
@@ -33,7 +58,7 @@ export const CinematicStoryteller: React.FC<CinematicStorytellerProps> = ({
     }
   }, [isAudioLoading]);
 
-  const currentScene = NARRATIVE_N01[sceneIndex];
+  const currentScene = narrative[sceneIndex] || narrative[0];
   
   // Filter beats based on user choice
   const activeBeats = useMemo(() => {
@@ -73,7 +98,7 @@ export const CinematicStoryteller: React.FC<CinematicStorytellerProps> = ({
 
     if (beatIndex < activeBeats.length - 1) {
       setBeatIndex(prev => prev + 1);
-    } else if (sceneIndex < NARRATIVE_N01.length - 1) {
+    } else if (sceneIndex < narrative.length - 1) {
       setBeatIndex(0);
       setSceneIndex(prev => prev + 1);
     } else {
@@ -92,7 +117,7 @@ export const CinematicStoryteller: React.FC<CinematicStorytellerProps> = ({
     if (beatIndex > 0) {
       setBeatIndex(prev => prev - 1);
     } else if (sceneIndex > 0) {
-      const prevScene = NARRATIVE_N01[sceneIndex - 1];
+      const prevScene = narrative[sceneIndex - 1];
       // Need to find how many active beats the previous scene had
       const prevActiveBeats = prevScene.beats.filter(beat => {
         if (!beat.condition) return true;
@@ -116,35 +141,35 @@ export const CinematicStoryteller: React.FC<CinematicStorytellerProps> = ({
     }
   };
 
-  const isLastBeat = sceneIndex === NARRATIVE_N01.length - 1 && beatIndex === activeBeats.length - 1;
+  const isLastBeat = sceneIndex === narrative.length - 1 && beatIndex === activeBeats.length - 1;
 
   return (
     <div
-      className="fixed inset-0 z-[100] bg-black/40 backdrop-blur-sm overflow-hidden flex flex-col"
+      className="fixed inset-0 z-[100] bg-bg/80 backdrop-blur-sm overflow-hidden flex flex-col"
       onClick={handleStageClick}
     >
-      {/* ... (HUD remains same) ... */}
-      <div className="absolute top-0 inset-x-0 h-20 px-6 flex items-center justify-between z-[110]">
-        <div className="flex gap-1.5">
-          {NARRATIVE_N01.map((_, i) => (
+      {/* ══ TOP HUD ══════════════════════════════════════════════════════════ */}
+      <div className="absolute top-0 inset-x-0 h-24 px-8 flex items-center justify-between z-[110]">
+        <div className="flex gap-2">
+          {narrative.map((_, i) => (
             <div
               key={i}
               className={cn(
-                "h-1 rounded-full transition-all duration-500",
-                i < sceneIndex ? "w-8 bg-highlight" : i === sceneIndex ? "w-12 bg-accent shadow-[0_0_10px_rgba(var(--woy-accent-rgb),0.5)]" : "w-4 bg-white/10"
+                "h-0.5 rounded-full transition-all duration-700",
+                i < sceneIndex ? "w-8 bg-highlight" : i === sceneIndex ? "w-16 bg-accent" : "w-4 bg-white/5"
               )}
             />
           ))}
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5 bg-black/60 border border-white/10 rounded-full px-3 py-1">
-            <Zap size={10} className="text-accent" />
-            <span className="font-mono text-[10px] font-bold text-white">{xp} XP</span>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 bg-white/[0.03] border border-white/5 rounded-full px-4 py-1.5">
+            <Zap size={12} className="text-accent" />
+            <span className="font-mono text-[11px] font-bold text-white tracking-wider">{xp} XP</span>
           </div>
-          <div className="flex items-center gap-1.5 bg-black/60 border border-white/10 rounded-full px-3 py-1">
-            <Coins size={10} className="text-highlight" />
-            <span className="font-mono text-[10px] font-bold text-white">{cauris}</span>
+          <div className="flex items-center gap-2 bg-white/[0.03] border border-white/5 rounded-full px-4 py-1.5">
+            <Coins size={12} className="text-highlight" />
+            <span className="font-mono text-[11px] font-bold text-white tracking-wider">{cauris}</span>
           </div>
         </div>
       </div>
@@ -168,14 +193,14 @@ export const CinematicStoryteller: React.FC<CinematicStorytellerProps> = ({
 
         {/* Subtext Context Indicator */}
         <AnimatePresence>
-          {currentBeat.subText && (
+          {currentBeat.subText && currentBeat.interactiveType !== 'QUIZ' && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[200px] text-center w-full max-w-sm px-6"
             >
-              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/80 leading-relaxed font-mono">
+              <span className="text-[11px] font-sans font-bold uppercase tracking-[0.15em] text-white/60 leading-relaxed drop-shadow-xl block">
                 {currentBeat.subText}
               </span>
             </motion.div>
@@ -191,7 +216,7 @@ export const CinematicStoryteller: React.FC<CinematicStorytellerProps> = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="absolute inset-x-0 top-0 bottom-40 z-[115] flex items-center justify-center p-6 bg-black/20"
+            className="absolute inset-x-0 top-0 bottom-[210px] z-[115] flex flex-col items-center justify-center p-6 bg-black/20"
             onClick={(e) => e.stopPropagation()}
           >
             {currentBeat.interactiveType === 'WAVE_ALERT' && (
@@ -199,12 +224,13 @@ export const CinematicStoryteller: React.FC<CinematicStorytellerProps> = ({
             )}
 
             {currentBeat.interactiveType === 'BRANCHING_REVEAL' && (
-              <BranchingReveal userChoice={userChoice} />
+              <BranchingReveal userChoice={userChoice} results={currentBeat.interactiveData} />
             )}
 
             {currentBeat.interactiveType === 'CHOICE_SYSTEM' && (
               <ChoiceSystem
                 selectedId={userChoice}
+                choices={currentBeat.interactiveData}
                 onPick={(id) => { setUserChoice(id); setTimeout(handleNext, 800); }}
               />
             )}
@@ -215,6 +241,7 @@ export const CinematicStoryteller: React.FC<CinematicStorytellerProps> = ({
 
             {currentBeat.interactiveType === 'QUIZ' && (
               <NarrativeQuiz
+                questions={quizData}
                 currentXP={xp}
                 onXPAdd={(v) => setXp(prev => prev + v)}
                 onCaurisSpend={() => onCaurisChange(Math.max(0, cauris - 1))}
@@ -222,50 +249,103 @@ export const CinematicStoryteller: React.FC<CinematicStorytellerProps> = ({
               />
             )}
 
+            {currentBeat.interactiveType === 'ASSET_MATCH' && (
+              <AssetMatrixCategorizer onComplete={() => setTimeout(handleNext, 1000)} />
+            )}
+
+            {currentBeat.interactiveType === 'NEWS_SWIPE' && (
+              <NewsImpactPredictor onComplete={() => setTimeout(handleNext, 1000)} />
+            )}
+
+            {currentBeat.interactiveType === 'LIQUIDITY_CHOICE' && (
+              <LiquidityScenarioEngine onComplete={() => setTimeout(handleNext, 1000)} />
+            )}
+
+            {currentBeat.interactiveType === 'MISSION_N02' && (
+              <MissionTerrainN02 onComplete={() => onComplete(xp, cauris)} />
+            )}
+
+            {currentBeat.interactiveType === 'BLOCKCHAIN_VISUALIZER' && (
+              <BlockchainVisualizer onComplete={() => setTimeout(handleNext, 1000)} />
+            )}
+
+            {currentBeat.interactiveType === 'ANALOGY_MATCHER' && (
+              <AnalogyMatcher onComplete={() => setTimeout(handleNext, 1000)} />
+            )}
+
+            {currentBeat.interactiveType === 'CLASSIFICATION_EXERCISE' && (
+              <ClassificationExercise onComplete={() => setTimeout(handleNext, 1000)} />
+            )}
+
+            {currentBeat.interactiveType === 'MISSION_N03' && (
+              <MissionTerrainN03 onComplete={() => onComplete(xp, cauris)} />
+            )}
+
+            {currentBeat.interactiveType === 'WAVE_VS_BITCOIN' && (
+              <WaveVsBitcoin 
+                onComplete={() => setTimeout(handleNext, 1000)} 
+                data={currentBeat.interactiveData} 
+              />
+            )}
+
             {currentBeat.type === 'recap' && (
-              <div className="bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-xl max-w-sm w-full space-y-6">
-                <div className="flex items-center gap-3">
-                  <Sparkles className="text-highlight" size={24} />
-                  <h2 className="text-xl font-serif font-bold text-white uppercase tracking-wider">BILAN · N0.1</h2>
-                </div>
-
-                <div className="space-y-4">
-                  {[
-                    { t: "5 qualités, 1 échec.", d: "Les cauris ont échoué car l'offre était contrôlée. Bitcoin : 21M." },
-                    { t: "L'inflation est une taxe.", d: "4%/an × 14 ans = −42%. L'argent dort, mais il meurt." },
-                    { t: "40/40/20 = protection.", d: "Chaque part protège contre un risque différent. Ne jamais tout mettre au même endroit." }
-                  ].map((rule, idx) => (
-                    <motion.div
-                      key={idx}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: idx * 0.3 }}
-                      className="flex items-start gap-3"
-                    >
-                      <span className="text-highlight font-mono font-bold text-xs mt-0.5">{idx + 1}.</span>
-                      <div>
-                        <p className="text-sm text-white font-bold leading-tight">{rule.t}</p>
-                        <p className="text-[10px] text-white/40 leading-relaxed mt-0.5">{rule.d}</p>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-
-                <div className="pt-4 border-t border-white/5 flex justify-between items-center">
-                  <div className="flex flex-col">
-                    <span className="text-[8px] text-white/30 uppercase tracking-widest">Rewards</span>
-                    <span className="text-lg font-mono font-bold text-highlight">+{xp} XP</span>
+              <div className="w-full max-w-2xl px-4 flex flex-col gap-4">
+                <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-white/40 ml-4 mb-2">{currentBeat.text || 'BILAN'}</h2>
+                
+                <div className="bg-white/[0.02] border border-white/[0.05] p-6 md:p-8 rounded-[2rem] flex flex-col gap-10 shadow-2xl backdrop-blur-xl">
+                  {/* Top Stats Row */}
+                  <div className="flex justify-around items-center px-4">
+                    <div className="flex flex-col items-center gap-2">
+                      <span className="text-3xl font-serif font-black text-highlight">{xp}</span>
+                      <span className="text-[10px] font-mono font-bold text-white/40 uppercase tracking-widest">XP</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-2">
+                      <span className="text-3xl font-serif font-black text-green-400">1/5</span>
+                      <span className="text-[10px] font-mono font-bold text-white/40 uppercase tracking-widest">Quiz</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-2">
+                      <span className="text-3xl font-serif font-black text-highlight">5</span>
+                      <span className="text-sm opacity-80 filter drop-shadow-sm leading-none pt-1">🐚</span>
+                    </div>
                   </div>
+
+                  {/* Rules Section */}
+                  <div className="flex flex-col gap-4">
+                    <div className="flex items-center gap-3 text-highlight font-black text-[12px] uppercase tracking-widest pl-2">
+                       <span>📌</span>
+                       <span>3 RÈGLES</span>
+                    </div>
+
+                    <div className="flex flex-col gap-3">
+                      {[
+                        { t: "5 qualités, 1 échec.", d: "Les cauris avaient tout. Ils ont échoué parce que quelqu'un d'autre contrôlait l'offre. Bitcoin : 21 millions. Jamais plus." },
+                        { t: "L'inflation est une taxe invisible.", d: "4%/an × 14 ans = −42%. 200K sous le matelas = 115K en 2024." },
+                        { t: "40/40/20 = protection, pas stratégie.", d: "Chaque part protège contre un risque différent." }
+                      ].map((rule, idx) => (
+                        <div key={idx} className="bg-white/[0.03] border border-white/10 p-5 rounded-2xl flex items-start gap-4">
+                          <span className="text-highlight font-serif font-black text-lg leading-none mt-1">{idx + 1}</span>
+                          <p className="text-[13px] text-white/70 leading-relaxed font-serif">
+                            <strong className="text-highlight font-bold mr-1">{rule.t}</strong>
+                            {rule.d}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Submit Action */}
+                <div className="flex justify-center mt-6">
                   {isLastBeat ? (
                     <button 
                       onClick={() => onComplete(xp, cauris)}
-                      className="bg-highlight hover:bg-highlight-light text-black px-6 py-3 rounded-2xl font-black uppercase text-xs tracking-widest transition-all shadow-lg shadow-highlight/20"
+                      className="text-[10px] font-black uppercase tracking-[0.3em] text-white/20 hover:text-white transition-colors cursor-pointer"
                     >
-                      Terminer
+                      ← retour · suite →
                     </button>
                   ) : (
-                    <button onClick={handleNext} className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
-                      <ChevronRight size={20} />
+                    <button onClick={handleNext} className="text-[10px] font-black uppercase tracking-[0.3em] text-white/20 hover:text-white transition-colors cursor-pointer">
+                       ← retour · suite →
                     </button>
                   )}
                 </div>
@@ -321,6 +401,15 @@ export const CinematicStoryteller: React.FC<CinematicStorytellerProps> = ({
             exit={{ opacity: 0, scale: 1.1 }}
             className="fixed inset-0 z-[200] bg-black flex flex-col items-center justify-center p-8 text-center"
           >
+            {/* Elegant Back Button */}
+            <button 
+              onClick={(e) => { e.stopPropagation(); onBack(); }}
+              className="absolute top-10 left-10 p-3 rounded-2xl bg-white/5 border border-white/10 text-white/40 hover:text-white hover:bg-white/10 transition-all flex items-center gap-3 group active:scale-95 z-[210] cursor-pointer"
+            >
+              <ChevronLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] pr-2">Retour au parcours</span>
+            </button>
+
             <div className="absolute inset-0 z-0 opacity-20">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-accent/20 blur-[120px] rounded-full" />
             </div>
@@ -332,9 +421,9 @@ export const CinematicStoryteller: React.FC<CinematicStorytellerProps> = ({
               className="relative z-10 space-y-8"
             >
               <div className="space-y-4">
-                <div className="text-highlight text-[10px] font-black tracking-[0.6em] uppercase">MODULE N0.1</div>
+                <div className="text-highlight text-[10px] font-black tracking-[0.6em] uppercase">{modulePrefix}</div>
                 <h1 className="text-4xl md:text-5xl font-serif font-black text-white uppercase leading-tight max-w-xl">
-                  L'argent : <br />Une question de confiance
+                  {moduleTitle}
                 </h1>
                 <p className="text-white/40 text-xs tracking-widest uppercase">Préparez-vous pour le voyage</p>
               </div>

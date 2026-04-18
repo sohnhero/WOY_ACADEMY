@@ -49,7 +49,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [activeTab, setActiveTab] = useState<TabType>('accueil');
   const [theme, setTheme] = useState<Theme>(() => loadState('theme', 'terracotta'));
 
-  const [globalCoins, setGlobalCoins] = useState<number>(() => loadState('globalCoins', 175));
+  const [globalCoins, _setGlobalCoins] = useState<number>(() => {
+    const savedCoins = loadState('globalCoins', 175);
+    return Math.floor(typeof savedCoins === 'number' ? savedCoins : 175);
+  });
+
+  const setGlobalCoins = (coins: number | ((prev: number) => number)) => {
+    _setGlobalCoins(prev => Math.floor(typeof coins === 'function' ? coins(prev) : coins));
+  };
   const [userXP, setUserXP] = useState<number>(() => loadState('userXP', 1450));
   const [streak, setStreak] = useState<number>(() => loadState('streak', 12));
   const [n1Modules, setN1Modules] = useState<number>(() => loadState('n1Modules', 3));

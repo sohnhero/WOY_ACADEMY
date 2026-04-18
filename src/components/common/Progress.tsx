@@ -15,64 +15,28 @@ export const ProgressBar = ({ progress, colorClass = 'bg-accent' }: { progress: 
 );
 
 // --- Circular Score Ring (Elaborated) ---
-export const ScoreRing = ({ score, size = 150, strokeWidth = 9, id = 'default' }: { score: number; size?: number; strokeWidth?: number; id?: string }) => {
+export const ScoreRing = ({ score, size = 150, strokeWidth = 10, id = 'default', showText = true }: { score: number; size?: number; strokeWidth?: number; id?: string; showText?: boolean }) => {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (score / 100) * circumference;
 
-  // Design constants
-  const segments = 60; // Elaborated tick count
-  const innerRadius = radius - 10;
-
   return (
     <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
-      {/* Dynamic Glow Layer */}
-      <div className="absolute inset-0 bg-accent/5 blur-[50px] rounded-full animate-pulse pointer-events-none" />
+      {/* Glow Backdrop */}
+      <div className="absolute inset-0 bg-accent/10 blur-[40px] rounded-full pointer-events-none" />
 
-      <svg width={size} height={size} className="-rotate-90 drop-shadow-2xl">
-        {/* Underlayer Segments (The "Elaborated" Track) */}
-        <g opacity="0.15">
-          {Array.from({ length: segments }).map((_, i) => (
-            <line
-              key={i}
-              x1={size / 2 + innerRadius * Math.cos((i * 2 * Math.PI) / segments)}
-              y1={size / 2 + innerRadius * Math.sin((i * 2 * Math.PI) / segments)}
-              x2={size / 2 + (innerRadius + 4) * Math.cos((i * 2 * Math.PI) / segments)}
-              y2={size / 2 + (innerRadius + 4) * Math.sin((i * 2 * Math.PI) / segments)}
-              stroke="white"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
-          ))}
-        </g>
-
-        {/* Base Background Track */}
+      <svg width={size} height={size} className="-rotate-90">
+        {/* Track */}
         <circle
           cx={size / 2}
           cy={size / 2}
           r={radius}
           fill="none"
-          stroke="rgba(255,255,255,0.06)"
+          stroke="rgba(255,255,255,0.05)"
           strokeWidth={strokeWidth}
         />
 
-        {/* Progress Arc: Subtle Glow Layer */}
-        <motion.circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          fill="none"
-          stroke="var(--woy-accent)"
-          strokeWidth={strokeWidth + 4}
-          strokeLinecap="round"
-          strokeDasharray={circumference}
-          initial={{ strokeDashoffset: circumference }}
-          animate={{ strokeDashoffset: offset }}
-          transition={{ duration: 1.5, ease: 'easeOut', delay: 0.3 }}
-          className="opacity-20 blur-[6px]"
-        />
-
-        {/* Progress Arc: Sharp Main Stroke */}
+        {/* Progress */}
         <motion.circle
           cx={size / 2}
           cy={size / 2}
@@ -84,54 +48,55 @@ export const ScoreRing = ({ score, size = 150, strokeWidth = 9, id = 'default' }
           strokeDasharray={circumference}
           initial={{ strokeDashoffset: circumference }}
           animate={{ strokeDashoffset: offset }}
-          transition={{ duration: 1.5, ease: 'easeOut', delay: 0.3 }}
-          className="drop-shadow-[0_0_12px_var(--woy-accent-glow)]"
+          transition={{ duration: 1.5, ease: 'easeOut' }}
+          className="drop-shadow-[0_0_15px_var(--woy-accent-glow)]"
         />
       </svg>
 
-      {/* Internal Content */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.5 }}
-          className="flex flex-col items-center"
-        >
-          <span
-            className={cn(
-              "font-serif font-black text-white leading-none tracking-tight whitespace-nowrap",
-              size <= 80
-                ? (score >= 100 ? "text-base" : "text-lg")
-                : (score >= 100 ? "text-2xl" : "text-3xl")
-            )}
-          >
+      {/* Content */}
+      {showText && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center mt-0.5">
+          <span className={cn("font-serif font-black text-white leading-none tracking-tight", size <= 60 ? "text-sm" : size <= 100 ? "text-2xl" : "text-5xl")}>
             {score}
           </span>
-          <div className="flex flex-col items-center mt-1">
-            <span className={cn("text-accent font-black uppercase tracking-[0.3em]", size <= 80 ? "text-[6px]" : "text-[9px]")}>Score</span>
-            <div className="h-[2px] w-4 bg-accent/40 rounded-full mt-1" />
-          </div>
-        </motion.div>
-      </div>
+          <span className={cn("text-accent font-black uppercase tracking-[0.3em] font-mono mt-1", size <= 60 ? "text-[5px] tracking-[0.2em]" : size <= 100 ? "text-[7px]" : "text-[10px]")}>
+            Score
+          </span>
+        </div>
+      )}
     </div>
   );
 };
 
 // --- XP Progress Bar with Stats ---
-export const XPBar = ({ current, total }: { current: number; total: number }) => {
+export const XPBar = ({ current, total, label = "N1 maîtrisé" }: { current: number; total: number, label?: string }) => {
   const pct = (current / total) * 100;
   return (
-    <div className="flex flex-col gap-1.5 w-full">
-      <div className="flex justify-between items-center text-[10px]">
-        <span className="text-white/40 font-bold uppercase tracking-wider">Maîtrise</span>
-        <span className="text-accent font-mono font-bold">{Math.round(pct)}%</span>
+    <div className="flex flex-col gap-2.5 w-full">
+      <div className="flex justify-between items-end">
+        <span className="text-white/30 text-[10px] uppercase font-bold tracking-widest">{label}</span>
+        <span className="text-accent font-black text-xs font-mono">{Math.round(pct)}%</span>
       </div>
-      <ProgressBar progress={pct} />
-      <div className="flex items-center gap-1.5 text-[10px] text-white/40 font-mono">
-        <div className="flex items-center gap-1">
-          <span className="inline-block w-2 h-2 rounded-full bg-accent animate-pulse" />
-        </div>
-        <span>{current}/{total} XP</span>
+      
+      <div className="h-2.5 w-full bg-white/[0.03] rounded-full overflow-hidden border border-white/[0.03]">
+        <motion.div
+          initial={{ width: 0 }}
+          animate={{ width: `${pct}%` }}
+          transition={{ duration: 1, ease: 'easeOut' }}
+          className="h-full bg-accent relative"
+        >
+          {/* Subtle Segment Overlays */}
+          <div className="absolute inset-x-0 inset-y-0 flex justify-evenly pointer-events-none opacity-20">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div key={i} className="w-px h-full bg-black/20" />
+            ))}
+          </div>
+        </motion.div>
+      </div>
+
+      <div className="flex items-center justify-end gap-1.5 text-[10px] font-black font-mono">
+        <span className="text-white/60">{current}/{total}</span>
+        <span className="text-white/20 uppercase tracking-widest">XP</span>
       </div>
     </div>
   );
